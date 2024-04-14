@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ISc.Application.Dtos.CodeForce
 {
-    internal class CodeForceStandingDto
+    public class CodeForceStandingDto
     {
         public CodeForceContestDto contest { get; set; }
         public List<CodeForceProblemDto> problems { get; set; }

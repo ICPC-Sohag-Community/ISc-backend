@@ -10,7 +10,8 @@ namespace ISc.Application.Interfaces
 {
     public interface IApiRequestsServices
     {
-        public Task<T> GetAsync<T>(string request);
-        public Task<string> PostAsync();
+        HttpClient HttpClient { get; set; }
+         Task<T> GetAsync<T>(string request);
+         Task<string> PostAsync();
     }
 }

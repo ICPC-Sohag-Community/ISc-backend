@@ -12,6 +12,7 @@ using ISc.Infrastructure.Services.Media;
 using ISc.Application.Interfaces;
 using ISc.Infrastructure.Services.Email;
 using ISc.Infrastructure.Services.OnlineJudge.CodeForce;
+using ISc.Infrastructure.Services.ApiRequest;
 
 namespace ISc.Infrastructure.Extension
 {
@@ -59,7 +60,8 @@ namespace ISc.Infrastructure.Extension
             services.AddTransient<IMediaServices, MediaServices>()
                     .AddTransient<IEmailSender,EmailSender>()
                     .AddTransient<IEmailServices,EmailService>()
-                    .AddTransient<IOnlineJudgeServices,CodeForceService>();
+                    .AddTransient<IOnlineJudgeServices,CodeForceService>()
+                    .AddTransient<IApiRequestsServices,ApiReqeustService>();
 
             return services;
         }

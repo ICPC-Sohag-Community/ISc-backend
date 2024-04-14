@@ -8,6 +8,7 @@ namespace ISc.Application.Dtos.CodeForce
 {
     public class CodeForceBaseResponseDto<T>
     {
+        public bool IsSuccess => status == "OK" ? true : false;
         public string status { get; set; }
         public string? comment { get; set; }
         public T result { get; set; }

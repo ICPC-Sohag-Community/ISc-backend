@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.IdentityModel.Tokens;
 
 namespace ISc.Infrastructure.Extension
 {
     public static class ApiRequestsHandling
     {
-        public static string CreateUri(this Dictionary<string,string> queryParams,string controller)
+        public static string CreateUri(this Dictionary<string, string> queryParams, string? controller = null)
         {
-            return $"{controller}?" + string.Join("&", queryParams.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+            return (controller.IsNullOrEmpty() ? "" : $"{controller}?")
+                + string.Join("&", queryParams.Select(kvp => $"{kvp.Key}={kvp.Value}"));
         }
     }
 }

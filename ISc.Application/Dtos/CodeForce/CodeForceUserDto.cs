@@ -14,12 +14,10 @@ namespace ISc.Application.Dtos.CodeForce
         public int maxRating { get; set; }
         public string rank { get; set; }
         public string maxRank { get; set; }
+        public string avater { get; set; }
         public long lastOnlineTimeSeconds { get; set; }
         public long registrationTimeSeconds { get; set; }
-        public string? country { get; set; }
-        public string? city { get; set; }
         public string? organization { get; set; }
         public string? email { get; set; }
-        public string? titlePhoto { get; set; }
     }
 }
