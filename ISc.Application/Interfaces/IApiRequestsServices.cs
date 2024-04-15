@@ -11,7 +11,7 @@ namespace ISc.Application.Interfaces
     public interface IApiRequestsServices
     {
         HttpClient HttpClient { get; set; }
-         Task<T> GetAsync<T>(string request);
+         Task<T> GetAsync<T>(string request,string serviceName);
          Task<string> PostAsync();
     }
 }

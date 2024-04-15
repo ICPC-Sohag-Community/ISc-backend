@@ -16,14 +16,14 @@ namespace ISc.Infrastructure.Services.ApiRequest
             _logger = logger;
         }
 
-        public async Task<T> GetAsync<T>(string request)
+        public async Task<T> GetAsync<T>(string request,string serviceName)
         {
             var response = await HttpClient.GetAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
                 _logger.LogCritical("request url: " + request + "\n" +
-                    await response.RequestMessage!.Content!.ReadAsStringAsync() ?? "CodeForce Site Error");
+                    await response.RequestMessage!.Content!.ReadAsStringAsync() ?? $"{serviceName} Site Error");
             }
 
             var content = await response.Content.ReadAsStringAsync();

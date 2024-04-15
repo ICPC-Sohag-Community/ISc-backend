@@ -11,9 +11,11 @@ namespace ISc.Application.Interfaces
     public interface IOnlineJudgeServices
     {
         Task<bool> ValidateHandleAsync(string handle);
-        Task<List<CodeForceStandingDto>>? GetGroupSheetStandingAsync(string sheetId, int numberOfRows, bool unOfficial, Community community);
-        Task<string> GetGroupSheetStatusAsync();
-        Task<string> GetUserStatusAsync();
+        Task<List<CodeForceStandingDto>>? GetGroupSheetStandingAsync(
+            string sheetId, int numberOfRows, bool unOfficial, Community community);
+        Task<List<CodeForceSubmissionDto>>? GetGroupSheetStatusAsync(
+            string sheetId, int count, Community community = Community.Sohag, string? handle = null);
+        Task<List<CodeForceSubmissionDto>>? GetUserStatusAsync(string handle, Community community);
         Task<List<CodeForceUserDto>>? GetUsersAsync(List<string> handles);
     }
 }

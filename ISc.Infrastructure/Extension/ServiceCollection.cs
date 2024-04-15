@@ -68,8 +68,10 @@ namespace ISc.Infrastructure.Extension
 
         private static IServiceCollection AddHangFireServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHangfire(x => x.UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection")))
-                    .AddHangfireServer();
+            //services.AddHangfire(x => x.UseSqlServerStorage(configuration.GetConnectionString("DataBase")))
+            //        .AddHangfireServer();
+
+            //TODO: remove comment
 
             return services;
         }

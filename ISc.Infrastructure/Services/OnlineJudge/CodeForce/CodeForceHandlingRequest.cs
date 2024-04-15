@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using ISc.Application.Interfaces;
 using ISc.Domain.Comman.Enums;
 using ISc.Shared.Exceptions;
 using Microsoft.AspNetCore.DataProtection;
@@ -16,6 +17,8 @@ namespace ISc.Infrastructure.Services.OnlineJudge.CodeForce
 {
     public static class CodeForceHandlingRequest
     {
+        private const string _codeForce = "CodeForce";
+
         public static string GenerateSig(string queryString,string apiSecret)
         {
             string rand = new Random().Next(100000, 999999).ToString();
@@ -33,7 +36,7 @@ namespace ISc.Infrastructure.Services.OnlineJudge.CodeForce
         }
 
         /// <summary>
-        /// first value is key second one is value
+        /// first value is Api-key second one is Secrect-Key
         /// </summary>
         /// <param name="app setting configuration"></param>
         /// <param name="community name"></param>
@@ -56,9 +59,14 @@ namespace ISc.Infrastructure.Services.OnlineJudge.CodeForce
             throw new SerivceErrorException("CodeForce configurations not found!");
         }
 
-        public static string GenerateTimeInUnix()
+        public static string GenerateCodeForceRequestTimeInUnix()
         {
             return (DateTimeOffset.Now.ToUnixTimeMilliseconds() / 1000).ToString();
+        }
+
+        public static Task<T> CodeForceApiGetAsync<T>(this IApiRequestsServices service,string request)
+        {
+            return service.GetAsync<T>(request, _codeForce);
         }
     }
 }

@@ -19,7 +19,6 @@ namespace ISc.Infrastructure.Services.Media
 
         public MediaServices(
             IWebHostEnvironment host,
-            IHttpContextAccessor contextAccessor,
             IConfiguration configuration)
         {
             _host = host;

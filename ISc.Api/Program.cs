@@ -28,10 +28,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowCredentials());
+app.UseCors(cores => cores.AllowAnyHeader().AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseHangfireDashboard("/hangFireDashboard");
+//TODO: app.UseHangfireDashboard("/hangFireDashboard");
 app.MapControllers();
 
 app.Run();

@@ -14,6 +14,11 @@ namespace ISc.Infrastructure.Services.Email
             throw new NotImplementedException();
         }
 
+        public Task<bool> SendAccountInfoAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> SendKickedoutEmailAsync()
         {
             throw new NotImplementedException();

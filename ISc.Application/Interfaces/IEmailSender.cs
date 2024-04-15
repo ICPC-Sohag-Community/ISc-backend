@@ -11,5 +11,6 @@ namespace ISc.Application.Interfaces
         Task<bool> SendRejectionEmailAsync();
         Task<bool> SendAcceptTraineeEmailAsync();
         Task<bool> SendKickedoutEmailAsync();
+        Task<bool> SendAccountInfoAsync();
     }
 }
