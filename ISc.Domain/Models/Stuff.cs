@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ISc.Domain.Models.IdentityModels;
 
 namespace ISc.Domain.Models
 {
-	public class AssignToCamp
-	{
-        public int CampId { get; set; }
-        public string MentorID { get; set; }
+    public class Stuff:Account
+    {
     }
 }

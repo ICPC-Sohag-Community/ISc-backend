@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Models
 {
-	public class HeadOfCamp
-	{
-        public string Id { get; set; }
-        public string? About { get; set; }
-        public string CampId { get; set; }
+    public class BaseEntity:Auditable
+    {
+        public int Id { get; set; }
     }
-
 }

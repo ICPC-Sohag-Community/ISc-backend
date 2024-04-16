@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Models
 {
-	public class SessionFeedback
+	public class SessionFeedback:Auditable
 	{
         public int SessionId { get; set; }
+        public virtual Session Session { get; set; }
         public string TraineeId { get; set; }
+        public virtual Trainee Trainee { get; set; }
         public int Rate { get; set; }
         public string? Feedback { get; set; }
     }

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ISc.Domain.Models
+namespace ISc.Domain.Models.CommunityStuff
 {
-	public class Mentor
-	{
-        public string Id { get; set; }
-        public int? SessionId { get; set; }
+    public class HeadOfCamp : BaseEntity
+    {
         public string? About { get; set; }
+        public string CampId { get; set; }
     }
+
 }

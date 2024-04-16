@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Comman.Enums
 {
-	public enum Gender
-	{ male, female }
+	public enum Gender:byte
+	{ 
+		male, 
+		female 
+	}
 }
