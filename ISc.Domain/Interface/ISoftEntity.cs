@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ISc.Domain.Comman.Enums
+namespace ISc.Domain.Interface
 {
-	public enum Gender:byte
-	{ 
-		male, 
-		female 
-	}
+    public interface ISoftEntity
+    {
+    }
 }

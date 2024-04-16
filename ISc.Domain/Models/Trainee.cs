@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Models
 {
-	public class Trainee
+	public class Trainee:BaseEntity
 	{
-        public string Id { get; set; }
         public int  CampId { get; set; }
         public string? MentorId { get; set; }
         public int Points { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Models
 {
-	public class SessionFeedback
+	public class SessionFeedback:Auditable
 	{
         public int SessionId { get; set; }
         public string TraineeId { get; set; }

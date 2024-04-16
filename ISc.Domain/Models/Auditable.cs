@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Models
 {
-	public class Mentor:BaseEntity
-	{
-        public int? SessionId { get; set; }
-        public string? About { get; set; }
+    public class Auditable
+    {
+        public DateTime CreationDate { get; set; }
     }
 }

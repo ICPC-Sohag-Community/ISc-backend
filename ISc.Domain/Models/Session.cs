@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ISc.Domain.Interface;
 
 namespace ISc.Domain.Models
 {
-	public class Session
+	public class Session:BaseEntity,ISoftEntity
 	{
-        public int Id { get; set; }
         public string Topic { get; set; }
         public string InstructorName { get; set; }
         public DateTime StartDate { get; set; }

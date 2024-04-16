@@ -1,4 +1,5 @@
 ﻿using ISc.Domain.Comman.Enums;
+using ISc.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Models
 {
-	public class NewRegisteration
+	public class NewRegisteration:Auditable,ISoftEntity
 	{
 		public string FirstName { get; set; }
 		public string MiddelName { get; set; }
