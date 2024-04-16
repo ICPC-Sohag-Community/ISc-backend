@@ -11,5 +11,10 @@ namespace ISc.Domain.Models
         public Term? Term { get; set; }
         public int DurationInWeeks { get; set; }
         public bool OpenForRegister { get; set; }
+        public virtual ICollection<MentorsOfCamp> Mentors { get; set; }
+        public virtual ICollection<NewRegisteration> RegisterationRequests { get; set; }
+        public virtual ICollection<Session> Sessions { get; set; }
+        public virtual ICollection<Sheet> Sheets { get; set; }
+        public virtual ICollection<Trainee> Trainees { get; set; }
     }
 }

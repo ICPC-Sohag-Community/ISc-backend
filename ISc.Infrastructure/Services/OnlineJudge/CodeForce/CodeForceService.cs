@@ -2,7 +2,6 @@
 using ISc.Application.Interfaces;
 using ISc.Domain.Comman.Enums;
 using ISc.Infrastructure.Extension;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -96,9 +95,9 @@ namespace ISc.Infrastructure.Services.OnlineJudge.CodeForce
             return response.IsSuccess ? response.result : null!;
         }
 
-        public async Task<List<CodeForceSubmissionDto>>? GetUserStatusAsync(string handle,Community community)
+        public async Task<List<CodeForceSubmissionDto>>? GetUserStatusAsync(string handle, Community community)
         {
-            var sheetConfig = CodeForceHandlingRequest.GetSheetKeysFactory(_configuration,community,_logger);
+            var sheetConfig = CodeForceHandlingRequest.GetSheetKeysFactory(_configuration, community, _logger);
             var controller = "user.status";
 
             _request = new Dictionary<string, string>()

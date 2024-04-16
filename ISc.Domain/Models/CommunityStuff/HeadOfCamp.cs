@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ISc.Domain.Models
+namespace ISc.Domain.Models.CommunityStuff
 {
-	public class HeadOfCamp:BaseEntity
-	{
+    public class HeadOfCamp : BaseEntity
+    {
         public string? About { get; set; }
         public string CampId { get; set; }
     }

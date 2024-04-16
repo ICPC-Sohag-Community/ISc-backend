@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ISc.Domain.Comman.Enums;
 using ISc.Domain.Interface;
 
 namespace ISc.Domain.Models
 {
-	public class Sheet:BaseEntity,ISoftEntity
-	{
+    public class Sheet : BaseEntity, ISoftEntity
+    {
         public string Name { get; set; }
         public string SheetLink { get; set; }
         public int MinimumPassingPrecent { get; set; }
@@ -19,5 +15,8 @@ namespace ISc.Domain.Models
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int CampId { get; set; }
+        public virtual Camp Camp { get; set; }
+        public virtual ICollection<TraineeAccessSheet> TraineesAccess { get; set; }
+        public virtual ICollection<Material> Materials { get; set; }
     }
 }

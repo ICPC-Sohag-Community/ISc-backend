@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ISc.Domain.Interface;
 
-namespace ISc.Domain.Models
+namespace ISc.Domain.Interface
 {
-    public class Auditable:IAuditable
+    public interface IAuditable
     {
         public DateTime CreationDate { get; set; }
     }

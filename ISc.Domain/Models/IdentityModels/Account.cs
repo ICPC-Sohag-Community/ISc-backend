@@ -1,4 +1,5 @@
 ﻿using ISc.Domain.Comman.Enums;
+using ISc.Domain.Interface;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Models.IdentityModels
 {
-    public class Account:IdentityUser
+    public class Account:IdentityUser,IAuditable
     {
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
