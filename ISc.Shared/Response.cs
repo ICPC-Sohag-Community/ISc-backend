@@ -1,4 +1,7 @@
 ﻿using System.Net;
+using FluentValidation.Results;
+using ISc.Shared.Extensions;
+using Microsoft.AspNetCore.Identity;
 
 namespace ISc.Shared
 {
@@ -8,8 +11,12 @@ namespace ISc.Shared
         public bool IsSuccess { get; set; }
         public string Message { get; set; } = "";
         public object? Data { get; set; }
+        public Dictionary<string, List<string>> Errors { get; set; }
 
-        public async static Task<Response> SuccessAsync(object data, string message)
+        public Response(HttpStatusCode statusCode = HttpStatusCode.OK) => StatusCode = statusCode;
+
+        #region Success Methods
+        public static Task<Response> SuccessAsync(object data, string message)
         {
             Response response = new Response()
             {
@@ -18,9 +25,9 @@ namespace ISc.Shared
                 Data = data
             };
 
-            return response;
+            return Task.FromResult(response);
         }
-        public async static Task<Response> SuccessAsync(object data)
+        public static Task<Response> SuccessAsync(object data)
         {
             Response response = new Response()
             {
@@ -28,9 +35,9 @@ namespace ISc.Shared
                 Data = data
             };
 
-            return response;
+            return Task.FromResult(response);
         }
-        public async static Task<Response> SuccessAsync(string message)
+        public static Task<Response> SuccessAsync(string message)
         {
             Response response = new Response()
             {
@@ -38,9 +45,11 @@ namespace ISc.Shared
                 Message = message
             };
 
-            return response;
+            return Task.FromResult(response);
         }
-        public async static Task<Response> FailureAsync(object data, string message)
+        #endregion
+        #region Failure Methods
+        public static Task<Response> FailureAsync(object data, string message)
         {
             Response response = new Response()
             {
@@ -50,9 +59,9 @@ namespace ISc.Shared
                 Data = data
             };
 
-            return response;
+            return Task.FromResult(response);
         }
-        public async static Task<Response> FailureAsync(string message)
+        public static Task<Response> FailureAsync(string message)
         {
             Response response = new Response()
             {
@@ -61,7 +70,46 @@ namespace ISc.Shared
                 Message = message
             };
 
-            return response;
+            return Task.FromResult(response);
         }
+        public static Task<Response> FailureAsync(string message, HttpStatusCode statusCode)
+        {
+            Response response = new Response()
+            {
+                IsSuccess = false,
+                Message = message,
+                StatusCode = statusCode
+            };
+
+            return Task.FromResult(response);
+        }
+        public static Task<Response> ValidationFailureAsync(List<ValidationFailure> validationFailures, HttpStatusCode statusCode)
+        {
+            Dictionary<string, List<string>> errors = validationFailures.GetDictionary();
+
+            var response = new Response()
+            {
+                IsSuccess = false,
+                StatusCode = statusCode,
+                Errors = errors
+            };
+
+            return Task.FromResult(response);
+        }
+
+        public static Task<Response> ValidationFailure(List<IdentityError> identityErrors, HttpStatusCode httpStatusCode)
+        {
+            Dictionary<string, List<string>> errors = identityErrors.GetDictionary();
+
+            var response = new Response()
+            {
+                IsSuccess = false,
+                StatusCode = httpStatusCode,
+                Errors = errors
+            };
+
+            return Task.FromResult(response);
+        }
+        #endregion
     }
 }
