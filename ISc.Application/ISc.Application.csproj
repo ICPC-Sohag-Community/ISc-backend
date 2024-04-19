@@ -20,5 +20,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Comman\Mapping\" />
+	  <Folder Include="Features\" />
 	</ItemGroup>
 </Project>

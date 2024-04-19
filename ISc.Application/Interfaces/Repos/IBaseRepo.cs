@@ -8,5 +8,6 @@ namespace ISc.Application.Interfaces.Repos
         Task UpdateAsync(T entity);
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
+        IQueryable<T> Entities { get; }
     }
 }

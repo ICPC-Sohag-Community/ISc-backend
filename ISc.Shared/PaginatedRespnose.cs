@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 using FluentValidation.Results;
 using ISc.Shared.Extensions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ISc.Shared
 {
-    public class PaginatedRespnose<T>:Response
+    public class PaginatedRespnose<T> : Response
     {
         public PaginatedRespnose(List<T> data)
         {
@@ -33,8 +27,6 @@ namespace ISc.Shared
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             TotalCount = count;
         }
-
-        public new List<T> Data { get; set; }
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
         public int TotalCount { get; set; }

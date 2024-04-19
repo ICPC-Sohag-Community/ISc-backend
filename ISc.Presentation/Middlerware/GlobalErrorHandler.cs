@@ -1,12 +1,8 @@
-﻿using ISc.Shared;
+﻿using System.Net;
+using System.Text.Json;
+using ISc.Shared;
 using ISc.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace ISc.Presentation.Middlerware
 {
@@ -24,19 +20,42 @@ namespace ISc.Presentation.Middlerware
             try
             {
                 await _next(context);
-                if (context.Response.StatusCode == 401)
-                    throw new UnAuthorized("UnAuthorized");
-                //else if (context.Response.StatusCode == 500)
-                //    throw new SerivceErrorException("Internal Server Error");
             }
             catch (Exception e)
             {
+                var response = new Shared.Response()
+                {
+                    Data = e.GetType().Name,
+                    Message = e.Message,
+                    StatusCode = ExceptionStatusCode(e)
+                };
 
-                var json = JsonSerializer.Serialize(await Response.FailureAsync(e.Message));
+                var json = JsonSerializer.Serialize(response);
                 context.Response.ContentType = "application/json";
                 context?.Response.WriteAsync(json);
 
             }
-        }   
+        }
+        private HttpStatusCode ExceptionStatusCode(Exception ex)
+        {
+            var exceptionType = ex.GetType();
+
+            if (exceptionType == typeof(UnauthorizedAccessException))
+            {
+                return HttpStatusCode.Unauthorized;
+            }
+            else if (exceptionType == typeof(Shared.Exceptions.KeyNotFoundException))
+            {
+                return HttpStatusCode.NotFound;
+            }
+            else if (exceptionType == typeof(SerivceErrorException))
+            {
+                return HttpStatusCode.BadGateway;
+            }
+            else
+            {
+                return HttpStatusCode.InternalServerError;
+            }
+        }
     }
 }

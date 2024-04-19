@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ISc.Shared.Exceptions
 {
-    public class UnAuthorized:Exception
+    public class UnAuthorizedException:Exception
     {
-        public UnAuthorized(string message):base(message) { }   
+        public UnAuthorizedException(string message):base(message) { }   
     }
 }
