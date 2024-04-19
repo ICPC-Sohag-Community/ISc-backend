@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ISc.Presistance.Extension
 {
@@ -13,7 +8,7 @@ namespace ISc.Presistance.Extension
     {
         public static IServiceCollection AddPresistance(this IServiceCollection services, IConfiguration configuration)
         {
-           
+            services.AddDbContext<ICPCDbContext>(i => i.UseSqlServer(configuration.GetConnectionString("DataBase")));
             return services;
         }
        

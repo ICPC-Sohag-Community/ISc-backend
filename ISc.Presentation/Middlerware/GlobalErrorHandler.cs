@@ -26,6 +26,8 @@ namespace ISc.Presentation.Middlerware
                 await _next(context);
                 if (context.Response.StatusCode == 401)
                     throw new UnAuthorized("UnAuthorized");
+                //else if (context.Response.StatusCode == 500)
+                //    throw new SerivceErrorException("Internal Server Error");
             }
             catch (Exception e)
             {
