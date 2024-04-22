@@ -8,5 +8,9 @@ namespace ISc.Presistance.Repos
         public TraineeRepo(ICPCDbContext context) : base(context)
         {
         }
+        public override void Delete(Trainee entity)
+        {
+            base.Delete(entity);
+        }
     }
 }

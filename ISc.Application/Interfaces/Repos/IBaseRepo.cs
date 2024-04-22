@@ -6,6 +6,7 @@ namespace ISc.Application.Interfaces.Repos
     {
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
+        void Delete(T entity);
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
         IQueryable<T> Entities { get; }
