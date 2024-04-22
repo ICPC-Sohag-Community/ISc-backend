@@ -13,7 +13,8 @@ namespace ISc.Presistance.EntitiesConfigurations
     {
         public void Configure(EntityTypeBuilder<Sheet> builder)
         {
-            throw new NotImplementedException();
+            builder.Property(x => x.Name).HasMaxLength(50);
+            builder.Property(x => x.MinimumPassingPrecent).HasMaxLength(100);
         }
     }
 }

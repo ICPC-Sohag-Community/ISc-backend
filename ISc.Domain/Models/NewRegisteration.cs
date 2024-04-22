@@ -3,7 +3,7 @@ using ISc.Domain.Interface;
 
 namespace ISc.Domain.Models
 {
-    public class NewRegisteration : Auditable, ISoftEntity
+    public class NewRegisteration : BaseEntity, ISoftEntity
     {
         public string FirstName { get; set; }
         public string MiddelName { get; set; }

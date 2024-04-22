@@ -7,6 +7,11 @@ namespace ISc.Presistance.Repos
     {
         public MentorRepo(ICPCDbContext context) : base(context)
         {
+            
+        }
+        public override void Delete(Mentor entity)
+        {
+            base.Delete(entity);
         }
     }
 }

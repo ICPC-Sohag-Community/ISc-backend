@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ISc.Application.Interfaces;
+﻿using ISc.Application.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace ISc.Infrastructure.Services.Email
 {
-    internal class EmailSender : IEmailSender
+    public class EmailSender : IEmailSender
     {
+        private readonly IConfiguration _config;
+
+        public EmailSender(IConfiguration config)
+        {
+            _config = config;
+        }
+
         public Task<bool> SendAcceptTraineeEmailAsync()
         {
             throw new NotImplementedException();

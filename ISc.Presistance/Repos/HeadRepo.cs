@@ -8,5 +8,9 @@ namespace ISc.Presistance.Repos
         public HeadRepo(ICPCDbContext context) : base(context)
         {
         }
+        public override void Delete(HeadOfCamp entity)
+        {
+            base.Delete(entity);
+        }
     }
 }

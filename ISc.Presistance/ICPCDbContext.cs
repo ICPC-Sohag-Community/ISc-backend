@@ -1,6 +1,4 @@
-﻿using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
-using ISc.Domain.Models;
+﻿using ISc.Domain.Models;
 using ISc.Domain.Models.CommunityStuff;
 using ISc.Domain.Models.IdentityModels;
 using ISc.Presistance.EntitiesConfigurations;
@@ -14,7 +12,7 @@ namespace ISc.Presistance
     {
         public ICPCDbContext(DbContextOptions options) : base(options)
         {
-            
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -54,8 +52,8 @@ namespace ISc.Presistance
         public virtual DbSet<Session> Sessions { get; set; }
         public virtual DbSet<SessionFeedback> SessionFeedbacks { get; set; }
         public virtual DbSet<Sheet> Sheets { get; set; }
-        public virtual DbSet<StuffArchive>StuffArchives { get; set; }
-        public virtual DbSet<TraineeAttendence> TraineeAttences { get; set; }
+        public virtual DbSet<StuffArchive> StuffArchives { get; set; }
+        public virtual DbSet<TraineeAttendence> TraineeAttendences { get; set; }
         public virtual DbSet<TraineeTask> TraineeTasks { get; set; }
         #endregion
     }

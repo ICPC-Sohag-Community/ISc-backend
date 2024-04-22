@@ -4,6 +4,6 @@
     {
         public string Task { get; set; }
         public DateTime DeadLine { get; set; }
-        public int TraineeId { get; set; }
+        public string TraineeId { get; set; }
     }
 }

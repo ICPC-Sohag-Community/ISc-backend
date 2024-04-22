@@ -13,7 +13,16 @@ namespace ISc.Presistance.EntitiesConfigurations
     {
         public void Configure(EntityTypeBuilder<TraineeAttendence> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(x => new { x.TraineeId, x.SessionId });
+
+            builder.HasOne(x => x.Trainee)
+                .WithMany(x => x.Attendences)
+                .HasForeignKey(x => x.TraineeId);
+
+            builder.HasOne(x=>x.Session)
+                .WithMany(x=>x.Attendences)
+                .HasForeignKey(x => x.SessionId)
+                .OnDelete(deleteBehavior:DeleteBehavior.Restrict);
         }
     }
 }

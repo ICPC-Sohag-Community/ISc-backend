@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using ISc.Application.Interfaces.Repos;
-using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Presistance.Repos
 {
@@ -13,7 +12,17 @@ namespace ISc.Presistance.Repos
         {
             _context = context;
             _repositories = new Hashtable();
+
+            Mentors = new MentorRepo(context);
+            Trainees = new TraineeRepo(context);
+            Heads = new HeadRepo(context);
         }
+
+        public IMentorRepo Mentors { get; private set; }
+
+        public ITraineeRepo Trainees { get; private set; }
+
+        public IHeadRepo Heads { get; private set; }
 
         public void Dispose()
         {
@@ -22,7 +31,7 @@ namespace ISc.Presistance.Repos
 
         public async Task<int> SaveAsync()
         {
-            return await _context.SaveChangesAsync();   
+            return await _context.SaveChangesAsync();
         }
 
         IBaseRepo<T> IUnitOfWork.Repository<T>()
@@ -43,6 +52,6 @@ namespace ISc.Presistance.Repos
 
             return (IBaseRepo<T>)_repositories[type];
         }
-        
+
     }
 }

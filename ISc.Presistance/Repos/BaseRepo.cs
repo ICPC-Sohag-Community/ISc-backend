@@ -1,5 +1,4 @@
 ﻿using ISc.Application.Interfaces.Repos;
-using ISc.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Presistance.Repos
@@ -15,15 +14,15 @@ namespace ISc.Presistance.Repos
 
         public async Task AddAsync(T entity)
         {
-           await  _context.AddAsync(entity);
-           await  _context.SaveChangesAsync(); 
+            await _context.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         public IQueryable<T> Entities => _context.Set<T>();
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return  await _context.Set<T>().Select(i=>i).ToListAsync();   
+            return await _context.Set<T>().Select(i => i).ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)
@@ -35,6 +34,11 @@ namespace ISc.Presistance.Repos
         {
             _context.Set<T>().Update(entity);
             await _context.SaveChangesAsync();
+        }
+
+        public virtual void Delete(T entity)
+        {
+            _context.Set<T>().Remove(entity);
         }
     }
 }

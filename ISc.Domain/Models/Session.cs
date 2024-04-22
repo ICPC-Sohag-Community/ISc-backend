@@ -13,5 +13,6 @@ namespace ISc.Domain.Models
         public int CampId { get; set; }
         public virtual Camp Camp { get; set; }
         public virtual ICollection<SessionFeedback> Feedbacks { get; set; }
+        public virtual ICollection<TraineeAttendence> Attendences { get; set; }
     }
 }

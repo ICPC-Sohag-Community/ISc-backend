@@ -13,7 +13,8 @@ namespace ISc.Presistance.EntitiesConfigurations
     {
         public void Configure(EntityTypeBuilder<Session> builder)
         {
-            throw new NotImplementedException();
+            builder.Property(x => x.Topic).HasMaxLength(50);
+            builder.Property(x=>x.InstructorName).HasMaxLength(50);
         }
     }
 }
