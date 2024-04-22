@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ISc.Domain.Models;
+using ISc.Domain.Models.CommunityStuff;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ISc.Presistance.EntitiesConfigurations
 {
-    internal class NotificationConfig : IEntityTypeConfiguration<Notification>
+    internal class HeadOfCampConfig : IEntityTypeConfiguration<HeadOfCamp>
     {
-        public void Configure(EntityTypeBuilder<Notification> builder)
+        public void Configure(EntityTypeBuilder<HeadOfCamp> builder)
         {
-            builder.Property(x => x.Message).HasMaxLength(500);
-
+            builder.ToTable("HeadsOfCamps");
         }
     }
 }

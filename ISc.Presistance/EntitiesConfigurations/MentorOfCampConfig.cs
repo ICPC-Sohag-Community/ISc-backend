@@ -13,7 +13,11 @@ namespace ISc.Presistance.EntitiesConfigurations
     {
         public void Configure(EntityTypeBuilder<MentorsOfCamp> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(x => new { x.CampId, x.MentorId });
+
+            builder.HasOne(x => x.Mentor)
+                .WithMany(x => x.Camps)
+                .HasForeignKey(x => x.MentorId);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ISc.Domain.Models
 {
 	public class TraineeAccessSheet:ISoftEntity
 	{
-        public string TaineeId { get; set; }
+        public string TraineeId { get; set; }
         public virtual Trainee Trainee { get; set; }
         public int SheetId { get; set; }
         public virtual Sheet Sheet { get; set; }

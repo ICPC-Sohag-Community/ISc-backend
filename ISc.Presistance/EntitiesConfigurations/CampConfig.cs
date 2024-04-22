@@ -13,7 +13,7 @@ namespace ISc.Presistance.EntitiesConfigurations
     {
         public void Configure(EntityTypeBuilder<Camp> builder)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

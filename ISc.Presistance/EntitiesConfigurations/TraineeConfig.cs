@@ -13,7 +13,15 @@ namespace ISc.Presistance.EntitiesConfigurations
     {
         public void Configure(EntityTypeBuilder<Trainee> builder)
         {
-            throw new NotImplementedException();
+            builder.ToTable("Trainees");
+
+            builder.HasMany(x => x.Tasks)
+                .WithOne()
+                .HasForeignKey(x => x.TraineeId);
+
+            builder.HasOne(x => x.Mentor)
+                .WithMany(x => x.Trainees)
+                .HasForeignKey(x => x.MentorId);
         }
     }
 }

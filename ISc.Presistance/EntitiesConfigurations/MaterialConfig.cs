@@ -13,7 +13,7 @@ namespace ISc.Presistance.EntitiesConfigurations
     {
         public void Configure(EntityTypeBuilder<Material> builder)
         {
-            throw new NotImplementedException();
+            builder.Property(x => x.Description).HasMaxLength(1000);
         }
     }
 }

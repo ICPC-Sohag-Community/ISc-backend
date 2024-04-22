@@ -11,9 +11,18 @@ namespace ISc.Presistance.EntitiesConfigurations
 {
     internal class SessionFeedbackConfig : IEntityTypeConfiguration<SessionFeedback>
     {
+        [Obsolete]
         public void Configure(EntityTypeBuilder<SessionFeedback> builder)
         {
-            throw new NotImplementedException();
+
+            builder.HasKey(x => new { x.SessionId, x.TraineeId });
+
+            builder.HasCheckConstraint("Rate Constrain", "Rate between 1 and 5");
+
+            builder.HasOne(x=>x.Session)
+                .WithMany(x=>x.Feedbacks)
+                .HasForeignKey(x=>x.SessionId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
