@@ -13,7 +13,7 @@ namespace ISc.Presistance.Repos
             _context = context;
         }
 
-        public async Task AddAsync(T entity)
+        public virtual async Task AddAsync(T entity)
         {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
@@ -31,7 +31,7 @@ namespace ISc.Presistance.Repos
             return await _context.Set<T>().FindAsync(id);
         }
 
-        public async Task UpdateAsync(T entity)
+        public virtual async Task UpdateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
             await _context.SaveChangesAsync();

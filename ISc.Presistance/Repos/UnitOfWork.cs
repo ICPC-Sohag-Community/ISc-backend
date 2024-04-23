@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using ISc.Application.Interfaces.Repos;
+using ISc.Domain.Models.IdentityModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace ISc.Presistance.Repos
 {
@@ -8,13 +10,15 @@ namespace ISc.Presistance.Repos
         private readonly ICPCDbContext _context;
         private Hashtable _repositories;
 
-        public UnitOfWork(ICPCDbContext context)
+        public UnitOfWork(
+            ICPCDbContext context,
+            UserManager<Account> userManager)
         {
             _context = context;
             _repositories = new Hashtable();
 
-            Mentors = new MentorRepo(context);
-            Trainees = new TraineeRepo(context);
+            Mentors = new MentorRepo(context,userManager);
+            Trainees = new TraineeRepo(context,userManager);
             Heads = new HeadRepo(context);
         }
 

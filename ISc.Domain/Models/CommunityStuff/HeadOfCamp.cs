@@ -7,7 +7,7 @@ using ISc.Domain.Models.IdentityModels;
 
 namespace ISc.Domain.Models.CommunityStuff
 {
-    public class HeadOfCamp : Account
+    public class HeadOfCamp : Stuff
     {
         public string? About { get; set; }
         public int CampId { get; set; }

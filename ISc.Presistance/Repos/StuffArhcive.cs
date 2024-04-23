@@ -14,7 +14,7 @@ namespace ISc.Presistance.Repos
             _context = context;
         }
 
-        public async Task AddToArchive(Stuff member)
+        public async Task AddToArchiveAsync(Stuff member)
         {
             var entity = Found(member);
 

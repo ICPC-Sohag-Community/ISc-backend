@@ -4,6 +4,6 @@ namespace ISc.Application.Interfaces.Repos
 {
     public interface IStuffArchiveRepo : IBaseRepo<StuffArchive>
     {
-        Task AddToArchive(Stuff member);
+        Task AddToArchiveAsync(Stuff member);
     }
 }

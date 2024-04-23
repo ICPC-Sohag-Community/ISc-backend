@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ISc.Domain.Interface;
-using ISc.Domain.Models.IdentityModels;
-
-namespace ISc.Domain.Models.CommunityStuff
+﻿namespace ISc.Domain.Models.CommunityStuff
 {
-    public class Mentor : Account
+    public class Mentor : Stuff
     {
         public int? SessionId { get; set; }
         public virtual Session? Session { get; set; }

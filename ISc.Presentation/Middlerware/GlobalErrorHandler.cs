@@ -52,9 +52,13 @@ namespace ISc.Presentation.Middlerware
             {
                 return HttpStatusCode.BadGateway;
             }
-            else
+            else  if (exceptionType == typeof(ServerErrorException))
             {
                 return HttpStatusCode.InternalServerError;
+            }
+            else
+            {
+                return HttpStatusCode.BadRequest;
             }
         }
     }

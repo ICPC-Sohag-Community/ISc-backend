@@ -23,9 +23,11 @@ namespace ISc.Presistance.Repos
         {
             var rolesCount = _userManager.GetRolesAsync(entity).Result.Count;
 
+            await AddToArchive(entity, isComplete);
+
             if (rolesCount == 1)
             {
-                base.Delete(entity);
+                await _userManager.DeleteAsync(entity);
             }
             else
             {
@@ -35,10 +37,21 @@ namespace ISc.Presistance.Repos
                 _context.SessionFeedbacks.RemoveRange(_context.SessionFeedbacks.Where(x => x.TraineeId == entity.Id));
 
                 await _userManager.RemoveFromRoleAsync(entity, Roles.Trainee);
+                _context.Remove(entity);
             }
-            await AddToArchive(entity, isComplete);
         }
-
+        public override Task UpdateAsync(Trainee entity)
+        {
+            return _userManager.UpdateAsync(entity);
+        }
+        public override Task AddAsync(Trainee entity)
+        {
+            return base.AddAsync(entity);
+        }
+        public override void Delete(Trainee entity)
+        {
+            Delete(entity, true);
+        }
         private async Task AddToArchive(Trainee entity, bool isComplete)
         {
             var campName = entity.Camp.Name;
