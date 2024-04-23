@@ -22,7 +22,7 @@ namespace ISc.Presistance.Repos
         }
         public async override void Delete(Mentor entity)
         {
-            var rolesCount = _userManager.GetRolesAsync(entity).Result.Count();
+            var rolesCount = _userManager.GetRolesAsync(entity).Result.Count;
 
             await _archiveRepo.AddToArchiveAsync(entity);
 
