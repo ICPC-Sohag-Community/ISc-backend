@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using ISc.Application.Interfaces.Repos;
+﻿using ISc.Application.Interfaces.Repos;
 using ISc.Presistance.Repos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,10 +16,7 @@ namespace ISc.Presistance.Extension
         }
         private static IServiceCollection AddCollections(this IServiceCollection services)
         {
-            services.AddTransient<IMentorRepo, MentorRepo>()
-                    .AddTransient<ITraineeRepo, TraineeRepo>()
-                    .AddTransient<IHeadRepo, HeadRepo>()
-                    .AddTransient<IStuffArchiveRepo, IStuffArchiveRepo>();
+            services.AddTransient<IStuffArchiveRepo, StuffArhciveRepo>();
 
             return services;
         }

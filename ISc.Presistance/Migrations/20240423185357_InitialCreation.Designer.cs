@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISc.Presistance.Migrations
 {
     [DbContext(typeof(ICPCDbContext))]
-    [Migration("20240422093541_InitialCreation")]
+    [Migration("20240423185357_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
@@ -61,6 +61,16 @@ namespace ISc.Presistance.Migrations
                     b.ToTable("Camps", "ICPC");
                 });
 
+            modelBuilder.Entity("ISc.Domain.Models.CampModel", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("CampModels", "ICPC");
+                });
+
             modelBuilder.Entity("ISc.Domain.Models.IdentityModels.Account", b =>
                 {
                     b.Property<string>("Id")
@@ -69,7 +79,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("CodeForceHadle")
+                    b.Property<string>("CodeForceHandle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -498,9 +508,6 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("Grade")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -515,6 +522,9 @@ namespace ISc.Presistance.Migrations
                         .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
+
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VjudgeHandle")
                         .HasMaxLength(25)
@@ -553,7 +563,7 @@ namespace ISc.Presistance.Migrations
 
                     b.HasIndex("SheetId");
 
-                    b.ToTable("TraineeAccessSheet", "ICPC");
+                    b.ToTable("TraineesAccesses", "ICPC");
                 });
 
             modelBuilder.Entity("ISc.Domain.Models.TraineeArchive", b =>
@@ -562,12 +572,11 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(14)
                         .HasColumnType("nvarchar(14)");
 
+                    b.Property<string>("CampName")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");
-
-                    b.Property<string>("CampName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CodeForceHandle")
                         .IsRequired()
@@ -599,9 +608,6 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("Grade")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsComplete")
                         .HasColumnType("bit");
 
@@ -620,6 +626,9 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
 
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("VjudgeHandle")
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
@@ -627,7 +636,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
-                    b.HasKey("NationalId");
+                    b.HasKey("NationalId", "CampName");
 
                     b.ToTable("TraineesArchives", "ICPC", t =>
                         {

@@ -21,8 +21,7 @@ namespace ISc.Presistance.EntitiesConfigurations
 
             builder.HasOne(x => x.Mentor)
                 .WithMany(x => x.Trainees)
-                .HasForeignKey(x => x.MentorId)
-                .OnDelete(deleteBehavior: DeleteBehavior.SetNull);
+                .HasForeignKey(x => x.MentorId);
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ISc.Domain.Models;
+﻿using ISc.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,9 +10,9 @@ namespace ISc.Presistance.EntitiesConfigurations
         {
             builder.HasKey(x => new { x.TraineeId, x.SheetId });
 
-            builder.HasOne(x=>x.Sheet)
-                .WithMany(x=>x.TraineesAccess)
-                .HasForeignKey(x=>x.SheetId)
+            builder.HasOne(x => x.Sheet)
+                .WithMany(x => x.TraineesAccess)
+                .HasForeignKey(x => x.SheetId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

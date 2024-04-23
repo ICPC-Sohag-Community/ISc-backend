@@ -5,10 +5,10 @@ using MapsterMapper;
 
 namespace ISc.Presistance.Repos
 {
-    public class StuffArhcive : BaseRepo<StuffArchive>,IStuffArchiveRepo
+    public class StuffArhciveRepo : BaseRepo<StuffArchive>,IStuffArchiveRepo
     {
         private readonly ICPCDbContext _context;
-        public StuffArhcive(
+        public StuffArhciveRepo(
             ICPCDbContext context) : base(context)
         {
             _context = context;

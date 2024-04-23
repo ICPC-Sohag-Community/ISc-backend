@@ -12,14 +12,15 @@ namespace ISc.Presistance.Repos
 
         public UnitOfWork(
             ICPCDbContext context,
-            UserManager<Account> userManager)
+            UserManager<Account> userManager,
+            IStuffArchiveRepo stuffRepo)
         {
             _context = context;
             _repositories = new Hashtable();
 
-            Mentors = new MentorRepo(context,userManager);
+            Mentors = new MentorRepo(context,userManager,stuffRepo);
             Trainees = new TraineeRepo(context,userManager);
-            Heads = new HeadRepo(context);
+            Heads = new HeadRepo(context,userManager,stuffRepo);
         }
 
         public IMentorRepo Mentors { get; private set; }

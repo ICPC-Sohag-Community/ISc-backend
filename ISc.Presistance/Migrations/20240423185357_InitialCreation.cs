@@ -18,6 +18,18 @@ namespace ISc.Presistance.Migrations
                 name: "Account");
 
             migrationBuilder.CreateTable(
+                name: "CampModels",
+                schema: "ICPC",
+                columns: table => new
+                {
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CampModels", x => x.Name);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Camps",
                 schema: "ICPC",
                 columns: table => new
@@ -66,7 +78,7 @@ namespace ISc.Presistance.Migrations
                     Grade = table.Column<int>(type: "int", nullable: false),
                     College = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<byte>(type: "tinyint", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CodeForceHandle = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     FacebookHandle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VjudgeHandle = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
@@ -87,7 +99,7 @@ namespace ISc.Presistance.Migrations
                 columns: table => new
                 {
                     NationalId = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
-                    CampName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CampName = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IsComplete = table.Column<bool>(type: "bit", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -98,7 +110,7 @@ namespace ISc.Presistance.Migrations
                     Grade = table.Column<int>(type: "int", nullable: false),
                     College = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<byte>(type: "tinyint", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CodeForceHandle = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     FacebookHandle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VjudgeHandle = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
@@ -107,7 +119,7 @@ namespace ISc.Presistance.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TraineesArchives", x => x.NationalId);
+                    table.PrimaryKey("PK_TraineesArchives", x => new { x.NationalId, x.CampName });
                     table.CheckConstraint("GenderConstarin2", "Gender between 0 and 1");
                     table.CheckConstraint("GradeConstrain2", "Grade between 1 and 5 ");
                 });
@@ -127,7 +139,7 @@ namespace ISc.Presistance.Migrations
                     Grade = table.Column<int>(type: "int", nullable: false),
                     Gender = table.Column<byte>(type: "tinyint", nullable: false),
                     PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CodeForceHadle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CodeForceHandle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VjudgeHandle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -563,35 +575,6 @@ namespace ISc.Presistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TraineeAccessSheet",
-                schema: "ICPC",
-                columns: table => new
-                {
-                    TraineeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SheetId = table.Column<int>(type: "int", nullable: false),
-                    AccessDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    SolvedProblems = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TraineeAccessSheet", x => new { x.TraineeId, x.SheetId });
-                    table.ForeignKey(
-                        name: "FK_TraineeAccessSheet_Sheets_SheetId",
-                        column: x => x.SheetId,
-                        principalSchema: "ICPC",
-                        principalTable: "Sheets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TraineeAccessSheet_Trainees_TraineeId",
-                        column: x => x.TraineeId,
-                        principalSchema: "ICPC",
-                        principalTable: "Trainees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TraineeAttendences",
                 schema: "ICPC",
                 columns: table => new
@@ -612,6 +595,35 @@ namespace ISc.Presistance.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TraineeAttendences_Trainees_TraineeId",
+                        column: x => x.TraineeId,
+                        principalSchema: "ICPC",
+                        principalTable: "Trainees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TraineesAccesses",
+                schema: "ICPC",
+                columns: table => new
+                {
+                    TraineeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SheetId = table.Column<int>(type: "int", nullable: false),
+                    AccessDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    SolvedProblems = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TraineesAccesses", x => new { x.TraineeId, x.SheetId });
+                    table.ForeignKey(
+                        name: "FK_TraineesAccesses_Sheets_SheetId",
+                        column: x => x.SheetId,
+                        principalSchema: "ICPC",
+                        principalTable: "Sheets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TraineesAccesses_Trainees_TraineeId",
                         column: x => x.TraineeId,
                         principalSchema: "ICPC",
                         principalTable: "Trainees",
@@ -719,12 +731,6 @@ namespace ISc.Presistance.Migrations
                 column: "CampId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TraineeAccessSheet_SheetId",
-                schema: "ICPC",
-                table: "TraineeAccessSheet",
-                column: "SheetId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TraineeAttendences_SessionId",
                 schema: "ICPC",
                 table: "TraineeAttendences",
@@ -741,6 +747,12 @@ namespace ISc.Presistance.Migrations
                 schema: "ICPC",
                 table: "Trainees",
                 column: "MentorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TraineesAccesses_SheetId",
+                schema: "ICPC",
+                table: "TraineesAccesses",
+                column: "SheetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TraineeTasks_TraineeId",
@@ -785,6 +797,10 @@ namespace ISc.Presistance.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "CampModels",
+                schema: "ICPC");
+
+            migrationBuilder.DropTable(
                 name: "HeadsOfCamps",
                 schema: "ICPC");
 
@@ -817,11 +833,11 @@ namespace ISc.Presistance.Migrations
                 schema: "ICPC");
 
             migrationBuilder.DropTable(
-                name: "TraineeAccessSheet",
+                name: "TraineeAttendences",
                 schema: "ICPC");
 
             migrationBuilder.DropTable(
-                name: "TraineeAttendences",
+                name: "TraineesAccesses",
                 schema: "ICPC");
 
             migrationBuilder.DropTable(
