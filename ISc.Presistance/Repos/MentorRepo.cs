@@ -24,7 +24,7 @@ namespace ISc.Presistance.Repos
             }    
             else
             {
-                DeleteMentorTrainees(  entity);
+                DeleteMentorTrainees(entity);
                 _context.MentorsOfCamps.RemoveRange(_context.MentorsOfCamps.Where(p => p.MentorId == entity.Id));
                 _userManager.RemoveFromRoleAsync(entity, "");//TODO: Remove with RoleName 
             }
@@ -35,7 +35,10 @@ namespace ISc.Presistance.Repos
         {
 			var trainees = _context.Trainees.Where(p => p.MentorId == entity.Id);
 			foreach (var trainee in trainees)
+            {
+
                 trainee.MentorId = null;
+            }
         }
 
     }
