@@ -1,4 +1,5 @@
 ﻿using ISc.Application.Interfaces.Repos;
+using ISc.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Presistance.Repos
@@ -40,5 +41,6 @@ namespace ISc.Presistance.Repos
         {
             _context.Set<T>().Remove(entity);
         }
+
     }
 }

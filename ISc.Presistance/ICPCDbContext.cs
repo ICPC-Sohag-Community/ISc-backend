@@ -54,7 +54,9 @@ namespace ISc.Presistance
         public virtual DbSet<Sheet> Sheets { get; set; }
         public virtual DbSet<StuffArchive> StuffArchives { get; set; }
         public virtual DbSet<TraineeAttendence> TraineeAttendences { get; set; }
+        public virtual DbSet<TraineeAccessSheet> TraineesAccesses { get; set; }
         public virtual DbSet<TraineeTask> TraineeTasks { get; set; }
+        public virtual DbSet<CampModel>CampModels { get; set; }
         #endregion
     }
 }

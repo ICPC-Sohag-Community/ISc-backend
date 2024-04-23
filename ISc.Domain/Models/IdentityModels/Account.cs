@@ -15,7 +15,7 @@ namespace ISc.Domain.Models.IdentityModels
         public int Grade { get; set; }
         public Gender Gender { get; set; }
         public string? PhotoUrl { get; set; }
-        public string CodeForceHadle { get; set; }
+        public string CodeForceHandle { get; set; }
         public string? VjudgeHandle { get; set; }
 
     }
