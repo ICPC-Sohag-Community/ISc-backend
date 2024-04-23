@@ -10,10 +10,15 @@ namespace ISc.Presistance.Repos
     {
         private readonly ICPCDbContext _context;
         private readonly UserManager<Account> _userManager;
-		public MentorRepo(ICPCDbContext context, UserManager<Account> userManager) : base(context)
+        private readonly IStuffArchiveRepo _stuffArchiveRepo;
+		public MentorRepo(
+			ICPCDbContext context,
+			UserManager<Account> userManager,
+			IStuffArchiveRepo stuffArchiveRepo) : base(context)
 		{
 			_context = context;
 			_userManager = userManager;
+			_stuffArchiveRepo = stuffArchiveRepo;
 		}
 		public override void Delete(Mentor entity)
         {
