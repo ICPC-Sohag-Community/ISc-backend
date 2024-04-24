@@ -22,6 +22,11 @@ namespace ISc.Infrastructure.Services.Email
             throw new NotImplementedException();
         }
 
+        public Task<bool> SendForgetPassword(int otp)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> SendKickedoutEmailAsync()
         {
             throw new NotImplementedException();

@@ -18,7 +18,4 @@
 	  <ProjectReference Include="..\ISc.Domain\ISc.Domain.csproj" />
 	  <ProjectReference Include="..\ISc.Shared\ISc.Shared.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Features\" />
-	</ItemGroup>
 </Project>

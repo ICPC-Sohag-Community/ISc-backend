@@ -22,7 +22,8 @@ namespace ISc.Infrastructure.Extension
         {
             services.AddCollections()
                     .AddHangFireServices(configuration)
-                    .AddFluentEmailServices(configuration);
+                    .AddFluentEmailServices(configuration)
+                    .AddMemoryCache();
                    
 
             return services;

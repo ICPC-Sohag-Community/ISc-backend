@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ISc.Application.Dtos.Email;
 
 namespace ISc.Application.Interfaces
 {
@@ -12,5 +13,6 @@ namespace ISc.Application.Interfaces
         Task<bool> SendAcceptTraineeEmailAsync();
         Task<bool> SendKickedoutEmailAsync();
         Task<bool> SendAccountInfoAsync();
+        Task<bool> SendForgetPassword(int otp);
     }
 }
