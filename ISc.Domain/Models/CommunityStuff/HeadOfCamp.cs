@@ -11,7 +11,7 @@ namespace ISc.Domain.Models.CommunityStuff
     {
         public string? About { get; set; }
         public int CampId { get; set; }
-        public Camp Camp { get; set; }
+        public virtual Camp Camp { get; set; }
     }
 
 }

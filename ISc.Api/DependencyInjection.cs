@@ -9,7 +9,19 @@ namespace ISc.Api
     {
         public static void DependencyInjectionService(this IServiceCollection services,IConfiguration configuration)
         {
-            services.AddSwaggerGen(c => c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pharmacy API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme
@@ -22,7 +34,9 @@ namespace ISc.Api
                         },
                         new string[]{}
                     }
-                }));
+                });
+            });
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
