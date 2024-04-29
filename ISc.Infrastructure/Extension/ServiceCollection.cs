@@ -7,6 +7,7 @@ using ISc.Application.Interfaces;
 using ISc.Infrastructure.Services.Email;
 using ISc.Infrastructure.Services.OnlineJudge.CodeForce;
 using ISc.Infrastructure.Services.ApiRequest;
+using ISc.Infrastructure.Services.Authentication;
 
 namespace ISc.Infrastructure.Extension
 {
@@ -17,7 +18,8 @@ namespace ISc.Infrastructure.Extension
             services.AddCollections()
                     .AddHangFireServices(configuration)
                     .AddFluentEmailServices(configuration)
-                    .AddMemoryCache();
+                    .AddMemoryCache()
+                    .AddDistributedMemoryCache();
                    
 
             return services;
@@ -54,6 +56,7 @@ namespace ISc.Infrastructure.Extension
         {
             services.AddTransient<IMediaServices, MediaServices>()
                     .AddTransient<IEmailSender,EmailSender>()
+                    .AddTransient<IAuthServices,AuthServices>()
                     .AddTransient<IEmailServices,EmailService>()
                     .AddTransient<IOnlineJudgeServices,CodeForceService>()
                     .AddTransient<IApiRequestsServices,ApiReqeustService>();
