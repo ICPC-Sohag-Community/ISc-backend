@@ -2,6 +2,7 @@ using ISc.Api;
 using ISc.Application.Extension;
 using ISc.Infrastructure.Extension;
 using ISc.Presistance.Extension;
+using ISc.Presistance.Seeding;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,7 @@ app.UseCors(cores => cores.AllowAnyHeader().AllowAnyHeader().AllowAnyOrigin().Al
 app.UseAuthentication();
 app.UseAuthorization();
 //TODO: app.UseHangfireDashboard("/hangFireDashboard");
+DataSeeding.Initialize(app.Services.CreateScope().ServiceProvider);
 app.MapControllers();
 
 app.Run();

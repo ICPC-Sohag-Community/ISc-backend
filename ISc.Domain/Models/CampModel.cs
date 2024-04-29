@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ISc.Domain.Interface;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Models
 {
-    public class CampModel
+    public class CampModel:ISoftEntity
     {
         [Key]
         public string Name { get; set; }
