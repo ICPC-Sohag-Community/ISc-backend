@@ -1,13 +1,7 @@
-﻿using Hangfire;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using ISc.Infrastructure.Services.Media;
 using ISc.Application.Interfaces;
 using ISc.Infrastructure.Services.Email;
