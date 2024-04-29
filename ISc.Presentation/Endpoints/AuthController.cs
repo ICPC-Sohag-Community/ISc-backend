@@ -25,5 +25,11 @@ namespace ISc.Presentation.Endpoints
         {
             return Ok(await _mediator.Send(command));
         }
+
+        [HttpPost("sendOtp")]
+        public async Task<ActionResult<int>> SendEmailConfirmation([FromBody]string email)
+        {
+            return Ok(await _mediator.Send(SendEmailConfirmation(email)));
+        }
     }
 }

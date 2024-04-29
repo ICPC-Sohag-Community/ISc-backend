@@ -1,4 +1,4 @@
-﻿using FluentEmail.Core;
+﻿using System.Xml.Linq;
 using ISc.Application.Dtos.Email;
 using ISc.Application.Interfaces;
 using ISc.Domain.Models;
@@ -32,10 +32,10 @@ namespace ISc.Infrastructure.Services.Email
             var content = File.ReadAllText(_host.WebRootPath + _filePath["AcceptedTrainee"]);
 
             return await _emailService.SendMailUsingRazorTemplateAsync(new EmailRequestDto()
-            { 
+            {
                 To = trainee.Email!,
                 From = _email,
-                Subject = "Welcome in ICPC Sohag Community",
+                Subject = "ISc - Welcome in ICPC Sohag Community",
                 Body = content,
                 BodyData = new
                 {
@@ -46,7 +46,7 @@ namespace ISc.Infrastructure.Services.Email
             });
         }
 
-        public async Task<bool> SendAccountInfoAsync(string userName, string Password,Trainee trainee)
+        public async Task<bool> SendAccountInfoAsync(string userName, string password, Trainee trainee)
         {
             var content = File.ReadAllText(_host.WebRootPath + _filePath["AccoutInfo"]);
 
@@ -54,18 +54,35 @@ namespace ISc.Infrastructure.Services.Email
             {
                 To = trainee.Email!,
                 From = _email,
-                Subject = "ISc Account Information",
+                Subject = "ISc - Account Information",
                 Body = content,
                 BodyData = new
                 {
-                    TraineeName = trainee.FirstName+' '+trainee.LastName,
+                    TraineeName = trainee.FirstName + ' ' + trainee.LastName,
                     UserName = userName,
-                    Password
+                    Password = password
                 }
             });
         }
 
-        public async Task<bool> SendForgetPassword(string email,string Name,int Otp)
+        public async Task<bool> SendEmailConfirmationAsync(string email, int otp)
+        {
+            var content = File.ReadAllText(_host.WebRootPath + _filePath["EmailConfirmation"]);
+
+            return await _emailService.SendMailUsingRazorTemplateAsync(new EmailRequestDto()
+            {
+                To = email!,
+                From = _email,
+                Subject = "ISc - Email Confirmation Otp",
+                Body = content,
+                BodyData = new
+                {
+                    Otp = otp
+                }
+            });
+        }
+
+        public async Task<bool> SendForgetPassword(string email, string name, int otp)
         {
             var content = File.ReadAllText(_host.WebRootPath + _filePath["OtpResetPassword"]);
 
@@ -73,47 +90,47 @@ namespace ISc.Infrastructure.Services.Email
             {
                 To = email!,
                 From = _email,
-                Subject = "ISc Forget Password Otp",
+                Subject = "ISc - Forget Password Otp",
                 Body = content,
                 BodyData = new
                 {
-                    Name,
-                    Otp
+                    Name = name,
+                    Otp = otp
                 }
             });
         }
 
-        public async Task<bool> SendKickedoutEmailAsync(string email,string CampName,string TraineeName)
+        public async Task<bool> SendKickedoutEmailAsync(string email, string campName, string traineeName)
         {
-            var content = File.ReadAllText(_host.WebRootPath + _filePath["OtpResetPassword"]);
+            var content = File.ReadAllText(_host.WebRootPath + _filePath["Kickedout"]);
 
             return await _emailService.SendMailUsingRazorTemplateAsync(new EmailRequestDto()
             {
                 To = email!,
                 From = _email,
-                Subject = "",
+                Subject = "Isc - Filteration System Annoucment",
                 Body = content,
                 BodyData = new
                 {
-                    CampName,
-                    TraineeName
+                    CampName = campName,
+                    TraineeName = traineeName
                 }
             });
         }
 
-        public async Task<bool> SendRejectionEmailAsync(string email, string ApplicantName)
+        public async Task<bool> SendRejectionEmailAsync(string email, string applicantName)
         {
-            var content = File.ReadAllText(_host.WebRootPath + _filePath["OtpResetPassword"]);
+            var content = File.ReadAllText(_host.WebRootPath + _filePath["Rejection"]);
 
             return await _emailService.SendMailUsingRazorTemplateAsync(new EmailRequestDto()
             {
                 To = email!,
                 From = _email,
-                Subject = "",
+                Subject = "ISc - Join request Annoucment",
                 Body = content,
                 BodyData = new
                 {
-                    ApplicantName
+                    ApplicantName = applicantName
                 }
             });
         }

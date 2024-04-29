@@ -18,4 +18,10 @@
 	  <ProjectReference Include="..\ISc.Domain\ISc.Domain.csproj" />
 	  <ProjectReference Include="..\ISc.Shared\ISc.Shared.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Features\Leader\" />
+	  <Folder Include="Features\Mentor\" />
+	  <Folder Include="Features\HeadOfCamp\" />
+	  <Folder Include="Features\Trainee\" />
+	</ItemGroup>
 </Project>

@@ -9,7 +9,12 @@ namespace ISc.Application.Features.Authentication.SendConfirmEmailOtp
 {
     public class SendConfirmEmailOtpCommand:IRequest<Response>
     {
-        public string UserEmail { get; set; }
+        public string Email { get; set; }
+
+        public SendConfirmEmailOtpCommand(string email)
+        {
+            Email = email;
+        }
     }
     public class SendConfirmEmailOtpCommandHandler : IRequestHandler<SendConfirmEmailOtpCommand, Response>
     {
@@ -26,7 +31,7 @@ namespace ISc.Application.Features.Authentication.SendConfirmEmailOtp
 
         public async Task<Response> Handle(SendConfirmEmailOtpCommand command, CancellationToken cancellationToken)
         {
-            var user=await _userManager.FindByEmailAsync(command.UserEmail);  
+            var user=await _userManager.FindByEmailAsync(command.Email);  
 
             if (user == null)
             {
@@ -38,9 +43,12 @@ namespace ISc.Application.Features.Authentication.SendConfirmEmailOtp
             var otp = rand.Next(99999, 1000000);
 
 
-            await _emailSender.SendForgetPassword(command.UserEmail, user.FirstName + ' ' + user.LastName, otp);
+            if(!await _emailSender.SendEmailConfirmationAsync(command.Email, otp))
+            {
+                return await Response.FailureAsync("Couldn't send email confirmation otp");
+            }
 
-            _cache.SetString(command.UserEmail, otp.ToString());
+            _cache.SetString(command.Email, otp.ToString());
 
             return await Response.SuccessAsync("Success");    
         }
