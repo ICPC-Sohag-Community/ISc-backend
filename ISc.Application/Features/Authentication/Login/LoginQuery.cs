@@ -30,7 +30,7 @@ namespace ISc.Application.Features.Authentication.Login
             if (user is null || !await _userManager.CheckPasswordAsync(user, query.Password))
             {
 
-                return await Response.FailureAsync("UserName OR Password Is Wrong");
+                return await Response.FailureAsync("UserName Or password is wrong");
             }
 
             user.LastLoginDate = DateTime.Now;

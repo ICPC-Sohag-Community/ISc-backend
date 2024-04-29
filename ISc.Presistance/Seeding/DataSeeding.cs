@@ -15,7 +15,7 @@ namespace ISc.Presistance.Seeding
         {
             var dbcontext = service.GetRequiredService<ICPCDbContext>();
             var userManager = service.GetRequiredService<UserManager<Account>>();
-            var roleManager = service.GetRequiredService<RoleManager<string>>();
+            var roleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
 
             var pendingMigrations = await dbcontext.Database.GetPendingMigrationsAsync();
             var migrations = dbcontext.Database.GetMigrations();
@@ -24,11 +24,11 @@ namespace ISc.Presistance.Seeding
             {
                 var unitOfWork = service.GetService<IUnitOfWork>();
 
-                await roleManager.CreateAsync(Roles.Leader);
-                await roleManager.CreateAsync(Roles.Head_Of_Camp);
-                await roleManager.CreateAsync(Roles.Mentor);
-                await roleManager.CreateAsync(Roles.Trainee);
-                await roleManager.CreateAsync(Roles.Instructor);
+                await roleManager.CreateAsync(new IdentityRole(Roles.Leader));
+                await roleManager.CreateAsync(new IdentityRole(Roles.Head_Of_Camp));
+                await roleManager.CreateAsync(new IdentityRole(Roles.Mentor));
+                await roleManager.CreateAsync(new IdentityRole(Roles.Trainee));
+                await roleManager.CreateAsync(new IdentityRole(Roles.Instructor));
 
                 var leader = new Account
                 {

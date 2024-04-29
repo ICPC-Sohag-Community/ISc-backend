@@ -56,6 +56,7 @@ namespace ISc.Infrastructure.Extension
         {
             services.AddTransient<IMediaServices, MediaServices>()
                     .AddTransient<IEmailSender,EmailSender>()
+                    .AddTransient<IAuthServices,AuthServices>()
                     .AddTransient<IEmailServices,EmailService>()
                     .AddTransient<IOnlineJudgeServices,CodeForceService>()
                     .AddTransient<IApiRequestsServices,ApiReqeustService>()
