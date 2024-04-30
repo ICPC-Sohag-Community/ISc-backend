@@ -9,7 +9,6 @@ namespace ISc.Infrastructure.Services.Email
 {
     public class EmailSender : IEmailSender
     {
-        private readonly IConfiguration _config;
         private readonly IEmailServices _emailService;
         private readonly IWebHostEnvironment _host;
         private readonly IConfiguration _filePath;
@@ -20,9 +19,8 @@ namespace ISc.Infrastructure.Services.Email
             IEmailServices emailService,
             IWebHostEnvironment host)
         {
-            _config = config;
-            _filePath = config.GetSection("MailSettings");
-            _email = _config.GetSection("MailSettings:SenderEmail").Value!;
+            _filePath = config.GetSection("EmailTemplates");
+            _email = config.GetSection("MailSettings:SenderEmail").Value!;
             _emailService = emailService;
             _host = host;
         }
@@ -67,6 +65,7 @@ namespace ISc.Infrastructure.Services.Email
 
         public async Task<bool> SendEmailConfirmationAsync(string email, int otp)
         {
+            var x = _filePath["EmailConfirmation"];
             var content = File.ReadAllText(_host.WebRootPath + _filePath["EmailConfirmation"]);
 
             return await _emailService.SendMailUsingRazorTemplateAsync(new EmailRequestDto()

@@ -1,5 +1,6 @@
 ﻿using ISc.Application.Features.Authentication.ForgetPassword;
 using ISc.Application.Features.Authentication.ResetPassword;
+using ISc.Application.Features.Authentication.SendConfirmEmailOtp;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,10 +27,10 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(command));
         }
 
-        [HttpPost("sendOtp")]
+        [HttpPost("sendConfirmOtp")]
         public async Task<ActionResult<int>> SendEmailConfirmation([FromBody]string email)
         {
-            return Ok(await _mediator.Send(SendEmailConfirmation(email)));
+            return Ok(await _mediator.Send(new SendConfirmEmailOtpCommand(email)));
         }
     }
 }
