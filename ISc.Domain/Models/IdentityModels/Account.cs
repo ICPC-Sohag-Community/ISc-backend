@@ -13,6 +13,8 @@ namespace ISc.Domain.Models.IdentityModels
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime? LastLoginDate { get; set; }
         public int Grade { get; set; }
+        public DateOnly BirthDate { get; set;}
+        public College College { get; set; }
         public Gender Gender { get; set; }
         public string? PhotoUrl { get; set; }
         public string CodeForceHandle { get; set; }

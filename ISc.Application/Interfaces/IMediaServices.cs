@@ -10,7 +10,7 @@ namespace ISc.Application.Interfaces
 {
     public interface IMediaServices
     {
-        Task<string> SaveAsync(IFormFile media);
+        Task<string>? SaveAsync(IFormFile? media);
 
         Task DeleteAsync(string url);
 

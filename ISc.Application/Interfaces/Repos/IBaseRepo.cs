@@ -10,5 +10,6 @@ namespace ISc.Application.Interfaces.Repos
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
         IQueryable<T> Entities { get; }
+        void DetachedetachedEntity<T>(T entity);
     }
 }

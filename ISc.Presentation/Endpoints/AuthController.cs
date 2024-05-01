@@ -1,4 +1,5 @@
 ﻿using ISc.Application.Features.Authentication.ForgetPassword;
+using ISc.Application.Features.Authentication.Login;
 using ISc.Application.Features.Authentication.ResetPassword;
 using ISc.Application.Features.Authentication.SendConfirmEmailOtp;
 using MediatR;
@@ -15,6 +16,12 @@ namespace ISc.Presentation.Endpoints
             _mediator = mediator;
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult<LoginQueryResponse>> Login([FromBody] LoginQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
+
         [HttpPost("forget-password")]
         public async Task<ActionResult<string>> ForgetPassword([FromBody] string email)
         {
@@ -28,7 +35,7 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpPost("sendConfirmOtp")]
-        public async Task<ActionResult<int>> SendEmailConfirmation([FromBody]string email)
+        public async Task<ActionResult<int>> SendEmailConfirmation([FromBody] string email)
         {
             return Ok(await _mediator.Send(new SendConfirmEmailOtpCommand(email)));
         }

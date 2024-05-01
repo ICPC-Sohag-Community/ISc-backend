@@ -1,6 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Net;
+using System.Text.Json;
 using ISc.Application.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ISc.Infrastructure.Services.ApiRequest
@@ -16,14 +16,14 @@ namespace ISc.Infrastructure.Services.ApiRequest
             _logger = logger;
         }
 
-        public async Task<T> GetAsync<T>(string request,string serviceName)
+        public async Task<T> GetAsync<T>(string request, string serviceName)
         {
             var response = await HttpClient.GetAsync(request);
 
-            if (!response.IsSuccessStatusCode)
+            if (response.StatusCode != HttpStatusCode.OK || response.StatusCode != HttpStatusCode.BadRequest)
             {
                 _logger.LogCritical("request url: " + request + "\n" +
-                    await response.RequestMessage!.Content!.ReadAsStringAsync() ?? $"{serviceName} Site Error");
+                    await response.Content?.ReadAsStringAsync() ?? $"{serviceName} Site Error");
             }
 
             var content = await response.Content.ReadAsStringAsync();

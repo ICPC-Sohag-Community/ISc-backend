@@ -1,28 +1,42 @@
 ﻿using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Constant;
+using ISc.Domain.Comman.Dtos;
+using ISc.Domain.Models;
 using ISc.Domain.Models.CommunityStuff;
 using ISc.Domain.Models.IdentityModels;
+using ISc.Shared.Exceptions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Presistance.Repos
 {
-    public class HeadRepo : BaseRepo<HeadOfCamp>, IHeadRepo
+    public class HeadRepo : IHeadRepo
     {
         private readonly UserManager<Account> _userManager;
         private readonly ICPCDbContext _context;
         private readonly IStuffArchiveRepo _archiveRepo;
+
+        public IQueryable<HeadOfCamp> Entities => _context.Set<HeadOfCamp>();
+
         public HeadRepo(
             ICPCDbContext context,
             UserManager<Account> userManager,
-            IStuffArchiveRepo archiveRepo) : base(context)
+            IStuffArchiveRepo archiveRepo)
         {
             _context = context;
             _userManager = userManager;
             _archiveRepo = archiveRepo;
         }
 
-        public async override void Delete(HeadOfCamp entity)
+        public async void Delete(Account entity)
         {
+            var head = await _context.HeadsOfCamps.FindAsync(entity.Id);
+
+            if (head is null)
+            {
+                throw new BadRequestException("Invalid request.");
+            }
+
             var rolesCount = _userManager.GetRolesAsync(entity).Result.Count;
 
             await _archiveRepo.AddToArchiveAsync(entity);
@@ -34,18 +48,40 @@ namespace ISc.Presistance.Repos
             else
             {
                 await _userManager.RemoveFromRoleAsync(entity, Roles.Head_Of_Camp);
-                _context.Remove(entity);
+                _context.HeadsOfCamps.Remove(head);
             }
         }
 
-        public override Task AddAsync(HeadOfCamp entity)
+        public async Task AddAsync(AccountModel<HeadOfCamp> entity)
         {
-            return _userManager.CreateAsync(entity);
+            if (entity.Account is not null && entity.Password is not null)
+            {
+                await _userManager.CreateAsync(entity.Account, entity.Password);
+            }
+            await _context.HeadsOfCamps.AddAsync(entity.Member);
         }
 
-        public override Task UpdateAsync(HeadOfCamp entity)
+        public async Task UpdateAsync(AccountModel<HeadOfCamp> entity)
         {
-            return _userManager.UpdateAsync(entity);
+            if(entity.Account != null)
+            {
+                await _userManager.UpdateAsync(entity.Account);
+
+            }
+
+            if (entity.Member != null)
+            {
+                _context.Update(entity.Member);
+            }
+        }
+
+        public async Task<HeadOfCamp?> GetByIdAsync(string id)
+        {
+            return await _context.HeadsOfCamps.FindAsync(id);
+        }
+        public async Task<IEnumerable<HeadOfCamp>?> GetAllAsync()
+        {
+            return await _context.HeadsOfCamps.ToListAsync();
         }
     }
 }

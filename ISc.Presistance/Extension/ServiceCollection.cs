@@ -37,6 +37,7 @@ namespace ISc.Presistance.Extension
         }
         private static IServiceCollection AddCollections(this IServiceCollection services)
         {
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IStuffArchiveRepo, StuffArhciveRepo>();
 
             return services;

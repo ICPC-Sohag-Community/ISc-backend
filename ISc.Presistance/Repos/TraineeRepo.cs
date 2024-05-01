@@ -1,29 +1,44 @@
-﻿using ISc.Application.Interfaces.Repos;
+﻿using System.Collections.Immutable;
+using ISc.Application.Extension;
+using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Constant;
+using ISc.Domain.Comman.Dtos;
 using ISc.Domain.Models;
 using ISc.Domain.Models.IdentityModels;
+using ISc.Shared.Exceptions;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Presistance.Repos
 {
-    public class TraineeRepo : BaseRepo<Trainee>, ITraineeRepo
+    public class TraineeRepo : ITraineeRepo
     {
         private readonly ICPCDbContext _context;
         private readonly UserManager<Account> _userManager;
+
+
         public TraineeRepo(
             ICPCDbContext context,
-            UserManager<Account> userManager) : base(context)
+            UserManager<Account> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
-        public async void Delete(Trainee entity, bool isComplete)
+        public IQueryable<Trainee> Entities => _context.Trainees;
+
+        public async void Delete(Account entity, bool isComplete)
         {
+            var trainee = await _context.Trainees.FindAsync(entity.Id);
+
+            if (trainee is null)
+            {
+                throw new BadRequestException("Invalid request.");
+            }
+
             var rolesCount = _userManager.GetRolesAsync(entity).Result.Count;
 
-            await AddToArchive(entity, isComplete);
+            await AddToArchive(entity, trainee, isComplete);
 
             if (rolesCount == 1)
             {
@@ -31,32 +46,40 @@ namespace ISc.Presistance.Repos
             }
             else
             {
-                _context.TraineeAttendences.RemoveRange(_context.TraineeAttendences.Where(x => x.TraineeId == entity.Id));
-                _context.TraineeTasks.RemoveRange(_context.TraineeTasks.Where(x => x.TraineeId == entity.Id));
-                _context.TraineesAccesses.RemoveRange(_context.TraineesAccesses.Where(x => x.TraineeId == entity.Id));
-                _context.SessionFeedbacks.RemoveRange(_context.SessionFeedbacks.Where(x => x.TraineeId == entity.Id));
+                _context.TraineeAttendences.RemoveRange(_context.TraineeAttendences.Where(x => x.TraineeId == trainee.Id));
+                _context.TraineeTasks.RemoveRange(_context.TraineeTasks.Where(x => x.TraineeId == trainee.Id));
+                _context.TraineesAccesses.RemoveRange(_context.TraineesAccesses.Where(x => x.TraineeId == trainee.Id));
+                _context.SessionFeedbacks.RemoveRange(_context.SessionFeedbacks.Where(x => x.TraineeId == trainee.Id));
 
                 await _userManager.RemoveFromRoleAsync(entity, Roles.Trainee);
-                _context.Remove(entity);
+                _context.Remove(trainee);
             }
         }
-        public override Task UpdateAsync(Trainee entity)
+        public async Task UpdateAsync(AccountModel<Trainee> entity)
         {
-            return _userManager.UpdateAsync(entity);
+            if (entity.Account != null)
+            {
+                await _userManager.DeleteAsync(entity.Account);
+            }
+
+            if (entity.Member != null)
+            {
+                _context.Update(entity.Member);
+            }
         }
-        public override Task AddAsync(Trainee entity)
+        public async Task AddAsync(AccountModel<Trainee> entity)
         {
-            return base.AddAsync(entity);
+            if (entity.Account != null && entity.Password != null)
+            {
+                await _userManager.CreateAsync(entity.Account, entity.Password);
+            }
+            await _context.AddAsync(entity.Member);
         }
-        public override void Delete(Trainee entity)
-        {
-            Delete(entity, true);
-        }
-        private async Task AddToArchive(Trainee entity, bool isComplete)
+        private async Task AddToArchive(Account account, Trainee entity, bool isComplete)
         {
             var campName = entity.Camp.Name;
 
-            var archive = await FoundAsync(entity, campName);
+            var archive = await FoundAsync(account, campName);
 
             var archiveWasNull = archive is null;
 
@@ -75,13 +98,23 @@ namespace ISc.Presistance.Repos
             }
         }
 
-        private async Task<TraineeArchive?> FoundAsync(Trainee entity, string campName)
+        private async Task<TraineeArchive?> FoundAsync(Account entity, string campName)
         {
             return await _context.TraineesArchives.SingleOrDefaultAsync(x =>
                         (x.NationalId == entity.NationalId ||
                         x.PhoneNumber == entity.PhoneNumber ||
                         (x.FirstName + x.MiddelName + x.LastName).ToLower() == (entity.FirstName + entity.MiddleName + entity.LastName).ToLower())
-                        && entity.Camp.Name.ToLower().Trim() == x.CampName.ToLower().Trim());
+                        && campName.ToLower().Trim() == x.CampName.ToLower().Trim());
+        }
+
+        public async Task<Trainee?> GetByIdAsync(string id)
+        {
+            return await _context.Trainees.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<Trainee>?> GetAllAsync()
+        {
+            return await _context.Trainees.ToListAsync();
         }
     }
 }

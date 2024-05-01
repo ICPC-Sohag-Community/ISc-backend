@@ -1,5 +1,6 @@
 ﻿using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Models;
+using ISc.Domain.Models.IdentityModels;
 using Mapster;
 using MapsterMapper;
 
@@ -14,7 +15,7 @@ namespace ISc.Presistance.Repos
             _context = context;
         }
 
-        public async Task AddToArchiveAsync(Stuff member)
+        public async Task AddToArchiveAsync(Account member)
         {
             var entity = Found(member);
 
@@ -28,7 +29,7 @@ namespace ISc.Presistance.Repos
             } 
         }
 
-        private StuffArchive? Found(Stuff member)
+        private StuffArchive? Found(Account member)
         {
             return _context.StuffArchives.SingleOrDefault(x =>
             (x.NationalId == member.NationalId) ||

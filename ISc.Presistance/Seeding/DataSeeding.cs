@@ -17,11 +17,12 @@ namespace ISc.Presistance.Seeding
             var userManager = service.GetRequiredService<UserManager<Account>>();
             var roleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
 
-            var pendingMigrations = await dbcontext.Database.GetPendingMigrationsAsync();
-            var migrations = dbcontext.Database.GetMigrations();
+            var appliedMigrations = dbcontext.Database.GetAppliedMigrations();
 
-            if (pendingMigrations.Count() == migrations.Count())
+            if (appliedMigrations.Count() == 0)
             {
+                 dbcontext.Database.Migrate();
+
                 var unitOfWork = service.GetService<IUnitOfWork>();
 
                 await roleManager.CreateAsync(new IdentityRole(Roles.Leader));
@@ -43,7 +44,7 @@ namespace ISc.Presistance.Seeding
                     Gender = Gender.male,
                     CodeForceHandle = "IcpcSohag"
                 };
-                await userManager.CreateAsync(leader, "123654@ICPC#univ");
+                await userManager.CreateAsync(leader, "123@Abc");
                 await userManager.AddToRoleAsync(leader, Roles.Leader);
 
 
@@ -52,6 +53,10 @@ namespace ISc.Presistance.Seeding
                 await unitOfWork.Repository<CampModel>().AddAsync(new CampModel { Name = "Phase2" });
 
                 await unitOfWork.SaveAsync();
+            }
+            else
+            {
+                await dbcontext.Database.MigrateAsync();
             }
 
 

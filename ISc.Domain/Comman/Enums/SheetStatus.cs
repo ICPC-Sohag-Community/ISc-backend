@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ISc.Domain.Models.IdentityModels;
 
-namespace ISc.Domain.Models
+namespace ISc.Domain.Comman.Enums
 {
-    public class Stuff
+    public enum SheetStatus:byte
     {
-        public string Id { get; set; }
+        InComing,
+        InProgress,
+        Completed,
     }
 }

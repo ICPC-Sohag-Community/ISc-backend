@@ -40,6 +40,7 @@ namespace ISc.Presistance
         #region Actors
         public virtual DbSet<Trainee> Trainees { get; set; }
         public virtual DbSet<HeadOfCamp> HeadsOfCamps { get; set; }
+        public virtual DbSet<Mentor> Mentors { get; set; }
         #endregion
 
         #region Data
@@ -56,7 +57,7 @@ namespace ISc.Presistance
         public virtual DbSet<TraineeAttendence> TraineeAttendences { get; set; }
         public virtual DbSet<TraineeAccessSheet> TraineesAccesses { get; set; }
         public virtual DbSet<TraineeTask> TraineeTasks { get; set; }
-        public virtual DbSet<CampModel>CampModels { get; set; }
+        public virtual DbSet<CampModel> CampModels { get; set; }
         #endregion
     }
 }

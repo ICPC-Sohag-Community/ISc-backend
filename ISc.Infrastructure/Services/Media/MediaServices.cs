@@ -45,8 +45,13 @@ namespace ISc.Infrastructure.Services.Media
             return _configuration["ImageSavePath"]!.ToString() + @"/" + url;
         }
 
-        public  Task<string> SaveAsync(IFormFile media)
+        public  Task<string>? SaveAsync(IFormFile? media)
         {
+            if(media is null)
+            {
+                return null;
+            }
+
             var extension = Path.GetExtension(media.FileName).ToLower();
 
             var uniqueFileName = Guid.NewGuid().ToString() + extension;

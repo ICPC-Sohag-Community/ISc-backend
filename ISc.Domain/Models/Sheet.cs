@@ -15,7 +15,7 @@ namespace ISc.Domain.Models
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public SheetType Type { get; set; }
-        public bool IsActive { get; set; }
+        public SheetStatus Status { get; set; }
         public int CampId { get; set; }
         public virtual Camp Camp { get; set; }
         public virtual ICollection<TraineeAccessSheet> TraineesAccess { get; set; }
