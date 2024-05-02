@@ -5,7 +5,7 @@ namespace ISc.Domain.Models
     public abstract class Archive : Auditable
     {
         public string FirstName { get; set; }
-        public string MiddelName { get; set; }
+        public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string NationalId { get; set; }
         public DateOnly BirthDate { get; set; }

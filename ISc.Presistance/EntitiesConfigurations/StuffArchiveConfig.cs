@@ -17,7 +17,7 @@ namespace ISc.Presistance.EntitiesConfigurations
             builder.HasKey(x => x.NationalId);
 
             builder.Property(x => x.FirstName).HasMaxLength(30);
-            builder.Property(x => x.MiddelName).HasMaxLength(30);
+            builder.Property(x => x.MiddleName).HasMaxLength(30);
             builder.Property(x => x.LastName).HasMaxLength(30);
             builder.Property(x => x.NationalId).HasMaxLength(14);
             builder.HasCheckConstraint("GradeConstrain", "Grade between 1 and 5 ");
