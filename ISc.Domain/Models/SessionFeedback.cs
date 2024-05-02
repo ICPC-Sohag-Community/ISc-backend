@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ISc.Domain.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Models
 {
-	public class SessionFeedback:Auditable
+	public class SessionFeedback:Auditable,ISoftEntity
 	{
         public int SessionId { get; set; }
         public virtual Session Session { get; set; }
