@@ -96,6 +96,11 @@ namespace ISc.Application.Features.Leader.User
             }
             else
             {
+                if (await _userManager.IsInRoleAsync(user, command.Role))
+                {
+                    return await Response.FailureAsync($"User already has role: {command.Role}");
+                }
+
                 var response = await AddExistUser(command, user);
 
                 if (!response.IsSuccess)

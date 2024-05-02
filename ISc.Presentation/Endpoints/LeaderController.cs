@@ -23,7 +23,7 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(new GetCampsAnalysisQuery())); 
         }
 
-        [HttpPost("createAccount")]
+        [HttpPost("dashboard/createAccount")]
         public async Task<ActionResult<string>>AddUser([FromForm]CreateAccountCommand command)
         {
             return Ok(await _mediator.Send(command));

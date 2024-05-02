@@ -30,6 +30,21 @@ namespace ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis
                     .Where(x => x.Status == SheetStatus.Completed)
                     .ToList();
 
+                var completedSheetsCount = completedSheets.Count;
+
+                if (completedSheetsCount == 0)
+                {
+                    campsAnalysis.Add(new()
+                    {
+                        Id = camp.Id,
+                        Name = camp.Name,
+                        DueDate = camp.EndDate,
+                        Progress = 0
+                    });
+
+                    continue;
+                }
+
                 var trainees = camp.Trainees.Count;
 
                 var solvedProblems = await _unitOfWork.Repository<TraineeAccessSheet>().Entities
@@ -41,7 +56,7 @@ namespace ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis
                     Id = camp.Id,
                     Name = camp.Name,
                     DueDate = camp.EndDate,
-                    Progress = (solvedProblems / (completedSheets.Count * trainees)) * 100
+                    Progress = (solvedProblems / (completedSheetsCount * trainees)) * 100
                 });
             }
 
