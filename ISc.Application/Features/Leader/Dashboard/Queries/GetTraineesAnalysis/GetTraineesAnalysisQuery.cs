@@ -1,16 +1,9 @@
-﻿using ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis;
-using ISc.Application.Interfaces.Repos;
+﻿using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Enums;
-using ISc.Domain.Models;
 using ISc.Shared;
 using Mapster;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis
 {
@@ -23,24 +16,31 @@ namespace ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis
 		{
 			_unitOfWork = unitOfWork;
 		}
-		public async Task<Response> Handle(GetTraineesAnalysisQuery request, CancellationToken cancellationToken)
+		public async Task<Response> Handle(GetTraineesAnalysisQuery query, CancellationToken cancellationToken)
 		{
-			GetTraineesAnalysisQueryDto traineesAnalysis = new GetTraineesAnalysisQueryDto();
 
-			traineesAnalysis.NumberOfTrainees = _unitOfWork.Trainees.Entities
-				.Select(i => i).Count();
+			var traineesAnalysis = await _unitOfWork.Trainees.Entities
+				.GroupBy(x => x.Account.Gender).Select(x => new
+				{
+					Gender = x.Key,
+					count = x.Count()
+				}).ToDictionaryAsync(x => x.Gender, x => x.count);
 
-			traineesAnalysis.NumberOfMaleTrainees = _unitOfWork.Trainees.Entities
-				.Where(t=>t.Account.Gender==Gender.male).Count();
+			traineesAnalysis.TryGetValue(Gender.female, out int femalesCount);
+			traineesAnalysis.TryGetValue(Gender.male, out int malesCount);
 
-			traineesAnalysis.NumberOfFemaleTrainees = _unitOfWork.Trainees.Entities
-				.Where(t=>t.Account.Gender==Gender.female).Count();
+			var analysis = new GetTraineesAnalysisQueryDto()
+			{
+				FemalesCount = femalesCount,
+				MalesCount = malesCount,
+				CollegesAnalisis = await _unitOfWork.Trainees.Entities
+										.GroupBy(p => p.Account.College)
+										.Select(p => new { Name = p.Key, Count = p.Count() })
+										.ProjectToType<CollegeAnalisisDto>()
+										.ToListAsync(cancellationToken: cancellationToken)
+			};
 
-			traineesAnalysis.CollegesAnalisis = _unitOfWork.Trainees.Entities
-				.GroupBy(p => p.Account.College)
-				.Select(p => new { Name = p.Key, Count = p.Count() }).ProjectToType<CollegeAnalisisDto>().ToList();
-
-			return await Response.SuccessAsync(traineesAnalysis);
+			return await Response.SuccessAsync(analysis);
 
 		}
 	}

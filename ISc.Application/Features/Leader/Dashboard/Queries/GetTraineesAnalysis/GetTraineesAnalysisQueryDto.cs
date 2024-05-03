@@ -8,9 +8,9 @@ namespace ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis
 {
 	public class GetTraineesAnalysisQueryDto
 	{
-        public int NumberOfTrainees { get; set; }
-        public int NumberOfMaleTrainees { get; set; }
-        public int NumberOfFemaleTrainees { get; set; }
+        public int TraineesCount => FemalesCount + MalesCount;
+        public int MalesCount { get; set; }
+        public int FemalesCount { get; set; }
         public List<CollegeAnalisisDto> CollegesAnalisis { get; set; }
     }
     public class CollegeAnalisisDto

@@ -1,4 +1,5 @@
-﻿using ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis;
+﻿using ISc.Application.Features.Leader.Camps.Queries.GetAllMentor;
+using ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetFeedbacks;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
 using ISc.Application.Features.Leader.User;
@@ -23,6 +24,12 @@ namespace ISc.Presentation.Endpoints
         {
             return Ok(await _mediator.Send(new GetTraineesAnalysisQuery()));
         }
+        [HttpGet("dashboard/allMentors")]
+        public async Task<ActionResult<List<GetAllMentorQueryDto>>> GetAllMentor()
+        {
+            return Ok(await _mediator.Send(new GetAllMentorQuery()));
+        }
+
          [HttpGet("dashboard/feedbacks")]
         public async Task<ActionResult<List<GetFeedbacksQueryDto>>> GetFeedbacks()
         {
