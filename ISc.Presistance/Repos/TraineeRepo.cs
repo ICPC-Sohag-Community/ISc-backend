@@ -103,7 +103,7 @@ namespace ISc.Presistance.Repos
             return await _context.TraineesArchives.SingleOrDefaultAsync(x =>
                         (x.NationalId == entity.NationalId ||
                         x.PhoneNumber == entity.PhoneNumber ||
-                        (x.FirstName + x.MiddelName + x.LastName).ToLower() == (entity.FirstName + entity.MiddleName + entity.LastName).ToLower())
+                        (x.FirstName + x.MiddleName + x.LastName).ToLower() == (entity.FirstName + entity.MiddleName + entity.LastName).ToLower())
                         && campName.ToLower().Trim() == x.CampName.ToLower().Trim());
         }
 

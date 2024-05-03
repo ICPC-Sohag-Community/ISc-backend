@@ -34,7 +34,7 @@ namespace ISc.Presistance.Repos
             return _context.StuffArchives.SingleOrDefault(x =>
             (x.NationalId == member.NationalId) ||
             (x.PhoneNumber == member.PhoneNumber) ||
-            ((x.FirstName + x.MiddelName + x.LastName).ToLower() == (member.FirstName + x.MiddelName + x.LastName).ToLower()));
+            ((x.FirstName + x.MiddleName + x.LastName).ToLower() == (member.FirstName + x.MiddleName + x.LastName).ToLower()));
         }
     }
 }
