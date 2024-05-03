@@ -116,5 +116,10 @@ namespace ISc.Presistance.Repos
         {
             return await _context.Trainees.ToListAsync();
         }
+
+        public async Task AddRangeAsync(ICollection<Trainee> entities)
+        {
+            await _context.AddRangeAsync(entities);
+        }
     }
 }

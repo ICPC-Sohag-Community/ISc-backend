@@ -8,6 +8,7 @@ namespace ISc.Application.Interfaces.Repos
     {
         Task UpdateAsync(AccountModel<T> entity);
         Task AddAsync(AccountModel<T> entity);
+        Task AddRangeAsync(ICollection<T> entities);
         Task<T?> GetByIdAsync(string id);
         Task<IEnumerable<T>?> GetAllAsync();
         IQueryable<T> Entities { get; }

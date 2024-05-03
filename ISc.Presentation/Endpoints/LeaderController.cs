@@ -1,5 +1,7 @@
-﻿using ISc.Application.Features.Leader.Camps.Queries.GetAllMentor;
-using ISc.Application.Features.Leader.Camps.Queries.GetHeadsOfCamp;
+﻿using ISc.Application.Features.Leader.Camps.Commands.Create;
+using ISc.Application.Features.Leader.Camps.Queries.GetAllCampsWithPagination;
+using ISc.Application.Features.Leader.Camps.Queries.GetAllHeadsOfCamp;
+using ISc.Application.Features.Leader.Camps.Queries.GetAllMentor;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetFeedbacks;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
@@ -7,7 +9,6 @@ using ISc.Application.Features.Leader.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 
 namespace ISc.Presentation.Endpoints
 {
@@ -20,38 +21,51 @@ namespace ISc.Presentation.Endpoints
         {
             _mediator = mediator;
         }
+
+        [HttpPost("createAccount")]
+        public async Task<ActionResult<string>> AddUser([FromForm] CreateAccountCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
         [HttpGet("dashboard/traineesAnalysis")]
         public async Task<ActionResult<List<GetTraineesAnalysisQueryDto>>> GetTraineesAnalysis()
         {
             return Ok(await _mediator.Send(new GetTraineesAnalysisQuery()));
         }
 
-         [HttpGet("dashboard/feedbacks")]
+        [HttpGet("dashboard/feedbacks")]
         public async Task<ActionResult<List<GetFeedbacksQueryDto>>> GetFeedbacks()
         {
-            return Ok(await _mediator.Send(new GetCampsAnalysisQuery()));
+            return Ok(await _mediator.Send(new GetFeedbacksQueryDto()));
         }
 
         [HttpGet("dashboard/camps")]
         public async Task<ActionResult<List<GetCampsAnalysisQueryDto>>> GetCampsAnalysis()
         {
-            return Ok(await _mediator.Send(new GetCampsAnalysisQuery())); 
+            return Ok(await _mediator.Send(new GetCampsAnalysisQuery()));
         }
 
-		[HttpGet("Camps/mentors")]
-		public async Task<ActionResult<List<GetAllMentorQueryDto>>> GetAllMentor()
-		{
-			return Ok(await _mediator.Send(new GetAllMentorQuery()));
-		}
+        [HttpGet("camps/mentors")]
+        public async Task<ActionResult<List<GetAllMentorsQueryDto>>> GetAllMentor()
+        {
+            return Ok(await _mediator.Send(new GetAllMentorsQuery()));
+        }
 
-		[HttpGet("Camps/headsOfCamp")]
-		public async Task<ActionResult<List<GetHeadsOfCampQueryDto>>> GetHeadsOfCamp()
-		{
-			return Ok(await _mediator.Send(new GetHeadsOfCampQuery()));
-		}
+        [HttpGet("camps/headsOfCamp")]
+        public async Task<ActionResult<List<GetAllHeadsOfCampQueryDto>>> GetHeadsOfCamp()
+        {
+            return Ok(await _mediator.Send(new GetAllHeadsOfCampQuery()));
+        }
 
-		[HttpPost("createAccount")]
-        public async Task<ActionResult<string>>AddUser([FromForm]CreateAccountCommand command)
+        [HttpGet("camps/getAll")]
+        public async Task<ActionResult<GetAllCampsWithPaginationQueryDto>> GetAll([FromQuery] GetAllCampsWithPaginationQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
+
+        [HttpPost("camps")]
+        public async Task<ActionResult<CreateCampCommand>> CreateCamp([FromBody] CreateCampCommand command)
         {
             return Ok(await _mediator.Send(command));
         }

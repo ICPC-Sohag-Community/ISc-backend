@@ -5,6 +5,7 @@ namespace ISc.Application.Interfaces.Repos
     public interface IBaseRepo<T> where T : class
     {
         Task AddAsync(T entity);
+        Task AddRangeAsync(ICollection<T> entities);
         Task UpdateAsync(T entity);
         void Delete(T entity);
         Task<T> GetByIdAsync(int id);

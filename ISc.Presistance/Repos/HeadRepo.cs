@@ -83,5 +83,10 @@ namespace ISc.Presistance.Repos
         {
             return await _context.HeadsOfCamps.ToListAsync();
         }
+
+        public async Task AddRangeAsync(ICollection<HeadOfCamp> entities)
+        {
+            await _context.AddRangeAsync(entities);
+        }
     }
 }

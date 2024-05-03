@@ -26,6 +26,11 @@ namespace ISc.Presistance.Repos
             return await _context.Set<T>().Select(i => i).ToListAsync();
         }
 
+        public async Task AddRangeAsync(ICollection<T> entities)
+        {
+            await _context.AddRangeAsync(entities);
+        }
+
         public async Task<T> GetByIdAsync(int id)
         {
             return await _context.Set<T>().FindAsync(id);

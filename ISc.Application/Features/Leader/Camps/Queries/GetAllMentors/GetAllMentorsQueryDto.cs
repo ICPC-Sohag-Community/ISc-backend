@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ISc.Application.Features.Leader.Camps.Queries.GetAllMentor
 {
-    public class GetAllMentorQueryDto
+    public class GetAllMentorsQueryDto
     {
         public string Id { get; set; }
         public string FullName { get; set; }

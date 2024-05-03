@@ -88,5 +88,9 @@ namespace ISc.Presistance.Repos
             await trainees.ForEachAsync(x => x.MentorId = null);
         }
 
+        public async Task AddRangeAsync(ICollection<Mentor> entities)
+        {
+            await _context.AddRangeAsync(entities);
+        }
     }
 }
