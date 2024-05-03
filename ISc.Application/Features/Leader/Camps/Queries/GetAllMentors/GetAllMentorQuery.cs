@@ -2,6 +2,7 @@
 using ISc.Shared;
 using Mapster;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Application.Features.Leader.Camps.Queries.GetAllMentor
 {
@@ -17,16 +18,16 @@ namespace ISc.Application.Features.Leader.Camps.Queries.GetAllMentor
 
         public async Task<Response> Handle(GetAllMentorQuery query, CancellationToken cancellationToken)
         {
-            var mentors = _unitOfWork.Mentors.Entities
-                         .Select(m => new
-                         {
-                             m.Id,
-                             FullName = $"{m.Account.FirstName} {m.Account.MiddleName} {m.Account.LastName}"
-                         })
-                         .ProjectToType<GetAllMentorQueryDto>()
-                         .ToList();
+            var mentors = await _unitOfWork.Mentors.Entities
+                                .Select(m => new
+                                {
+                                    m.Id,
+                                    FullName = $"{m.Account.FirstName} {m.Account.MiddleName} {m.Account.LastName}"
+                                })
+                                .ProjectToType<GetAllMentorQueryDto>()
+                                .ToListAsync();
+                        
             return await Response.SuccessAsync(mentors);
-
         }
     }
 }

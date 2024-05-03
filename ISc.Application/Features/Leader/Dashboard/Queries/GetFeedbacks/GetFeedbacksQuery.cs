@@ -26,7 +26,7 @@ namespace ISc.Application.Features.Leader.Dashboard.Queries.GetFeedbacks
 				.Select(p => new
 				{
 					Rate = p.Rate,
-					Feedback = p.Rate,
+					Feedback = p.Feedback,
 					PhotoUrl = p.Trainee.Account.PhotoUrl,
 					FullName = $"{p.Trainee.Account.FirstName} {p.Trainee.Account.MiddleName}"
 				})
