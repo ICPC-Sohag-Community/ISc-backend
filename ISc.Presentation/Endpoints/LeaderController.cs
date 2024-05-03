@@ -1,5 +1,6 @@
 ﻿using ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetFeedbacks;
+using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
 using ISc.Application.Features.Leader.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,11 +18,17 @@ namespace ISc.Presentation.Endpoints
         {
             _mediator = mediator;
         }
-        [HttpGet("dashboard/feedbacks")]
+        [HttpGet("dashboard/traineesAnalysis")]
+        public async Task<ActionResult<List<GetTraineesAnalysisQueryDto>>> GetTraineesAnalysis()
+        {
+            return Ok(await _mediator.Send(new GetTraineesAnalysisQuery()));
+        }
+         [HttpGet("dashboard/feedbacks")]
         public async Task<ActionResult<List<GetFeedbacksQueryDto>>> GetFeedbacks()
         {
             return Ok(await _mediator.Send(new GetCampsAnalysisQuery()));
         }
+
         [HttpGet("dashboard/camps")]
         public async Task<ActionResult<List<GetCampsAnalysisQueryDto>>> GetCampsAnalysis()
         {
