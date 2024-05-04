@@ -31,7 +31,7 @@ namespace ISc.Presistance.Repos
             await _context.AddRangeAsync(entities);
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T?> GetByIdAsync(int id)
         {
             return await _context.Set<T>().FindAsync(id);
         }
@@ -39,16 +39,27 @@ namespace ISc.Presistance.Repos
         public virtual async Task UpdateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
+
+            await Task.CompletedTask;
+        }
+        public void UpdateRange(ICollection<T> entities)
+        {
+            _context.UpdateRange(entities);
         }
 
         public virtual void Delete(T entity)
         {
             _context.Set<T>().Remove(entity);
         }
+        public void DeleteRange(ICollection<T> entities)
+        {
+            _context.RemoveRange(entities);
+        }
 
         public void DetachedetachedEntity<T>(T entity)
         {
             _context.Entry(entity).State = EntityState.Detached;
         }
+
     }
 }

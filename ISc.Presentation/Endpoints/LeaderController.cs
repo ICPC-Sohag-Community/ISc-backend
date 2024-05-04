@@ -1,4 +1,5 @@
 ﻿using ISc.Application.Features.Leader.Camps.Commands.Create;
+using ISc.Application.Features.Leader.Camps.Commands.Update;
 using ISc.Application.Features.Leader.Camps.Queries.GetAllCampsWithPagination;
 using ISc.Application.Features.Leader.Camps.Queries.GetAllHeadsOfCamp;
 using ISc.Application.Features.Leader.Camps.Queries.GetAllMentor;
@@ -66,6 +67,12 @@ namespace ISc.Presentation.Endpoints
 
         [HttpPost("camps")]
         public async Task<ActionResult<CreateCampCommand>> CreateCamp([FromBody] CreateCampCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPut("camps/{id}")]
+        public async Task<ActionResult<int>> UpdateCamp([FromBody]UpdateCampCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
