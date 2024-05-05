@@ -103,7 +103,7 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Update
 
             foreach (var head in deletedHeads)
             {
-                _unitOfWork.Heads.Delete(head.Account);
+                _unitOfWork.Heads.Delete(head.Account,head);
             }
         }
 

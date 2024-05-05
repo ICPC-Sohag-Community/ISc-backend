@@ -28,26 +28,24 @@ namespace ISc.Presistance.Repos
             _archiveRepo = archiveRepo;
         }
 
-        public async void Delete(Account entity)
+        public async void Delete(Account account,HeadOfCamp head)
         {
-            var head = await _context.HeadsOfCamps.FindAsync(entity.Id);
-
             if (head is null)
             {
                 throw new BadRequestException("Invalid request.");
             }
 
-            var rolesCount = _userManager.GetRolesAsync(entity).Result.Count;
+            var rolesCount = _userManager.GetRolesAsync(account).Result.Count;
 
-            await _archiveRepo.AddToArchiveAsync(entity);
+            await _archiveRepo.AddToArchiveAsync(account);
 
             if (rolesCount == 1)
             {
-                await _userManager.DeleteAsync(entity);
+                await _userManager.DeleteAsync(account);
             }
             else
             {
-                await _userManager.RemoveFromRoleAsync(entity, Roles.Head_Of_Camp);
+                await _userManager.RemoveFromRoleAsync(account, Roles.Head_Of_Camp);
                 _context.HeadsOfCamps.Remove(head);
             }
         }

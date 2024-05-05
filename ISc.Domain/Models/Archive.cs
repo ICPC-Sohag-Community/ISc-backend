@@ -12,7 +12,6 @@ namespace ISc.Domain.Models
         public int Grade { get; set; }
         public string College { get; set; }
         public Gender Gender { get; set; }
-        public string? PhotoUrl { get; set; }
         public string CodeForceHandle { get; set; }
         public string? FacebookHandle { get; set; }
         public string? VjudgeHandle { get; set; }

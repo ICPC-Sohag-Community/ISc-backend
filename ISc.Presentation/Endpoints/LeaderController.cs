@@ -1,4 +1,7 @@
-﻿using ISc.Application.Features.Leader.Camps.Commands.Create;
+﻿using ISc.Application.Features.Leader.Accounts.Commands.Create;
+using ISc.Application.Features.Leader.Camps.Commands.Create;
+using ISc.Application.Features.Leader.Camps.Commands.Delete;
+using ISc.Application.Features.Leader.Camps.Commands.Empty;
 using ISc.Application.Features.Leader.Camps.Commands.Update;
 using ISc.Application.Features.Leader.Camps.Queries.GetAllCampsWithPagination;
 using ISc.Application.Features.Leader.Camps.Queries.GetAllHeadsOfCamp;
@@ -6,10 +9,10 @@ using ISc.Application.Features.Leader.Camps.Queries.GetAllMentor;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetFeedbacks;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
-using ISc.Application.Features.Leader.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 
 namespace ISc.Presentation.Endpoints
 {
@@ -72,9 +75,21 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpPut("camps/{id}")]
-        public async Task<ActionResult<int>> UpdateCamp([FromBody]UpdateCampCommand command)
+        public async Task<ActionResult<int>> UpdateCamp([FromBody] UpdateCampCommand command)
         {
             return Ok(await _mediator.Send(command));
+        }
+
+        [HttpDelete("camps/{id}")]
+        public async Task<ActionResult<string>> DeleteCamp(int id)
+        {
+            return Ok(await _mediator.Send(new DeleteCampCommand(id)));
+        }
+
+        [HttpDelete("camps/Emtpy/{id}")]
+        public async Task<ActionResult<string>>EmptyCamp(int id)
+        {
+            return Ok(await _mediator.Send(new EmptyCampCommand(id)));
         }
     }
 }

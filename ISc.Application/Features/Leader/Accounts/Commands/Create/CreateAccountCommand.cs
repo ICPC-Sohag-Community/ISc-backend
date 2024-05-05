@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace ISc.Application.Features.Leader.User
+namespace ISc.Application.Features.Leader.Accounts.Commands.Create
 {
     public record CreateAccountCommand : IRequest<Response>
     {
@@ -81,8 +81,8 @@ namespace ISc.Application.Features.Leader.User
 
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.NationalId == command.NationalId || x.Email == command.Email
                         || x.CodeForceHandle == command.CodeForceHandle
-                        || (x.VjudgeHandle != null && command.VjudgeHandle != null && x.VjudgeHandle == command.VjudgeHandle)
-                        || (command.PhoneNumber != null && x.PhoneNumber == command.PhoneNumber));
+                        || x.VjudgeHandle != null && command.VjudgeHandle != null && x.VjudgeHandle == command.VjudgeHandle
+                        || command.PhoneNumber != null && x.PhoneNumber == command.PhoneNumber);
 
 
             if (user is null)
@@ -133,7 +133,7 @@ namespace ISc.Application.Features.Leader.User
             }
             else if (command.Role == Roles.Mentor)
             {
-                Mentor mentor=command.Adapt<Mentor>();
+                Mentor mentor = command.Adapt<Mentor>();
                 mentor.Id = user.Id;
 
                 await _unitOfWork.Mentors.AddAsync(new() { Member = mentor });
@@ -182,7 +182,7 @@ namespace ISc.Application.Features.Leader.User
 
             await _userManager.AddToRoleAsync(account, command.Role);
 
-            await _emailSender.SendAccountInfoAsync(account, password,command.Role);
+            await _emailSender.SendAccountInfoAsync(account, password, command.Role);
         }
 
         private string GenerateRandom(Account account)

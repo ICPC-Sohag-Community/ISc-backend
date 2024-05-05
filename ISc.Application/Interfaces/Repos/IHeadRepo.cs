@@ -6,6 +6,6 @@ namespace ISc.Application.Interfaces.Repos
 {
     public interface IHeadRepo:IActorQeueryRepo<HeadOfCamp>
     {
-        void Delete(Account entity);
+        void Delete(Account account,HeadOfCamp head);
     }
 }

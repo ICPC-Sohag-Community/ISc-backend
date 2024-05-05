@@ -25,31 +25,34 @@ namespace ISc.Presistance.Repos
             _userManager = userManager;
             _archiveRepo = archiveRepo;
         }
-        
+
         public IQueryable<Mentor> Entities => _context.Set<Mentor>();
 
-        public async void Delete(Account entity)
+        public async void Delete(Account account, Mentor mentor)
         {
-            var mentor = await _context.Mentors.FindAsync(entity.Id);
-
             if (mentor is null)
             {
                 throw new BadRequestException("Invalid request.");
             }
-            var rolesCount = _userManager.GetRolesAsync(entity).Result.Count;
 
-            await _archiveRepo.AddToArchiveAsync(entity);
+            var rolesCount = _userManager.GetRolesAsync(account).Result.Count;
 
-            if (rolesCount == 1)
+            await _archiveRepo.AddToArchiveAsync(account);
+            var participatedCamps = mentor.Camps.Count;
+            if (rolesCount == 1 && participatedCamps == 1)
             {
-                await _userManager.DeleteAsync(entity);
+                await _userManager.DeleteAsync(account);
             }
             else
             {
                 DeleteMentorTrainees(mentor!);
-                _context.MentorsOfCamps.RemoveRange(_context.MentorsOfCamps.Where(p => p.MentorId == entity.Id));
-                await _userManager.RemoveFromRoleAsync(entity, Roles.Mentor);
-                _context.Mentors.Remove(mentor);
+                _context.MentorsOfCamps.RemoveRange(_context.MentorsOfCamps.Where(p => p.MentorId == account.Id));
+
+                if(participatedCamps == 1)
+                {
+                    await _userManager.RemoveFromRoleAsync(account, Roles.Mentor);
+                    _context.Mentors.Remove(mentor);
+                }
             }
         }
         public async Task UpdateAsync(AccountModel<Mentor> entity)

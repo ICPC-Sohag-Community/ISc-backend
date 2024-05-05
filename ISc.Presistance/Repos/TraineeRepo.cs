@@ -1,11 +1,9 @@
 ﻿using System.Collections.Immutable;
-using ISc.Application.Extension;
 using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Constant;
 using ISc.Domain.Comman.Dtos;
 using ISc.Domain.Models;
 using ISc.Domain.Models.IdentityModels;
-using ISc.Shared.Exceptions;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,22 +25,16 @@ namespace ISc.Presistance.Repos
         }
         public IQueryable<Trainee> Entities => _context.Trainees;
 
-        public async void Delete(Account entity, bool isComplete)
+        public async void Delete(Account account,Trainee trainee, bool isComplete)
         {
-            var trainee = await _context.Trainees.FindAsync(entity.Id);
 
-            if (trainee is null)
-            {
-                throw new BadRequestException("Invalid request.");
-            }
+            var rolesCount = _userManager.GetRolesAsync(account).Result.Count;
 
-            var rolesCount = _userManager.GetRolesAsync(entity).Result.Count;
-
-            await AddToArchive(entity, trainee, isComplete);
+            await AddToArchive(account, trainee, isComplete);
 
             if (rolesCount == 1)
             {
-                await _userManager.DeleteAsync(entity);
+                await _userManager.DeleteAsync(account);
             }
             else
             {
@@ -51,7 +43,7 @@ namespace ISc.Presistance.Repos
                 _context.TraineesAccesses.RemoveRange(_context.TraineesAccesses.Where(x => x.TraineeId == trainee.Id));
                 _context.SessionFeedbacks.RemoveRange(_context.SessionFeedbacks.Where(x => x.TraineeId == trainee.Id));
 
-                await _userManager.RemoveFromRoleAsync(entity, Roles.Trainee);
+                await _userManager.RemoveFromRoleAsync(account, Roles.Trainee);
                 _context.Remove(trainee);
             }
         }
