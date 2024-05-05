@@ -6,6 +6,7 @@ using ISc.Application.Features.Leader.Camps.Commands.Update;
 using ISc.Application.Features.Leader.Camps.Queries.GetAllCampsWithPagination;
 using ISc.Application.Features.Leader.Camps.Queries.GetAllHeadsOfCamp;
 using ISc.Application.Features.Leader.Camps.Queries.GetAllMentor;
+using ISc.Application.Features.Leader.Camps.Queries.GetCampEditById;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetFeedbacks;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
@@ -90,6 +91,12 @@ namespace ISc.Presentation.Endpoints
         public async Task<ActionResult<string>>EmptyCamp(int id)
         {
             return Ok(await _mediator.Send(new EmptyCampCommand(id)));
+        }
+
+        [HttpGet("camps/displayEdit/{id}")]
+        public async Task<ActionResult<GetCampEditByIdQueryDto>>DisplayCampToEdit(int id)
+        {
+            return Ok(await _mediator.Send(new GetCampEditByIdQuery(id)));
         }
     }
 }
