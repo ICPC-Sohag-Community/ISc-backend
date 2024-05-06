@@ -1,3 +1,4 @@
+using Hangfire;
 using ISc.Api;
 using ISc.Application.Extension;
 using ISc.Infrastructure.Extension;
@@ -32,7 +33,7 @@ app.UseStaticFiles();
 app.UseCors(cores => cores.AllowAnyHeader().AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 app.UseAuthentication();
 app.UseAuthorization();
-//TODO: app.UseHangfireDashboard("/hangFireDashboard");
+app.UseHangfireDashboard("/hangFireDashboard");
 DataSeeding.Initialize(app.Services.CreateScope().ServiceProvider);
 app.MapControllers();
 

@@ -11,9 +11,9 @@ namespace ISc.Domain.Models
         public int SheetOrder { get; set; }
         public Community Community { get; set; }
         public int ProblemCount { get; set; }
-        public int SheetCodefroceId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public string SheetCodefroceId { get; set; }
+        public DateOnly StartDate { get; set; }
+        public DateOnly? EndDate { get; set; }
         public SheetType Type { get; set; }
         public SheetStatus Status { get; set; }
         public int CampId { get; set; }

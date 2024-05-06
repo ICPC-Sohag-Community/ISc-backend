@@ -1,4 +1,5 @@
-﻿using ISc.Application.Interfaces.Repos;
+﻿using ISc.Application.Interfaces;
+using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Constant;
 using ISc.Domain.Comman.Enums;
 using ISc.Domain.Models;
@@ -16,6 +17,7 @@ namespace ISc.Presistance.Seeding
             var dbcontext = service.GetRequiredService<ICPCDbContext>();
             var userManager = service.GetRequiredService<UserManager<Account>>();
             var roleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
+            var scheduleTasks = service.GetRequiredService<IJobServices>();
 
             var appliedMigrations = dbcontext.Database.GetAppliedMigrations();
 
@@ -59,7 +61,7 @@ namespace ISc.Presistance.Seeding
                 await dbcontext.Database.MigrateAsync();
             }
 
-
+            scheduleTasks.TrackingTraineesSolving();
 
 
         }
