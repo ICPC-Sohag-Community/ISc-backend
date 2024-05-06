@@ -12,7 +12,7 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             RuleFor(x => x.MiddleName).NotEmpty().MaximumLength(30);
             RuleFor(x => x.LastName).NotEmpty().MaximumLength(30);
             RuleFor(x => x.Grade).InclusiveBetween(1, 5);
-            RuleFor(x => x.Email).NotEmpty();
+            RuleFor(x => x.Email).NotEmpty().EmailAddress();
             RuleFor(x => x.PhoneNumber).NotEmpty().MaximumLength(13);
         }
     }

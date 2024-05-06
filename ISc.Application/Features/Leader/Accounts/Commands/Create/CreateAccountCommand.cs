@@ -22,7 +22,7 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
         public string LastName { get; set; }
         public string Email { get; set; }
         public string NationalId { get; set; }
-        public DateOnly BithDate { get; set; }
+        public DateOnly BirthDate { get; set; }
         public string? PhoneNumber { get; set; }
         public College College { get; set; }
         public string CodeForceHandle { get; set; }
@@ -77,7 +77,10 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             {
                 return await Response.FailureAsync("Role not found...please stop hacking the website");
             }
-
+            else if (command.CampId!=null&&_unitOfWork.Repository<Camp>().GetByIdAsync((int)command.CampId) == null)
+            {
+                return await Response.FailureAsync("Camp not found.");
+            }
 
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.NationalId == command.NationalId || x.Email == command.Email
                         || x.CodeForceHandle == command.CodeForceHandle
@@ -107,7 +110,6 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
                 {
                     return response;
                 }
-
             }
 
             return await Response.SuccessAsync("User added successfully.");
@@ -142,6 +144,11 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             await _userManager.AddToRoleAsync(user, command.Role);
             await _unitOfWork.SaveAsync();
 
+            if (command.ProfileImage != null)
+            {
+                user.PhotoUrl = await _mediaServices.UpdateAsync(user.PhotoUrl!, command.ProfileImage);
+            }
+
             await _emailSender.SendAcceptToRoleAsync(command.Email, command.FirstName + ' ' + command.MiddleName, command.Role);
 
             return await Response.SuccessAsync();
@@ -153,7 +160,6 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
 
             account.UserName = "ICPC" + GenerateRandom(account);
             var password = "ICPC" + GenerateRandom(account);
-            account.PhotoUrl = await _mediaServices.SaveAsync(command.ProfileImage)!;
 
             if (command.Role == Roles.Trainee)
             {
@@ -182,7 +188,13 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
 
             await _userManager.AddToRoleAsync(account, command.Role);
 
+            
             await _emailSender.SendAccountInfoAsync(account, password, command.Role);
+            
+            if(command.ProfileImage != null)
+            {
+                account.PhotoUrl = await _mediaServices.SaveAsync(command.ProfileImage);
+            }
         }
 
         private string GenerateRandom(Account account)

@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using ISc.Application.Interfaces;
+﻿using ISc.Application.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 
 namespace ISc.Infrastructure.Services.Media
 {
-    internal class MediaServices:IMediaServices
+    internal class MediaServices : IMediaServices
     {
         private readonly IWebHostEnvironment _host;
         private readonly IConfiguration _configuration;
@@ -45,11 +38,11 @@ namespace ISc.Infrastructure.Services.Media
             return _configuration["ImageSavePath"]!.ToString() + @"/" + url;
         }
 
-        public  Task<string>? SaveAsync(IFormFile? media)
+        public Task<string> SaveAsync(IFormFile? media)
         {
-            if(media is null)
+            if (media is null)
             {
-                return null;
+                return Task.FromResult("");
             }
 
             var extension = Path.GetExtension(media.FileName).ToLower();
@@ -74,6 +67,11 @@ namespace ISc.Infrastructure.Services.Media
 
         public async Task<string> UpdateAsync(string oldUrl, IFormFile newMedia)
         {
+            if (oldUrl == null && newMedia == null)
+            {
+                return "";
+            }
+
             if (newMedia == null)
             {
                 return oldUrl;
@@ -81,11 +79,11 @@ namespace ISc.Infrastructure.Services.Media
 
             if (oldUrl == null)
             {
-                return await SaveAsync(newMedia);
+                return await SaveAsync(newMedia)!;
             }
 
             await DeleteAsync(oldUrl);
-            return await SaveAsync(newMedia);
+            return await SaveAsync(newMedia)!;
         }
 
     }

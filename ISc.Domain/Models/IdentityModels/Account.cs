@@ -19,6 +19,5 @@ namespace ISc.Domain.Models.IdentityModels
         public string? PhotoUrl { get; set; }
         public string CodeForceHandle { get; set; }
         public string? VjudgeHandle { get; set; }
-
     }
 }

@@ -13,7 +13,6 @@ using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 
 namespace ISc.Presentation.Endpoints
 {
@@ -42,7 +41,7 @@ namespace ISc.Presentation.Endpoints
         [HttpGet("dashboard/feedbacks")]
         public async Task<ActionResult<List<GetFeedbacksQueryDto>>> GetFeedbacks()
         {
-            return Ok(await _mediator.Send(new GetFeedbacksQueryDto()));
+            return Ok(await _mediator.Send(new GetFeedbacksQuery()));
         }
 
         [HttpGet("dashboard/camps")]
@@ -70,14 +69,19 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpPost("camps")]
-        public async Task<ActionResult<CreateCampCommand>> CreateCamp([FromBody] CreateCampCommand command)
+        public async Task<ActionResult<int>> CreateCamp([FromBody] CreateCampCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
         [HttpPut("camps/{id}")]
-        public async Task<ActionResult<int>> UpdateCamp([FromBody] UpdateCampCommand command)
+        public async Task<ActionResult<int>> UpdateCamp(int id, [FromBody] UpdateCampCommand command)
         {
+            if (id != command.Id)
+            {
+                return BadRequest();
+            }
+
             return Ok(await _mediator.Send(command));
         }
 
@@ -88,13 +92,13 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpDelete("camps/Emtpy/{id}")]
-        public async Task<ActionResult<string>>EmptyCamp(int id)
+        public async Task<ActionResult<string>> EmptyCamp(int id)
         {
             return Ok(await _mediator.Send(new EmptyCampCommand(id)));
         }
 
         [HttpGet("camps/displayEdit/{id}")]
-        public async Task<ActionResult<GetCampEditByIdQueryDto>>DisplayCampToEdit(int id)
+        public async Task<ActionResult<GetCampEditByIdQueryDto>> DisplayCampToEdit(int id)
         {
             return Ok(await _mediator.Send(new GetCampEditByIdQuery(id)));
         }
