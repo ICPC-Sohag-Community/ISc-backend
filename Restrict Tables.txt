@@ -1,3 +1,7 @@
 TraineeSheetAccess -> Sheet
 SessionFeedback -> session
 TraineeAttendence -> session
+
+when get image loop on data to set url of image with base url using mediaservice.geturl
+when using mentor,head,trainee please use their repos as we handled main operations
+if only add role without any role U can use roleManager directly

@@ -45,7 +45,7 @@ namespace ISc.Application.Features.Authentication.ForgetPassword
 
             if (!validationResult.IsValid)
             {
-                return await Response.ValidationFailureAsync(validationResult.Errors, HttpStatusCode.BadRequest);
+                return await Response.ValidationFailureAsync(validationResult.Errors.ToList(), HttpStatusCode.BadRequest);
             }
 
             var user = await _userManager.FindByEmailAsync(command.Email);

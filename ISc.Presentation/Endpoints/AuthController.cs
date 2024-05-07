@@ -23,7 +23,7 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpPost("forget-password")]
-        public async Task<ActionResult<string>> ForgetPassword([FromBody] string email)
+        public async Task<ActionResult<string>> ForgetPassword(string email)
         {
             return Ok(await _mediator.Send(new ForgetPasswordCommand(email)));
         }
