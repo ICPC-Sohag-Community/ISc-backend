@@ -77,7 +77,7 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             {
                 return await Response.FailureAsync("Role not found...please stop hacking the website");
             }
-            else if (command.CampId!=null&&_unitOfWork.Repository<Camp>().GetByIdAsync((int)command.CampId) == null)
+            else if (command.CampId != null && await _unitOfWork.Repository<Camp>().GetByIdAsync((int)command.CampId) == null)
             {
                 return await Response.FailureAsync("Camp not found.");
             }
@@ -188,10 +188,10 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
 
             await _userManager.AddToRoleAsync(account, command.Role);
 
-            
+
             await _emailSender.SendAccountInfoAsync(account, password, command.Role);
-            
-            if(command.ProfileImage != null)
+
+            if (command.ProfileImage != null)
             {
                 account.PhotoUrl = await _mediaServices.SaveAsync(command.ProfileImage);
             }
