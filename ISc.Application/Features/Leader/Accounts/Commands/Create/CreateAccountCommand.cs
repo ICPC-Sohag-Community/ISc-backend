@@ -130,6 +130,7 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             {
                 HeadOfCamp head = command.Adapt<HeadOfCamp>();
                 head.Id = user.Id;
+                head.CampId = (int)command.CampId!;
 
                 await _unitOfWork.Heads.AddAsync(new() { Member = head });
             }
