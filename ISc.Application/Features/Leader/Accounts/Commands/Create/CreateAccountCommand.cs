@@ -69,9 +69,9 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             {
                 return await Response.ValidationFailureAsync(validation.Errors, System.Net.HttpStatusCode.UnprocessableEntity);
             }
-            else if (command.Role == Roles.Trainee && command.CampId is null)
+            else if ((command.Role == Roles.Trainee && command.CampId is null) || (command.Role == Roles.Head_Of_Camp && command.CampId is null))
             {
-                return await Response.FailureAsync("Trainee must join to camp");
+                return await Response.FailureAsync("Role must follow with camp");
             }
             else if (!await _roleManager.RoleExistsAsync(command.Role))
             {
