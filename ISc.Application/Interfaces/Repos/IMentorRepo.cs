@@ -7,6 +7,6 @@ namespace ISc.Application.Interfaces.Repos
 {
     public interface IMentorRepo:IActorQeueryRepo<Mentor>
     {
-        void Delete(Account account,Mentor mentor);
+        Task Delete(Account account,Mentor mentor);
     }
 }

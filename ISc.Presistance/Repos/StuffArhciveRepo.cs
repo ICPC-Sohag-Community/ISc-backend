@@ -3,21 +3,25 @@ using ISc.Domain.Models;
 using ISc.Domain.Models.IdentityModels;
 using Mapster;
 using MapsterMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Presistance.Repos
 {
     public class StuffArhciveRepo : BaseRepo<StuffArchive>,IStuffArchiveRepo
     {
         private readonly ICPCDbContext _context;
+        private readonly IMapper _mapper;
         public StuffArhciveRepo(
-            ICPCDbContext context) : base(context)
+            ICPCDbContext context,
+            IMapper mapper) : base(context)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task AddToArchiveAsync(Account member)
         {
-            var entity = Found(member);
+            var entity = await Found(member);
 
             if (entity is null)
             {
@@ -25,13 +29,14 @@ namespace ISc.Presistance.Repos
             }
             else
             {
-                _context.Update(member.Adapt<StuffArchive>());
+                _mapper.Map(member, entity);
+                _context.Update(entity);
             } 
         }
 
-        private StuffArchive? Found(Account member)
+        private async Task<StuffArchive?> Found(Account member)
         {
-            return _context.StuffArchives.SingleOrDefault(x =>
+            return await _context.StuffArchives.SingleOrDefaultAsync(x =>
             (x.NationalId == member.NationalId) ||
             (x.PhoneNumber == member.PhoneNumber) ||
             ((x.FirstName + x.MiddleName + x.LastName).ToLower() == (member.FirstName + x.MiddleName + x.LastName).ToLower()));

@@ -28,7 +28,7 @@ namespace ISc.Presistance.Repos
 
         public IQueryable<Mentor> Entities => _context.Set<Mentor>();
 
-        public async void Delete(Account account, Mentor mentor)
+        public async Task Delete(Account account, Mentor mentor)
         {
             if (mentor is null)
             {
@@ -45,8 +45,10 @@ namespace ISc.Presistance.Repos
             }
             else
             {
-                DeleteMentorTrainees(mentor!);
-                _context.MentorsOfCamps.RemoveRange(_context.MentorsOfCamps.Where(p => p.MentorId == account.Id));
+                await DeleteMentorTrainees(mentor!);
+
+                var mentorOfCamp = await _context.MentorsOfCamps.SingleAsync(p => p.MentorId == account.Id);
+                _context.MentorsOfCamps.Remove(mentorOfCamp);
 
                 if(participatedCamps == 1)
                 {
@@ -85,7 +87,7 @@ namespace ISc.Presistance.Repos
             return await _context.Mentors.ToListAsync();
         }
 
-        private async void DeleteMentorTrainees(Mentor entity)
+        private async Task DeleteMentorTrainees(Mentor entity)
         {
             var trainees = _context.Trainees.Where(p => p.MentorId == entity.Id);
             await trainees.ForEachAsync(x => x.MentorId = null);

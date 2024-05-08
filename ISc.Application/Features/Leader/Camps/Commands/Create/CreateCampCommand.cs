@@ -52,12 +52,12 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Create
                 return await Response.ValidationFailureAsync(validationResult.Errors.ToList(), HttpStatusCode.UnprocessableEntity);
             }
 
-            if (await _unitOfWork.Repository<Camp>().Entities.AnyAsync(x => x.Name == command.Name))
+            if (await _unitOfWork.Repository<Camp>().Entities.AnyAsync(x => x.Name.ToLower().Trim() == command.Name.ToLower().Trim()))
             {
                 return await Response.FailureAsync("Camp already exist.");
             }
 
-            if (!command.MentorsIds.IsNullOrEmpty() 
+            if (!command.MentorsIds.IsNullOrEmpty()
                 && command.MentorsIds!.Any(x => !_unitOfWork.Mentors.Entities.Select(m => m.Id).Contains(x)))
             {
                 return await Response.FailureAsync("Some mentors not valid.");
@@ -74,7 +74,7 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Create
             await _unitOfWork.Repository<Camp>().AddAsync(camp);
             await _unitOfWork.SaveAsync();
 
-            if(!command.MentorsIds.IsNullOrEmpty())
+            if (!command.MentorsIds.IsNullOrEmpty())
             {
                 await _unitOfWork.Repository<MentorsOfCamp>().AddRangeAsync(command.MentorsIds!.Select(x => new MentorsOfCamp()
                 {
@@ -83,7 +83,7 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Create
                 }).ToList());
             }
 
-            if(!command.HeadsIds.IsNullOrEmpty())
+            if (!command.HeadsIds.IsNullOrEmpty())
             {
                 var existHeads = await _unitOfWork.Heads.Entities
                        .Where(x => command.HeadsIds!.Contains(x.Id))

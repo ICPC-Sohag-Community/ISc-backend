@@ -25,7 +25,7 @@ namespace ISc.Presistance.Repos
         }
         public IQueryable<Trainee> Entities => _context.Trainees;
 
-        public async void Delete(Account account,Trainee trainee, bool isComplete)
+        public async Task Delete(Account account,Trainee trainee, bool isComplete)
         {
 
             var rolesCount = _userManager.GetRolesAsync(account).Result.Count;
@@ -72,22 +72,27 @@ namespace ISc.Presistance.Repos
             var campName = entity.Camp.Name;
 
             var archive = await FoundAsync(account, campName);
-
-            var archiveWasNull = archive is null;
-
-            archive = entity.Adapt<TraineeArchive>();
-            archive.IsComplete = isComplete;
-            archive.Year = DateTime.Now.Year;
-            archive.CampName = campName;
-
-            if (archiveWasNull)
+           
+            if (archive is null)
             {
+                archive = account.Adapt<TraineeArchive>();
+                FillArchive(isComplete, campName, archive);
+
                 await _context.TraineesArchives.AddAsync(archive);
             }
             else
             {
+                FillArchive(isComplete, campName, archive);
+
                 _context.TraineesArchives.Update(archive);
             }
+        }
+
+        private static void FillArchive(bool isComplete, string campName, TraineeArchive archive)
+        {
+            archive.IsComplete = isComplete;
+            archive.Year = DateTime.Now.Year;
+            archive.CampName = campName;
         }
 
         private async Task<TraineeArchive?> FoundAsync(Account entity, string campName)

@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ISc.Application.Interfaces;
+using ISc.Application.Features.Leader.Camps.Commands.Update;
 using ISc.Domain.Models;
-using ISc.Domain.Models.IdentityModels;
 using Mapster;
 
 namespace ISc.Application.Comman.Mapping
 {
-    public class StuffArchiveMapping : IRegister
+    internal class CampMapping : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<Account,StuffArchive>();
+            config.NewConfig<UpdateCampCommand, Camp>();
         }
     }
 }

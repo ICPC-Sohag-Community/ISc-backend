@@ -28,7 +28,7 @@ namespace ISc.Presistance.Repos
             _archiveRepo = archiveRepo;
         }
 
-        public async void Delete(Account account,HeadOfCamp head)
+        public async Task Delete(Account account,HeadOfCamp head)
         {
             if (head is null)
             {

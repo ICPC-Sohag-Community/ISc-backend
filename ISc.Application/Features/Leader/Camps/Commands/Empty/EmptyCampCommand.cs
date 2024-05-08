@@ -40,18 +40,18 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Empty
 
             foreach (var trainee in trainees)
             {
-                _unitOfWork.Trainees.Delete(trainee.Account, trainee, isCompleted);
+                await _unitOfWork.Trainees.Delete(trainee.Account, trainee, isCompleted);
             }
 
             foreach (var mentor in mentors)
             {
                 var entity = mentor.Mentor;
-                _unitOfWork.Mentors.Delete(entity.Account, entity);
+                await _unitOfWork.Mentors.Delete(entity.Account, entity);
             }
 
             foreach(var  head in heads)
             {
-                _unitOfWork.Heads.Delete(head.Account, head);
+                await _unitOfWork.Heads.Delete(head.Account, head);
             }
 
             await _unitOfWork.SaveAsync();

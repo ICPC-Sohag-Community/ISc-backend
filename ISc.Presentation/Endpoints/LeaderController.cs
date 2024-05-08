@@ -77,7 +77,7 @@ namespace ISc.Presentation.Endpoints
         [HttpPut("camps/{id}")]
         public async Task<ActionResult<int>> UpdateCamp(int id, [FromBody] UpdateCampCommand command)
         {
-            if (id != command.Id)
+            if (id != command.id)
             {
                 return BadRequest();
             }
