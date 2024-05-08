@@ -73,7 +73,7 @@ namespace ISc.Infrastructure.Services.Email
                 Body = content,
                 BodyData = new
                 {
-                    TraineeName = user.FirstName + ' ' + user.LastName,
+                    TraineeName = user.FirstName + ' ' + user.MiddleName,
                     user.UserName,
                     Password = password,
                     Role = role
