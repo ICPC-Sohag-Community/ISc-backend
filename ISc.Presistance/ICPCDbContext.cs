@@ -1,4 +1,5 @@
-﻿using ISc.Domain.Models;
+﻿using ISc.Domain.Interface;
+using ISc.Domain.Models;
 using ISc.Domain.Models.CommunityStuff;
 using ISc.Domain.Models.IdentityModels;
 using ISc.Presistance.EntitiesConfigurations;
@@ -35,6 +36,19 @@ namespace ISc.Presistance
             builder.ApplyConfigurationsFromAssembly(typeof(TraineeConfig).Assembly);
 
             builder.HasDefaultSchema("ICPC");
+        }
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entity in ChangeTracker
+                .Entries()
+                .Where(x => x.Entity is IAuditable && x.State == EntityState.Added)
+                .Select(x => x.Entity)
+                .Cast<IAuditable>())
+            {
+                entity.CreationDate = DateTime.Now;
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
         }
 
         #region Actors

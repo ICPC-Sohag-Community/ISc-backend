@@ -2,6 +2,7 @@ using Hangfire;
 using ISc.Api;
 using ISc.Application.Extension;
 using ISc.Infrastructure.Extension;
+using ISc.Presentation.Middlerware;
 using ISc.Presistance.Extension;
 using ISc.Presistance.Seeding;
 
@@ -30,6 +31,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseMiddleware<GlobalErrorHandler>();
+app.UseRouting();
 app.UseCors(cores => cores.AllowAnyHeader().AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 app.UseAuthentication();
 app.UseAuthorization();

@@ -10,6 +10,8 @@ using ISc.Application.Features.Leader.Camps.Queries.GetCampEditById;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetFeedbacks;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
+using ISc.Application.Features.Leader.Trainees.Queries.GetAllWithPagination;
+using ISc.Application.Features.Leader.Trainees.Queries.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -101,6 +103,16 @@ namespace ISc.Presentation.Endpoints
         public async Task<ActionResult<GetCampEditByIdQueryDto>> DisplayCampToEdit(int id)
         {
             return Ok(await _mediator.Send(new GetCampEditByIdQuery(id)));
+        }
+        [HttpGet("Trainees/{id}")]
+        public async Task<ActionResult<GetTraineeByIdQueryDto>> GetTraineeById(string id)
+        {
+            return Ok(await _mediator.Send(new GetTraineeByIdQuery(id)));
+        }
+        [HttpGet("Trainees")]
+        public async Task<ActionResult<GetAllTraineeWithPaginationQueryDto>> GetAllTraineesWithPagination([FromQuery] GetAllTraineeWithPaginationQuery query)
+        {
+            return Ok(await _mediator.Send(query));
         }
     }
 }

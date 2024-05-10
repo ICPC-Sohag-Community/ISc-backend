@@ -66,6 +66,7 @@ namespace ISc.Infrastructure.Services.OnlineJudge.CodeForce
 
         public static Task<T> CodeForceApiGetAsync<T>(this IApiRequestsServices service,string request)
         {
+
             return service.GetAsync<T>(request, _codeForce);
         }
     }

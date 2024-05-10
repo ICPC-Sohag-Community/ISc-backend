@@ -112,6 +112,8 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
                 }
             }
 
+            await _unitOfWork.SaveAsync();
+
             return await Response.SuccessAsync("User added successfully.");
         }
 
@@ -143,7 +145,6 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             }
 
             await _userManager.AddToRoleAsync(user, command.Role);
-            await _unitOfWork.SaveAsync();
 
             if (command.ProfileImage != null)
             {

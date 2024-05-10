@@ -61,7 +61,7 @@ namespace ISc.Presistance.Seeding
                 await dbcontext.Database.MigrateAsync();
             }
 
-            scheduleTasks.TrackingTraineesSolving();
+            //scheduleTasks.TrackingTraineesSolving();
 
 
         }
