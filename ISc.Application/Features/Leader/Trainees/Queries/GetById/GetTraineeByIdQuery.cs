@@ -52,34 +52,6 @@ namespace ISc.Application.Features.Leader.Trainees.Queries.GetById
             var inRoles = await _userManager.GetRolesAsync(entity.Account);
             var outRoles = _roleManager.Roles.Select(x => x.Name).ToListAsync().Result.Except(inRoles);
 
-            trainee.Roles = inRoles.Select(x => new TraineeRoleDto()
-            {
-                Name = x
-            }).ToList();
-
-            foreach (var role in trainee.Roles)
-            {
-                if (role.Name == Roles.Trainee)
-                {
-                    role.Detail = entity.Camp.Name;
-                }
-                else if (role.Name == Roles.Mentor)
-                {
-                    var mentor = await _unitOfWork.Mentors.Entities.SingleOrDefaultAsync(x => query.Id == x.Id);
-                    role.Detail = string.Join(",", mentor.Camps.SelectMany(x => x.Camp.Name).ToList());
-                }
-                else if (role.Name == Roles.Head_Of_Camp)
-                {
-                    var head = await _unitOfWork.Heads.GetByIdAsync(query.Id);
-                    role.Detail = head.Camp.Name;
-                }
-            }
-
-            trainee.Roles.AddRange(outRoles.Select(x => new TraineeRoleDto()
-            {
-                Name = x
-            }));
-
             return await Response.SuccessAsync(trainee);
         }
     }

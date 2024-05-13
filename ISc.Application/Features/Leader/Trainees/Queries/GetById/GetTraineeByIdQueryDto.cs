@@ -21,11 +21,5 @@ namespace ISc.Application.Features.Leader.Trainees.Queries.GetById
         public string? PhotoUrl { get; set; }
         public string CodeForceHandle { get; set; }
         public string? VjudgeHandle { get; set; }
-        public List<TraineeRoleDto> Roles { get; set; }
-    }
-    public class TraineeRoleDto
-    {
-        public string Name { get; set; }
-        public string? Detail { get; set; }
     }
 }
