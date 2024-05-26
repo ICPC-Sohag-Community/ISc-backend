@@ -10,7 +10,10 @@ namespace ISc.Shared
         {
             Data = data;
         }
-
+        public PaginatedRespnose()
+        {
+            
+        }
         public PaginatedRespnose(bool succeeded, List<T> data = default,
                                string message = null,
                                List<ValidationFailure> validationFailures = null, int count = 0,

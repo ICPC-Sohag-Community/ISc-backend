@@ -20,7 +20,6 @@
 	  <ProjectReference Include="..\ISc.Shared\ISc.Shared.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Features\HeadOfCamps\Assigning\Queries\" />
 	  <Folder Include="Features\Leader\Archives\Commands\" />
 	  <Folder Include="Features\Leader\Archives\Queries\" />
 	  <Folder Include="Features\Leader\Reports\Commands\" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ISc.Application.Features.SystemRoles.Queries.GetUserRoles;
 using ISc.Domain.Comman.Enums;
 
 namespace ISc.Application.Features.Leader.Trainees.Queries.GetById
@@ -21,5 +22,6 @@ namespace ISc.Application.Features.Leader.Trainees.Queries.GetById
         public string? PhotoUrl { get; set; }
         public string CodeForceHandle { get; set; }
         public string? VjudgeHandle { get; set; }
+        public List<GetUserRolesQueryDto> UserRoles { get; set; }
     }
 }

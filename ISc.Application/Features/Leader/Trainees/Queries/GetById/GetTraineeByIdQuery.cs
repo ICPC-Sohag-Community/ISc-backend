@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using ISc.Application.Features.SystemRoles.Queries.GetUserRoles;
 using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Constant;
 using ISc.Domain.Models.IdentityModels;
@@ -25,15 +26,18 @@ namespace ISc.Application.Features.Leader.Trainees.Queries.GetById
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<Account> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IMediator _mediator;
 
         public GetTraineeByIdQueryHandler(
             IUnitOfWork unitOfWork,
             UserManager<Account> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IMediator mediator)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _roleManager = roleManager;
+            _mediator = mediator;
         }
 
         public async Task<Response> Handle(GetTraineeByIdQuery query, CancellationToken cancellationToken)
@@ -51,6 +55,8 @@ namespace ISc.Application.Features.Leader.Trainees.Queries.GetById
 
             var inRoles = await _userManager.GetRolesAsync(entity.Account);
             var outRoles = _roleManager.Roles.Select(x => x.Name).ToListAsync().Result.Except(inRoles);
+
+            trainee.UserRoles = await _mediator.Send(new GetUserRolesQuery(account));
 
             return await Response.SuccessAsync(trainee);
         }

@@ -1,5 +1,7 @@
 ﻿using ISc.Application.Features.HeadOfCamps.Assigning.Commands.AssignTrainees;
 using ISc.Application.Features.HeadOfCamps.Assigning.Commands.UnAssignTrainees;
+using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetMentorAssign;
+using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetTraineeAssignWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,5 +29,18 @@ namespace ISc.Presentation.Endpoints
         {
             return Ok(await _mediator.Send(new UnAssignTraineeCommand(traineeId)));
         }
+
+        [HttpGet("assign/trainees")]
+        public async Task<ActionResult<List<GetTraineeAssignWithPaginationQueryDto>>> GetUnAssignedTrainees([FromQuery] GetTraineeAssignWithPaginationQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
+
+        [HttpGet("assign/mentors")]
+        public async Task<ActionResult<List<GetMentorAssignQueryDto>>> GetMentorForAssign() 
+        {
+            return Ok(await _mediator.Send(new GetMentorAssignQuery()));
+        }
+
     }
 }
