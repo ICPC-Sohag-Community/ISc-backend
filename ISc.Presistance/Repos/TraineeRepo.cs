@@ -65,7 +65,13 @@ namespace ISc.Presistance.Repos
             {
                 await _userManager.CreateAsync(entity.Account, entity.Password);
             }
+
             await _context.AddAsync(entity.Member);
+
+            if (!await _userManager.IsInRoleAsync(entity.Account!, Roles.Trainee))
+            {
+                await _userManager.AddToRoleAsync(entity.Account!, Roles.Trainee);
+            }
         }
         private async Task AddToArchive(Account account, Trainee entity, bool isComplete)
         {

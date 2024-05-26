@@ -77,6 +77,11 @@ namespace ISc.Presistance.Repos
                 await _userManager.CreateAsync(entity.Account, entity.Password);
             }
             await _context.AddAsync(entity.Member);
+
+            if (!await _userManager.IsInRoleAsync(entity.Account!, Roles.Mentor))
+            {
+                await _userManager.AddToRoleAsync(entity.Account!, Roles.Mentor);
+            }
         }
         public async Task<Mentor?> GetByIdAsync(string id)
         {

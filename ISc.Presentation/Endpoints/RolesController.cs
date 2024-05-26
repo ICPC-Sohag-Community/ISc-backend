@@ -1,4 +1,5 @@
-﻿using ISc.Application.Features.SystemRoles.Commands.Create;
+﻿using ISc.Application.Features.SystemRoles.Commands.Assign;
+using ISc.Application.Features.SystemRoles.Commands.Create;
 using ISc.Application.Features.SystemRoles.Commands.Delete;
 using ISc.Application.Features.SystemRoles.Queries.GetAvailableRoles;
 using MediatR;
@@ -33,6 +34,12 @@ namespace ISc.Presentation.Endpoints
         public async Task<ActionResult<List<GetAvailableRolesQueryDto>>> AvailableRoles()
         {
             return Ok(await _mediator.Send(new GetAvailableRolesQuery()));
+        }
+
+        [HttpPost("assignToRole")]
+        public async Task<ActionResult<string>> AssignToRole(AssignToRoleCommand command)
+        {
+            return Ok(await _mediator.Send(command));
         }
     }
 }
