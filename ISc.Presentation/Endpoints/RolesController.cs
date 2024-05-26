@@ -37,7 +37,7 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpPost("assignToRole")]
-        public async Task<ActionResult<string>> AssignToRole(AssignToRoleCommand command)
+        public async Task<ActionResult<string>> AssignToRole([FromBody]AssignToRoleCommand command)
         {
             return Ok(await _mediator.Send(command));
         }

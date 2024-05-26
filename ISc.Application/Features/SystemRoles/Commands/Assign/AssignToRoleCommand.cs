@@ -78,6 +78,10 @@ namespace ISc.Application.Features.SystemRoles.Commands.Assign
             {
                 await addToHead(user, (int)command.CampId!);
             }
+            else
+            {
+                await _userManager.AddToRoleAsync(user, command.Role);
+            }
             await _unitOfWork.SaveAsync();
 
             return await Response.SuccessAsync("User added to role.");
