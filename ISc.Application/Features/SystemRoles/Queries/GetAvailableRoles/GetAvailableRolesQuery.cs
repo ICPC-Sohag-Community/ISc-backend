@@ -10,7 +10,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Application.Features.SystemRoles.Queries.GetAvailableRoles
 {
-    public record GetAvailableRolesQuery : IRequest<Response>;
+    public record GetAvailableRolesQuery : IRequest<Response>
+    {
+        public string UserId { get; set; }
+    }
 
     internal class GetAvailableRolesQueryHandler : IRequestHandler<GetAvailableRolesQuery, Response>
     {
@@ -33,7 +36,7 @@ namespace ISc.Application.Features.SystemRoles.Queries.GetAvailableRoles
 
         public async Task<Response> Handle(GetAvailableRolesQuery query, CancellationToken cancellationToken)
         {
-            var user = await _userManager.GetUserAsync(_httpContext.HttpContext!.User);
+            var user = await _userManager.FindByIdAsync(query.UserId);
 
             if (user == null)
             {

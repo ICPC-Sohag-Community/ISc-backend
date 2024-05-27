@@ -31,9 +31,9 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("availableRoles")]
-        public async Task<ActionResult<List<GetAvailableRolesQueryDto>>> AvailableRoles()
+        public async Task<ActionResult<List<GetAvailableRolesQueryDto>>> AvailableRoles(GetAvailableRolesQuery query)
         {
-            return Ok(await _mediator.Send(new GetAvailableRolesQuery()));
+            return Ok(await _mediator.Send(query));
         }
 
         [HttpPost("assignToRole")]
