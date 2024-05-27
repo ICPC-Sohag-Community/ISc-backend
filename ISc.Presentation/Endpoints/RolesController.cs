@@ -33,7 +33,7 @@ namespace ISc.Presentation.Endpoints
         [HttpGet("availableRoles/{userId}")]
         public async Task<ActionResult<List<GetAvailableRolesQueryDto>>> AvailableRoles(string userId)
         {
-            return Ok(await _mediator.Send(new GetAvailableRolesQuery(userId));
+            return Ok(await _mediator.Send(new GetAvailableRolesQuery(userId)));
         }
 
         [HttpPost("assignToRole")]
