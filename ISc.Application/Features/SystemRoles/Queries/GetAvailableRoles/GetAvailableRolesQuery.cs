@@ -12,6 +12,11 @@ namespace ISc.Application.Features.SystemRoles.Queries.GetAvailableRoles
 {
     public record GetAvailableRolesQuery : IRequest<Response>
     {
+        public GetAvailableRolesQuery(string userId)
+        {
+            UserId = userId;
+        }
+
         public string UserId { get; set; }
     }
 

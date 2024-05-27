@@ -30,10 +30,10 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(new DeleteRoleCommand(name)));
         }
 
-        [HttpGet("availableRoles")]
-        public async Task<ActionResult<List<GetAvailableRolesQueryDto>>> AvailableRoles(GetAvailableRolesQuery query)
+        [HttpGet("availableRoles/{userId}")]
+        public async Task<ActionResult<List<GetAvailableRolesQueryDto>>> AvailableRoles(string userId)
         {
-            return Ok(await _mediator.Send(query));
+            return Ok(await _mediator.Send(new GetAvailableRolesQuery(userId));
         }
 
         [HttpPost("assignToRole")]
