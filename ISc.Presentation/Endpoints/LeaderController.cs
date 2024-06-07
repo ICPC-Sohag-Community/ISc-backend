@@ -13,6 +13,8 @@ using ISc.Application.Features.Leader.Dashboard.Queries.GetFeedbacks;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
 using ISc.Application.Features.Leader.Request.Queries.DisplayAll;
 using ISc.Application.Features.Leader.Request.Queries.DisplayById;
+using ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilter;
+using ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter;
 using ISc.Application.Features.Leader.Trainees.Queries.GetAllWithPagination;
 using ISc.Application.Features.Leader.Trainees.Queries.GetById;
 using MediatR;
@@ -108,25 +110,37 @@ namespace ISc.Presentation.Endpoints
         {
             return Ok(await _mediator.Send(new GetCampEditByIdQuery(id)));
         }
-        [HttpGet("Trainees/{id}")]
+        [HttpGet("trainees/{id}")]
         public async Task<ActionResult<GetTraineeByIdQueryDto>> GetTraineeById(string id)
         {
             return Ok(await _mediator.Send(new GetTraineeByIdQuery(id)));
         }
-        [HttpGet("Trainees")]
+        [HttpGet("trainees")]
         public async Task<ActionResult<GetAllTraineeWithPaginationQueryDto>> GetAllTraineesWithPagination([FromQuery] GetAllTraineeWithPaginationQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
 
-        [HttpGet("GetTraineesRegisterations/{campId}")]
-        public async Task<ActionResult<DisplayAllRegisterationQueryDto>> GetAllTraineesRegisterRequests(int campId)
+        [HttpGet("traineesRegisterations/{campId}")]
+        public async Task<ActionResult<GetAllRegisterationQueryDto>> GetAllTraineesRegisterRequests(int campId)
         {
-            return Ok(await _mediator.Send(new DisplayAllRegisterationQuery(campId)));
+            return Ok(await _mediator.Send(new GetAllRegisterationQuery(campId)));
         }
 
-        [HttpGet("GetTraineeRegisteration")]
-        public async Task<ActionResult<DisplayRegisterationByIdQueryDto>>GetTraineeRegisterReqeust(DisplayRegisterationByIdQuery query)
+        [HttpGet("traineeRegisteration")]
+        public async Task<ActionResult<GetRegisterationByIdQueryDto>>GetTraineeRegisterReqeust(GetRegisterationByIdQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
+
+        [HttpGet("traineeRegisterationSystemFilter/{campId}")]
+        public async Task<ActionResult<GetRegisterationOnSystemFilterQueryDto>>GetTraineeRegistersSystemFilter(int campId)
+        {
+            return Ok(await _mediator.Send(new GetRegisterationOnSystemFilterQuery(campId)));
+        }
+
+        [HttpGet("traineeRequestCustomFilter")]
+        public async Task<ActionResult<GetOnCustomerFilterQueryDto>>GetTraineeRequestsCustomFilter(GetOnCustomerFilterQuery query)
         {
             return Ok(await _mediator.Send(query));
         }

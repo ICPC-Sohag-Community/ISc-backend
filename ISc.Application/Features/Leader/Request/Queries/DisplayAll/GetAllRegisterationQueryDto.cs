@@ -7,7 +7,7 @@ using ISc.Domain.Comman.Enums;
 
 namespace ISc.Application.Features.Leader.Request.Queries.DisplayAll
 {
-    public class DisplayAllRegisterationQueryDto
+    public class GetAllRegisterationQueryDto
     {
         public int Id { get; set; }
         public string FullName { get; set; }

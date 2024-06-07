@@ -42,7 +42,7 @@ namespace ISc.Infrastructure.Services.OnlineJudge.CodeForce
             return response.IsSuccess ? response.result : null!;
         }
 
-        public async Task<List<CodeForceStandingDto>>?
+        public async Task<CodeForceStandingDto>?
             GetGroupSheetStandingAsync(
             string sheetId, int numberOfRows, bool unOfficial, Community community = Community.Sohag)
         {
@@ -63,7 +63,7 @@ namespace ISc.Infrastructure.Services.OnlineJudge.CodeForce
             _request.Add("apiSig", CodeForceHandlingRequest.GenerateSig(queryString, sheetConfig.Value));
 
             var response = await _apiService
-                .CodeForceApiGetAsync<CodeForceBaseResponseDto<List<CodeForceStandingDto>>>(_request.CreateUri(controller));
+                .CodeForceApiGetAsync<CodeForceBaseResponseDto<CodeForceStandingDto>>(_request.CreateUri(controller));
 
             return response.IsSuccess ? response.result : null!;
         }

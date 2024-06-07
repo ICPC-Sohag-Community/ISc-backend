@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using ISc.Domain.Comman.Enums;
 
-namespace ISc.Application.Features.Leader.Request.Queries.DisplayById
+namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter
 {
-    public class DisplayRegisterationByIdQueryDto
+    public class GetRegisterationOnSystemFilterQueryDto
     {
+        public int Id { get; set; }
         public string FullName { get; set; }
         public string NationalId { get; set; }
         public DateOnly BirthDate { get; set; }

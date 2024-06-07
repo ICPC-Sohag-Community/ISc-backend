@@ -15,7 +15,7 @@ namespace ISc.Presistance.EntitiesConfigurations
         public void Configure(EntityTypeBuilder<NewRegisteration> builder)
         {
             builder.Property(x => x.FirstName).HasMaxLength(20);
-            builder.Property(x => x.MiddelName).HasMaxLength(20);
+            builder.Property(x => x.MiddleName).HasMaxLength(20);
             builder.Property(x => x.LastName).HasMaxLength(20);
             builder.Property(x => x.NationalId).HasMaxLength(14);
             builder.HasCheckConstraint("GradeConstrain", "Grade between 1 and 5 ");

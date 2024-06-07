@@ -14,17 +14,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Application.Features.Leader.Request.Queries.DisplayAll
 {
-    public record DisplayAllRegisterationQuery : IRequest<Response>
+    public record GetAllRegisterationQuery : IRequest<Response>
     {
         public int CampId { get; set; }
 
-        public DisplayAllRegisterationQuery(int campId)
+        public GetAllRegisterationQuery(int campId)
         {
             CampId = campId;
         }
     }
 
-    internal class DisplayAllRegisterationQueryHandler : IRequestHandler<DisplayAllRegisterationQuery, Response>
+    internal class DisplayAllRegisterationQueryHandler : IRequestHandler<GetAllRegisterationQuery, Response>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -37,11 +37,11 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayAll
             _mapper = mapper;
         }
 
-        public async Task<Response> Handle(DisplayAllRegisterationQuery query, CancellationToken cancellationToken)
+        public async Task<Response> Handle(GetAllRegisterationQuery query, CancellationToken cancellationToken)
         {
             var entities = await _unitOfWork.Repository<NewRegisteration>().Entities
                         .Where(x => x.CampId == query.CampId)
-                        .ProjectToType<DisplayAllRegisterationQueryDto>(_mapper.Config)
+                        .ProjectToType<GetAllRegisterationQueryDto>(_mapper.Config)
                         .ToListAsync(cancellationToken);
 
             return await Response.SuccessAsync(entities);

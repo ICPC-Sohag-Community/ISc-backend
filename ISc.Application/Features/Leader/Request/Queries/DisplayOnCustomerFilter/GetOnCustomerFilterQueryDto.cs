@@ -1,13 +1,16 @@
-﻿using ISc.Domain.Comman.Enums;
-using ISc.Domain.Interface;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ISc.Domain.Comman.Enums;
 
-namespace ISc.Domain.Models
+namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilter
 {
-    public class NewRegisteration : BaseEntity, ISoftEntity
+    public class GetOnCustomerFilterQueryDto
     {
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
+        public int Id { get; set; }
+        public string FullName { get; set; }
         public string NationalId { get; set; }
         public DateOnly BirthDate { get; set; }
         public int Grade { get; set; }
@@ -21,7 +24,5 @@ namespace ISc.Domain.Models
         public string? ImageUrl { get; set; }
         public string? Comment { get; set; }
         public bool HasLaptop { get; set; }
-        public int CampId { get; set; }
-        public virtual Camp Camp { get; set; }
     }
 }

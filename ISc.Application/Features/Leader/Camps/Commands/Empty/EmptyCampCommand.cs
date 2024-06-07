@@ -54,6 +54,9 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Empty
                 await _unitOfWork.Heads.Delete(head.Account, head);
             }
 
+            camp.OpenForRegister = false;
+
+            await _unitOfWork.Repository<Camp>().UpdateAsync(camp);
             await _unitOfWork.SaveAsync();
 
             return await Response.SuccessAsync("Camp became empty.");
