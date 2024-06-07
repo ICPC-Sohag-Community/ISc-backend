@@ -43,7 +43,7 @@ namespace ISc.Application.Features.Authentication.ResetPassword
 
             if (!resetPasswordResult.Succeeded)
             {
-                return await Response.ValidationFailure(resetPasswordResult.Errors.ToList(), HttpStatusCode.Unauthorized);
+                return await Response.ValidationFailureAsync(resetPasswordResult.Errors.ToList(), HttpStatusCode.Unauthorized);
             }
             else if (otp != command.Otp)
             {

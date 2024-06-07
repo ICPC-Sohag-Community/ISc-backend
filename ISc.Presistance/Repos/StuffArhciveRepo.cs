@@ -1,22 +1,27 @@
 ﻿using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Models;
+using ISc.Domain.Models.IdentityModels;
 using Mapster;
 using MapsterMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Presistance.Repos
 {
     public class StuffArhciveRepo : BaseRepo<StuffArchive>,IStuffArchiveRepo
     {
         private readonly ICPCDbContext _context;
+        private readonly IMapper _mapper;
         public StuffArhciveRepo(
-            ICPCDbContext context) : base(context)
+            ICPCDbContext context,
+            IMapper mapper) : base(context)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task AddToArchiveAsync(Stuff member)
+        public async Task AddToArchiveAsync(Account member,string role)
         {
-            var entity = Found(member);
+            var entity = await Found(member, role);
 
             if (entity is null)
             {
@@ -24,16 +29,17 @@ namespace ISc.Presistance.Repos
             }
             else
             {
-                _context.Update(member.Adapt<StuffArchive>());
+                _mapper.Map(member, entity);
+                _context.Update(entity);
             } 
         }
 
-        private StuffArchive? Found(Stuff member)
+        private async Task<StuffArchive?> Found(Account member,string role)
         {
-            return _context.StuffArchives.SingleOrDefault(x =>
-            (x.NationalId == member.NationalId) ||
+            return await _context.StuffArchives.SingleOrDefaultAsync(x =>
+            ((x.NationalId == member.NationalId) ||
             (x.PhoneNumber == member.PhoneNumber) ||
-            ((x.FirstName + x.MiddelName + x.LastName).ToLower() == (member.FirstName + x.MiddelName + x.LastName).ToLower()));
+            ((x.FirstName + x.MiddleName + x.LastName).ToLower() == (member.FirstName + x.MiddleName + x.LastName).ToLower())) && x.Role == role);
         }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISc.Presistance.Migrations
 {
     [DbContext(typeof(ICPCDbContext))]
-    [Migration("20240423185357_InitialCreation")]
-    partial class InitialCreation
+    [Migration("20240504224656_removeArchiveImage")]
+    partial class removeArchiveImage
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,6 +22,9 @@ namespace ISc.Presistance.Migrations
             modelBuilder
                 .HasDefaultSchema("ICPC")
                 .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -71,6 +74,42 @@ namespace ISc.Presistance.Migrations
                     b.ToTable("CampModels", "ICPC");
                 });
 
+            modelBuilder.Entity("ISc.Domain.Models.CommunityStuff.HeadOfCamp", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("About")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CampId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampId");
+
+                    b.ToTable("HeadsOfCamps", "ICPC");
+                });
+
+            modelBuilder.Entity("ISc.Domain.Models.CommunityStuff.Mentor", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("About")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SessionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SessionId");
+
+                    b.ToTable("Mentors", "ICPC");
+                });
+
             modelBuilder.Entity("ISc.Domain.Models.IdentityModels.Account", b =>
                 {
                     b.Property<string>("Id")
@@ -79,9 +118,16 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("date");
+
                     b.Property<string>("CodeForceHandle")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<byte>("College")
+                        .HasColumnType("tinyint");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -99,7 +145,8 @@ namespace ISc.Presistance.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<byte>("Gender")
                         .HasColumnType("tinyint");
@@ -112,7 +159,8 @@ namespace ISc.Presistance.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -122,11 +170,13 @@ namespace ISc.Presistance.Migrations
 
                     b.Property<string>("MiddleName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("NationalId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -140,7 +190,8 @@ namespace ISc.Presistance.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
@@ -159,7 +210,8 @@ namespace ISc.Presistance.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("VjudgeHandle")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -171,9 +223,12 @@ namespace ISc.Presistance.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("Users", "Account");
+                    b.ToTable("Users", "Account", t =>
+                        {
+                            t.HasCheckConstraint("GenderConstarin", "Gender between 0 and 1");
 
-                    b.UseTptMappingStrategy();
+                            t.HasCheckConstraint("GradeConstrain", "Grade between 1 and 5 ");
+                        });
                 });
 
             modelBuilder.Entity("ISc.Domain.Models.Material", b =>
@@ -462,6 +517,12 @@ namespace ISc.Presistance.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CampId");
@@ -499,8 +560,8 @@ namespace ISc.Presistance.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<byte>("Gender")
                         .HasColumnType("tinyint");
@@ -510,21 +571,18 @@ namespace ISc.Presistance.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("MiddelName")
+                    b.Property<string>("MiddleName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
-
-                    b.Property<string>("PhotoUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VjudgeHandle")
                         .HasMaxLength(25)
@@ -545,6 +603,29 @@ namespace ISc.Presistance.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ISc.Domain.Models.Trainee", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CampId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MentorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampId");
+
+                    b.HasIndex("MentorId");
+
+                    b.ToTable("Trainees", "ICPC");
+                });
+
             modelBuilder.Entity("ISc.Domain.Models.TraineeAccessSheet", b =>
                 {
                     b.Property<string>("TraineeId")
@@ -553,13 +634,13 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("SheetId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Index")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateOnly>("AccessDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("SolvedProblems")
-                        .HasColumnType("int");
-
-                    b.HasKey("TraineeId", "SheetId");
+                    b.HasKey("TraineeId", "SheetId", "Index");
 
                     b.HasIndex("SheetId");
 
@@ -580,8 +661,8 @@ namespace ISc.Presistance.Migrations
 
                     b.Property<string>("CodeForceHandle")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("College")
                         .IsRequired()
@@ -599,8 +680,8 @@ namespace ISc.Presistance.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<byte>("Gender")
                         .HasColumnType("tinyint");
@@ -613,25 +694,22 @@ namespace ISc.Presistance.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("MiddelName")
+                    b.Property<string>("MiddleName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
 
-                    b.Property<string>("PhotoUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("VjudgeHandle")
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
@@ -830,52 +908,38 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.CommunityStuff.HeadOfCamp", b =>
                 {
-                    b.HasBaseType("ISc.Domain.Models.IdentityModels.Account");
+                    b.HasOne("ISc.Domain.Models.Camp", "Camp")
+                        .WithMany("Heads")
+                        .HasForeignKey("CampId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("About")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasOne("ISc.Domain.Models.IdentityModels.Account", "Account")
+                        .WithOne()
+                        .HasForeignKey("ISc.Domain.Models.CommunityStuff.HeadOfCamp", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("CampId")
-                        .HasColumnType("int");
+                    b.Navigation("Account");
 
-                    b.HasIndex("CampId");
-
-                    b.ToTable("HeadsOfCamps", "ICPC");
+                    b.Navigation("Camp");
                 });
 
             modelBuilder.Entity("ISc.Domain.Models.CommunityStuff.Mentor", b =>
                 {
-                    b.HasBaseType("ISc.Domain.Models.IdentityModels.Account");
+                    b.HasOne("ISc.Domain.Models.IdentityModels.Account", "Account")
+                        .WithOne()
+                        .HasForeignKey("ISc.Domain.Models.CommunityStuff.Mentor", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("About")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasOne("ISc.Domain.Models.Session", "Session")
+                        .WithMany()
+                        .HasForeignKey("SessionId");
 
-                    b.Property<int?>("SessionId")
-                        .HasColumnType("int");
+                    b.Navigation("Account");
 
-                    b.HasIndex("SessionId");
-
-                    b.ToTable("Mentors", "ICPC");
-                });
-
-            modelBuilder.Entity("ISc.Domain.Models.Trainee", b =>
-                {
-                    b.HasBaseType("ISc.Domain.Models.IdentityModels.Account");
-
-                    b.Property<int>("CampId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MentorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Points")
-                        .HasColumnType("int");
-
-                    b.HasIndex("CampId");
-
-                    b.HasIndex("MentorId");
-
-                    b.ToTable("Trainees", "ICPC");
+                    b.Navigation("Session");
                 });
 
             modelBuilder.Entity("ISc.Domain.Models.Material", b =>
@@ -969,6 +1033,31 @@ namespace ISc.Presistance.Migrations
                         .IsRequired();
 
                     b.Navigation("Camp");
+                });
+
+            modelBuilder.Entity("ISc.Domain.Models.Trainee", b =>
+                {
+                    b.HasOne("ISc.Domain.Models.Camp", "Camp")
+                        .WithMany("Trainees")
+                        .HasForeignKey("CampId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ISc.Domain.Models.IdentityModels.Account", "Account")
+                        .WithOne()
+                        .HasForeignKey("ISc.Domain.Models.Trainee", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ISc.Domain.Models.CommunityStuff.Mentor", "Mentor")
+                        .WithMany("Trainees")
+                        .HasForeignKey("MentorId");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Camp");
+
+                    b.Navigation("Mentor");
                 });
 
             modelBuilder.Entity("ISc.Domain.Models.TraineeAccessSheet", b =>
@@ -1069,61 +1158,6 @@ namespace ISc.Presistance.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ISc.Domain.Models.CommunityStuff.HeadOfCamp", b =>
-                {
-                    b.HasOne("ISc.Domain.Models.Camp", "Camp")
-                        .WithMany("Heads")
-                        .HasForeignKey("CampId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ISc.Domain.Models.IdentityModels.Account", null)
-                        .WithOne()
-                        .HasForeignKey("ISc.Domain.Models.CommunityStuff.HeadOfCamp", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Camp");
-                });
-
-            modelBuilder.Entity("ISc.Domain.Models.CommunityStuff.Mentor", b =>
-                {
-                    b.HasOne("ISc.Domain.Models.IdentityModels.Account", null)
-                        .WithOne()
-                        .HasForeignKey("ISc.Domain.Models.CommunityStuff.Mentor", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ISc.Domain.Models.Session", "Session")
-                        .WithMany()
-                        .HasForeignKey("SessionId");
-
-                    b.Navigation("Session");
-                });
-
-            modelBuilder.Entity("ISc.Domain.Models.Trainee", b =>
-                {
-                    b.HasOne("ISc.Domain.Models.Camp", "Camp")
-                        .WithMany("Trainees")
-                        .HasForeignKey("CampId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ISc.Domain.Models.IdentityModels.Account", null)
-                        .WithOne()
-                        .HasForeignKey("ISc.Domain.Models.Trainee", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ISc.Domain.Models.CommunityStuff.Mentor", "Mentor")
-                        .WithMany("Trainees")
-                        .HasForeignKey("MentorId");
-
-                    b.Navigation("Camp");
-
-                    b.Navigation("Mentor");
-                });
-
             modelBuilder.Entity("ISc.Domain.Models.Camp", b =>
                 {
                     b.Navigation("Heads");
@@ -1135,6 +1169,13 @@ namespace ISc.Presistance.Migrations
                     b.Navigation("Sessions");
 
                     b.Navigation("Sheets");
+
+                    b.Navigation("Trainees");
+                });
+
+            modelBuilder.Entity("ISc.Domain.Models.CommunityStuff.Mentor", b =>
+                {
+                    b.Navigation("Camps");
 
                     b.Navigation("Trainees");
                 });
@@ -1151,13 +1192,6 @@ namespace ISc.Presistance.Migrations
                     b.Navigation("Materials");
 
                     b.Navigation("TraineesAccess");
-                });
-
-            modelBuilder.Entity("ISc.Domain.Models.CommunityStuff.Mentor", b =>
-                {
-                    b.Navigation("Camps");
-
-                    b.Navigation("Trainees");
                 });
 
             modelBuilder.Entity("ISc.Domain.Models.Trainee", b =>

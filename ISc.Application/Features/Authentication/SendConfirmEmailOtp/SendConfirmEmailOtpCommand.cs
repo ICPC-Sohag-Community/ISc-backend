@@ -16,7 +16,7 @@ namespace ISc.Application.Features.Authentication.SendConfirmEmailOtp
             Email = email;
         }
     }
-    public class SendConfirmEmailOtpCommandHandler : IRequestHandler<SendConfirmEmailOtpCommand, Response>
+    internal class SendConfirmEmailOtpCommandHandler : IRequestHandler<SendConfirmEmailOtpCommand, Response>
     {
         private readonly IEmailSender _emailSender;  
         private readonly IDistributedCache _cache;
@@ -31,14 +31,6 @@ namespace ISc.Application.Features.Authentication.SendConfirmEmailOtp
 
         public async Task<Response> Handle(SendConfirmEmailOtpCommand command, CancellationToken cancellationToken)
         {
-            var user=await _userManager.FindByEmailAsync(command.Email);  
-
-            if (user == null)
-            {
-                return await Response.FailureAsync("Invalid Email");  
-
-            }
-
             var rand=new Random();
             var otp = rand.Next(99999, 1000000);
 

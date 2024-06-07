@@ -1,4 +1,5 @@
-﻿using ISc.Domain.Models;
+﻿using ISc.Domain.Interface;
+using ISc.Domain.Models;
 using ISc.Domain.Models.CommunityStuff;
 using ISc.Domain.Models.IdentityModels;
 using ISc.Presistance.EntitiesConfigurations;
@@ -36,10 +37,24 @@ namespace ISc.Presistance
 
             builder.HasDefaultSchema("ICPC");
         }
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entity in ChangeTracker
+                .Entries()
+                .Where(x => x.Entity is IAuditable && x.State == EntityState.Added)
+                .Select(x => x.Entity)
+                .Cast<IAuditable>())
+            {
+                entity.CreationDate = DateTime.Now;
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
 
         #region Actors
         public virtual DbSet<Trainee> Trainees { get; set; }
         public virtual DbSet<HeadOfCamp> HeadsOfCamps { get; set; }
+        public virtual DbSet<Mentor> Mentors { get; set; }
         #endregion
 
         #region Data
@@ -56,7 +71,7 @@ namespace ISc.Presistance
         public virtual DbSet<TraineeAttendence> TraineeAttendences { get; set; }
         public virtual DbSet<TraineeAccessSheet> TraineesAccesses { get; set; }
         public virtual DbSet<TraineeTask> TraineeTasks { get; set; }
-        public virtual DbSet<CampModel>CampModels { get; set; }
+        public virtual DbSet<CampModel> CampModels { get; set; }
         #endregion
     }
 }

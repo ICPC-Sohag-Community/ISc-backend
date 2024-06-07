@@ -27,6 +27,15 @@ namespace ISc.Shared
 
             return Task.FromResult(response);
         }
+        public static Task<Response> SuccessAsync()
+        {
+            Response response = new Response()
+            {
+                IsSuccess = true
+            };
+
+            return Task.FromResult(response);
+        }
         public static Task<Response> SuccessAsync(object data)
         {
             Response response = new Response()
@@ -97,7 +106,7 @@ namespace ISc.Shared
             return Task.FromResult(response);
         }
 
-        public static Task<Response> ValidationFailure(List<IdentityError> identityErrors, HttpStatusCode httpStatusCode)
+        public static Task<Response> ValidationFailureAsync(List<IdentityError> identityErrors, HttpStatusCode httpStatusCode)
         {
             Dictionary<string, List<string>> errors = identityErrors.GetDictionary();
 

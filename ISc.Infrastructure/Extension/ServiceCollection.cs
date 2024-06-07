@@ -8,6 +8,8 @@ using ISc.Infrastructure.Services.Email;
 using ISc.Infrastructure.Services.OnlineJudge.CodeForce;
 using ISc.Infrastructure.Services.ApiRequest;
 using ISc.Infrastructure.Services.Authentication;
+using ISc.Infrastructure.Services.ScheduleTasks;
+using Hangfire;
 
 namespace ISc.Infrastructure.Extension
 {
@@ -19,7 +21,8 @@ namespace ISc.Infrastructure.Extension
                     .AddHangFireServices(configuration)
                     .AddFluentEmailServices(configuration)
                     .AddMemoryCache()
-                    .AddDistributedMemoryCache();
+                    .AddDistributedMemoryCache()
+                    .AddHangFireServices(configuration);
                    
 
             return services;
@@ -55,22 +58,20 @@ namespace ISc.Infrastructure.Extension
         private static IServiceCollection AddCollections(this IServiceCollection services)
         {
             services.AddTransient<IMediaServices, MediaServices>()
-                    .AddTransient<IEmailSender,EmailSender>()
-                    .AddTransient<IAuthServices,AuthServices>()
-                    .AddTransient<IEmailServices,EmailService>()
-                    .AddTransient<IOnlineJudgeServices,CodeForceService>()
-                    .AddTransient<IApiRequestsServices,ApiReqeustService>()
-                    .AddTransient<IAuthServices,AuthServices>();
+                    .AddTransient<IEmailSender, EmailSender>()
+                    .AddTransient<IAuthServices, AuthServices>()
+                    .AddTransient<IEmailServices, EmailService>()
+                    .AddTransient<IOnlineJudgeServices, CodeForceService>()
+                    .AddTransient<IApiRequestsServices, ApiReqeustService>()
+                    .AddTransient<IJobServices, JobService>(); ;
 
             return services;
         }
 
         private static IServiceCollection AddHangFireServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddHangfire(x => x.UseSqlServerStorage(configuration.GetConnectionString("DataBase")))
-            //        .AddHangfireServer();
-
-            //TODO: remove comment
+            services.AddHangfire(x => x.UseSqlServerStorage(configuration.GetConnectionString("DataBase")))
+                    .AddHangfireServer();
 
             return services;
         }

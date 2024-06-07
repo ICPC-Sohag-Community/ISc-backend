@@ -1,4 +1,5 @@
-﻿using ISc.Application.Interfaces.Repos;
+﻿using ISc.Application.Interfaces;
+using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Constant;
 using ISc.Domain.Comman.Enums;
 using ISc.Domain.Models;
@@ -16,12 +17,14 @@ namespace ISc.Presistance.Seeding
             var dbcontext = service.GetRequiredService<ICPCDbContext>();
             var userManager = service.GetRequiredService<UserManager<Account>>();
             var roleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
+            var scheduleTasks = service.GetRequiredService<IJobServices>();
 
-            var pendingMigrations = await dbcontext.Database.GetPendingMigrationsAsync();
-            var migrations = dbcontext.Database.GetMigrations();
+            var appliedMigrations = dbcontext.Database.GetAppliedMigrations();
 
-            if (pendingMigrations.Count() == migrations.Count())
+            if (appliedMigrations.Count() == 0)
             {
+                 dbcontext.Database.Migrate();
+
                 var unitOfWork = service.GetService<IUnitOfWork>();
 
                 await roleManager.CreateAsync(new IdentityRole(Roles.Leader));
@@ -43,7 +46,7 @@ namespace ISc.Presistance.Seeding
                     Gender = Gender.male,
                     CodeForceHandle = "IcpcSohag"
                 };
-                await userManager.CreateAsync(leader, "123654@ICPC#univ");
+                await userManager.CreateAsync(leader, "123@Abc");
                 await userManager.AddToRoleAsync(leader, Roles.Leader);
 
 
@@ -53,8 +56,12 @@ namespace ISc.Presistance.Seeding
 
                 await unitOfWork.SaveAsync();
             }
+            else
+            {
+                await dbcontext.Database.MigrateAsync();
+            }
 
-
+            //scheduleTasks.TrackingTraineesSolving();
 
 
         }

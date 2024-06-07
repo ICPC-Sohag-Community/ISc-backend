@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+	<PreserveCompilationContext>true</PreserveCompilationContext>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -19,9 +20,15 @@
 	  <ProjectReference Include="..\ISc.Shared\ISc.Shared.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Features\Leader\" />
+	  <Folder Include="Features\Leader\Archives\Commands\" />
+	  <Folder Include="Features\Leader\Archives\Queries\" />
+	  <Folder Include="Features\Leader\Reports\Commands\" />
+	  <Folder Include="Features\Leader\Reports\Queries\" />
+	  <Folder Include="Features\Leader\Request\Commands\" />
+	  <Folder Include="Features\Leader\Stuff\Commands\" />
+	  <Folder Include="Features\Leader\Stuff\Queries\" />
+	  <Folder Include="Features\Leader\Trainees\Commands\" />
 	  <Folder Include="Features\Mentor\" />
-	  <Folder Include="Features\HeadOfCamp\" />
 	  <Folder Include="Features\Trainee\" />
 	</ItemGroup>
 </Project>

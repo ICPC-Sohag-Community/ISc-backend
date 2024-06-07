@@ -1,6 +1,7 @@
 ﻿using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ISc.Presistance.Repos
 {
@@ -16,7 +17,6 @@ namespace ISc.Presistance.Repos
         public virtual async Task AddAsync(T entity)
         {
             await _context.AddAsync(entity);
-            await _context.SaveChangesAsync();
         }
 
         public IQueryable<T> Entities => _context.Set<T>();
@@ -26,7 +26,12 @@ namespace ISc.Presistance.Repos
             return await _context.Set<T>().Select(i => i).ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task AddRangeAsync(ICollection<T> entities)
+        {
+            await _context.AddRangeAsync(entities);
+        }
+
+        public async Task<T?> GetByIdAsync(int id)
         {
             return await _context.Set<T>().FindAsync(id);
         }
@@ -34,12 +39,26 @@ namespace ISc.Presistance.Repos
         public virtual async Task UpdateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
-            await _context.SaveChangesAsync();
+
+            await Task.CompletedTask;
+        }
+        public void UpdateRange(ICollection<T> entities)
+        {
+            _context.UpdateRange(entities);
         }
 
         public virtual void Delete(T entity)
         {
             _context.Set<T>().Remove(entity);
+        }
+        public void DeleteRange(ICollection<T> entities)
+        {
+            _context.RemoveRange(entities);
+        }
+
+        public void DetachedetachedEntity<T>(T entity)
+        {
+            _context.Entry(entity).State = EntityState.Detached;
         }
 
     }

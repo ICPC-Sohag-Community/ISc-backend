@@ -1,6 +1,8 @@
+using Hangfire;
 using ISc.Api;
 using ISc.Application.Extension;
 using ISc.Infrastructure.Extension;
+using ISc.Presentation.Middlerware;
 using ISc.Presistance.Extension;
 using ISc.Presistance.Seeding;
 
@@ -15,7 +17,7 @@ builder.Services
 
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.DependencyInjectionService(builder.Configuration);
 
@@ -30,10 +32,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseMiddleware<GlobalErrorHandler>();
+app.UseRouting();
 app.UseCors(cores => cores.AllowAnyHeader().AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 app.UseAuthentication();
 app.UseAuthorization();
-//TODO: app.UseHangfireDashboard("/hangFireDashboard");
+app.UseHangfireDashboard("/hangFireDashboard");
 DataSeeding.Initialize(app.Services.CreateScope().ServiceProvider);
 app.MapControllers();
 

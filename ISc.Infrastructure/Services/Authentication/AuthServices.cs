@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ISc.Application.Interfaces;
@@ -18,10 +17,10 @@ namespace ISc.Infrastructure.Services.Authentication
             _configuration = configuration;
         }
 
-        public string GenerateToken(Account user,ICollection<string> roles)
+        public string GenerateToken(Account user, ICollection<string> roles)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecureKey"]!));
-            var creds=new SigningCredentials(key,SecurityAlgorithms.HmacSha256);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
             {
@@ -30,7 +29,7 @@ namespace ISc.Infrastructure.Services.Authentication
                 new Claim(ClaimTypes.Email,user.Email!)
             };
 
-            foreach(var role in roles)
+            foreach (var role in roles)
             {
                 _ = claims.Append(new Claim(ClaimTypes.Role, role));
             }

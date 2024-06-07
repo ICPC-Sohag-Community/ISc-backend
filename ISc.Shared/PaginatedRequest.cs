@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ISc.Shared
 {
-    public class PaginatedRequest
+    public record PaginatedRequest
     {
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 1;

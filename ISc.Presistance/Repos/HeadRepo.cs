@@ -1,51 +1,104 @@
-﻿using ISc.Application.Interfaces.Repos;
+﻿using ISc.Application.Interfaces;
+using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Constant;
+using ISc.Domain.Comman.Dtos;
+using ISc.Domain.Models;
 using ISc.Domain.Models.CommunityStuff;
 using ISc.Domain.Models.IdentityModels;
+using ISc.Shared.Exceptions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Presistance.Repos
 {
-    public class HeadRepo : BaseRepo<HeadOfCamp>, IHeadRepo
+    public class HeadRepo : IHeadRepo
     {
         private readonly UserManager<Account> _userManager;
         private readonly ICPCDbContext _context;
         private readonly IStuffArchiveRepo _archiveRepo;
+        private readonly IMediaServices _mediaServices;
+
+        public IQueryable<HeadOfCamp> Entities => _context.Set<HeadOfCamp>();
+
         public HeadRepo(
             ICPCDbContext context,
             UserManager<Account> userManager,
-            IStuffArchiveRepo archiveRepo) : base(context)
+            IStuffArchiveRepo archiveRepo,
+            IMediaServices mediaServices)
         {
             _context = context;
             _userManager = userManager;
             _archiveRepo = archiveRepo;
+            _mediaServices = mediaServices;
         }
 
-        public async override void Delete(HeadOfCamp entity)
+        public async Task Delete(Account account,HeadOfCamp head)
         {
-            var rolesCount = _userManager.GetRolesAsync(entity).Result.Count;
+            if (head is null)
+            {
+                throw new BadRequestException("Invalid request.");
+            }
 
-            await _archiveRepo.AddToArchiveAsync(entity);
+            var rolesCount = _userManager.GetRolesAsync(account).Result.Count;
+
+            await _archiveRepo.AddToArchiveAsync(account,Roles.Head_Of_Camp);
 
             if (rolesCount == 1)
             {
-                await _userManager.DeleteAsync(entity);
+                if (account.PhotoUrl is not null)
+                {
+                    await _mediaServices.DeleteAsync(account.PhotoUrl);
+                }
+
+                await _userManager.DeleteAsync(account);
             }
             else
             {
-                await _userManager.RemoveFromRoleAsync(entity, Roles.Head_Of_Camp);
-                _context.Remove(entity);
+                await _userManager.RemoveFromRoleAsync(account, Roles.Head_Of_Camp);
+                _context.HeadsOfCamps.Remove(head);
             }
         }
 
-        public override Task AddAsync(HeadOfCamp entity)
+        public async Task AddAsync(AccountModel<HeadOfCamp> entity)
         {
-            return _userManager.CreateAsync(entity);
+            if (entity.Account is not null && entity.Password is not null)
+            {
+                await _userManager.CreateAsync(entity.Account, entity.Password);
+            }
+            await _context.HeadsOfCamps.AddAsync(entity.Member);
+
+            if (!await _userManager.IsInRoleAsync(entity.Account!,Roles.Head_Of_Camp))
+            {
+                await _userManager.AddToRoleAsync(entity.Account!,Roles.Head_Of_Camp);
+            }
         }
 
-        public override Task UpdateAsync(HeadOfCamp entity)
+        public async Task UpdateAsync(AccountModel<HeadOfCamp> entity)
         {
-            return _userManager.UpdateAsync(entity);
+            if(entity.Account != null)
+            {
+                await _userManager.UpdateAsync(entity.Account);
+
+            }
+
+            if (entity.Member != null)
+            {
+                _context.Update(entity.Member);
+            }
+        }
+
+        public async Task<HeadOfCamp?> GetByIdAsync(string id)
+        {
+            return await _context.HeadsOfCamps.FindAsync(id);
+        }
+        public async Task<IEnumerable<HeadOfCamp>?> GetAllAsync()
+        {
+            return await _context.HeadsOfCamps.ToListAsync();
+        }
+
+        public async Task AddRangeAsync(ICollection<HeadOfCamp> entities)
+        {
+            await _context.AddRangeAsync(entities);
         }
     }
 }

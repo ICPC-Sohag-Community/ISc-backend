@@ -10,6 +10,6 @@ namespace ISc.Domain.Models
 {
 	public class StuffArchive:Archive,ISoftEntity
 	{
-
+		public string Role { get; set; }
 	}
 }

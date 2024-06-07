@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ISc.Presentation\ISc.Presentation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\EmailTemplates\AcceptedTrainee.html" />
+    <None Include="wwwroot\EmailTemplates\AccountInfo.html" />
+    <None Include="wwwroot\EmailTemplates\EmailConfirmation.html" />
+    <None Include="wwwroot\EmailTemplates\Kickedout.html" />
+    <None Include="wwwroot\EmailTemplates\OtpResetPassword.html" />
+    <None Include="wwwroot\EmailTemplates\Rejection.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
 </Project>

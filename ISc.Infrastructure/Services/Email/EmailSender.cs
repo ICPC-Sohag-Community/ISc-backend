@@ -1,7 +1,6 @@
-﻿using System.Xml.Linq;
-using ISc.Application.Dtos.Email;
+﻿using ISc.Application.Dtos.Email;
 using ISc.Application.Interfaces;
-using ISc.Domain.Models;
+using ISc.Domain.Models.IdentityModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -9,7 +8,6 @@ namespace ISc.Infrastructure.Services.Email
 {
     public class EmailSender : IEmailSender
     {
-        private readonly IConfiguration _config;
         private readonly IEmailServices _emailService;
         private readonly IWebHostEnvironment _host;
         private readonly IConfiguration _filePath;
@@ -20,14 +18,31 @@ namespace ISc.Infrastructure.Services.Email
             IEmailServices emailService,
             IWebHostEnvironment host)
         {
-            _config = config;
-            _filePath = config.GetSection("MailSettings");
-            _email = _config.GetSection("MailSettings:SenderEmail").Value!;
+            _filePath = config.GetSection("EmailTemplates");
+            _email = config.GetSection("MailSettings:SenderEmail").Value!;
             _emailService = emailService;
             _host = host;
         }
 
-        public async Task<bool> SendAcceptTraineeEmailAsync(Trainee trainee, string campName, DateOnly startDate)
+        public async Task<bool> SendAcceptToRoleAsync(string email, string name, string role)
+        {
+            var content = File.ReadAllText(_host.WebRootPath + _filePath["AccpetToRole"]);
+
+            return await _emailService.SendMailUsingRazorTemplateAsync(new EmailRequestDto()
+            {
+                To = email!,
+                From = _email,
+                Subject = "ISc - Accept to new role",
+                Body = content,
+                BodyData = new
+                {
+                    User = name,
+                    Role = role
+                }
+            });
+        }
+
+        public async Task<bool> SendAcceptTraineeEmailAsync(Account trainee, string campName, DateOnly startDate)
         {
             var content = File.ReadAllText(_host.WebRootPath + _filePath["AcceptedTrainee"]);
 
@@ -46,21 +61,22 @@ namespace ISc.Infrastructure.Services.Email
             });
         }
 
-        public async Task<bool> SendAccountInfoAsync(string userName, string password, Trainee trainee)
+        public async Task<bool> SendAccountInfoAsync(Account user, string password, string role)
         {
             var content = File.ReadAllText(_host.WebRootPath + _filePath["AccoutInfo"]);
 
             return await _emailService.SendMailUsingRazorTemplateAsync(new EmailRequestDto()
             {
-                To = trainee.Email!,
+                To = user.Email!,
                 From = _email,
                 Subject = "ISc - Account Information",
                 Body = content,
                 BodyData = new
                 {
-                    TraineeName = trainee.FirstName + ' ' + trainee.LastName,
-                    UserName = userName,
-                    Password = password
+                    TraineeName = user.FirstName + ' ' + user.MiddleName,
+                    user.UserName,
+                    Password = password,
+                    Role = role
                 }
             });
         }

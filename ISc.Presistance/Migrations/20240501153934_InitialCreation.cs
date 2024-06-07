@@ -137,6 +137,8 @@ namespace ISc.Presistance.Migrations
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastLoginDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Grade = table.Column<int>(type: "int", nullable: false),
+                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    College = table.Column<byte>(type: "tinyint", nullable: false),
                     Gender = table.Column<byte>(type: "tinyint", nullable: false),
                     PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CodeForceHandle = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -245,6 +247,8 @@ namespace ISc.Presistance.Migrations
                     SheetCodefroceId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<byte>(type: "tinyint", nullable: false),
                     CampId = table.Column<int>(type: "int", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -609,12 +613,12 @@ namespace ISc.Presistance.Migrations
                 {
                     TraineeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SheetId = table.Column<int>(type: "int", nullable: false),
-                    AccessDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    SolvedProblems = table.Column<int>(type: "int", nullable: false)
+                    Index = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AccessDate = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TraineesAccesses", x => new { x.TraineeId, x.SheetId });
+                    table.PrimaryKey("PK_TraineesAccesses", x => new { x.TraineeId, x.SheetId, x.Index });
                     table.ForeignKey(
                         name: "FK_TraineesAccesses_Sheets_SheetId",
                         column: x => x.SheetId,

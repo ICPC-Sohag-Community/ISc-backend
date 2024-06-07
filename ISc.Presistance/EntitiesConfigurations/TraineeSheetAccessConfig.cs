@@ -8,7 +8,7 @@ namespace ISc.Presistance.EntitiesConfigurations
     {
         public void Configure(EntityTypeBuilder<TraineeAccessSheet> builder)
         {
-            builder.HasKey(x => new { x.TraineeId, x.SheetId });
+            builder.HasKey(x => new { x.TraineeId, x.SheetId, x.Index });
 
             builder.HasOne(x => x.Sheet)
                 .WithMany(x => x.TraineesAccess)

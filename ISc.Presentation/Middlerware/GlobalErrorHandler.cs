@@ -23,13 +23,13 @@ namespace ISc.Presentation.Middlerware
             }
             catch (Exception e)
             {
-                var response = new Shared.Response()
+                context.Response.StatusCode = 400; 
+                var response = new Response()
                 {
                     Data = e.GetType().Name,
                     Message = e.Message,
                     StatusCode = ExceptionStatusCode(e)
                 };
-
                 var json = JsonSerializer.Serialize(response);
                 context.Response.ContentType = "application/json";
                 context?.Response.WriteAsync(json);

@@ -14,6 +14,6 @@ namespace ISc.Domain.Models
         public int SheetId { get; set; }
         public virtual Sheet Sheet { get; set; }
         public DateOnly AccessDate { get; set; }
-        public int SolvedProblems { get; set; }
+        public string Index { get; set; }
     }
 }
