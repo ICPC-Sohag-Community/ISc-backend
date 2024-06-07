@@ -1,4 +1,5 @@
-﻿using ISc.Application.Interfaces.Repos;
+﻿using ISc.Application.Interfaces;
+using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Constant;
 using ISc.Domain.Comman.Dtos;
 using ISc.Domain.Models;
@@ -15,17 +16,20 @@ namespace ISc.Presistance.Repos
         private readonly UserManager<Account> _userManager;
         private readonly ICPCDbContext _context;
         private readonly IStuffArchiveRepo _archiveRepo;
+        private readonly IMediaServices _mediaServices;
 
         public IQueryable<HeadOfCamp> Entities => _context.Set<HeadOfCamp>();
 
         public HeadRepo(
             ICPCDbContext context,
             UserManager<Account> userManager,
-            IStuffArchiveRepo archiveRepo)
+            IStuffArchiveRepo archiveRepo,
+            IMediaServices mediaServices)
         {
             _context = context;
             _userManager = userManager;
             _archiveRepo = archiveRepo;
+            _mediaServices = mediaServices;
         }
 
         public async Task Delete(Account account,HeadOfCamp head)
@@ -37,10 +41,15 @@ namespace ISc.Presistance.Repos
 
             var rolesCount = _userManager.GetRolesAsync(account).Result.Count;
 
-            await _archiveRepo.AddToArchiveAsync(account);
+            await _archiveRepo.AddToArchiveAsync(account,Roles.Head_Of_Camp);
 
             if (rolesCount == 1)
             {
+                if (account.PhotoUrl is not null)
+                {
+                    await _mediaServices.DeleteAsync(account.PhotoUrl);
+                }
+
                 await _userManager.DeleteAsync(account);
             }
             else

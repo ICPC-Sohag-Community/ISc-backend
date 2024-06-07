@@ -35,7 +35,7 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Empty
 
             var trainees = camp.Trainees.ToList();
             var mentors = camp.Mentors.ToList();
-            var heads=camp.Heads.ToList();
+            var heads = camp.Heads.ToList();
             var isCompleted = DateOnly.FromDateTime(DateTime.Now) >= camp.EndDate;
 
             foreach (var trainee in trainees)
@@ -46,10 +46,10 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Empty
             foreach (var mentor in mentors)
             {
                 var entity = mentor.Mentor;
-                await _unitOfWork.Mentors.Delete(entity.Account, entity);
+                await _unitOfWork.Mentors.Delete(entity.Account, entity, camp.Id);
             }
 
-            foreach(var  head in heads)
+            foreach (var head in heads)
             {
                 await _unitOfWork.Heads.Delete(head.Account, head);
             }

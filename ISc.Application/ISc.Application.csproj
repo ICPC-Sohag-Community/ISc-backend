@@ -24,6 +24,7 @@
 	  <Folder Include="Features\Leader\Archives\Queries\" />
 	  <Folder Include="Features\Leader\Reports\Commands\" />
 	  <Folder Include="Features\Leader\Reports\Queries\" />
+	  <Folder Include="Features\Leader\Request\Commands\" />
 	  <Folder Include="Features\Leader\Stuff\Commands\" />
 	  <Folder Include="Features\Leader\Stuff\Queries\" />
 	  <Folder Include="Features\Leader\Trainees\Commands\" />

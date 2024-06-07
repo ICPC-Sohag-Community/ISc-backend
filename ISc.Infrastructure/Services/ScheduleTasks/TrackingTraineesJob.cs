@@ -28,14 +28,10 @@ namespace ISc.Infrastructure.Services.ScheduleTasks
 
             foreach (var camp in camps)
             {
-                var trainees = camp.Trainees.Select(x => new
-                {
-                    x.Id,
-                    x.Account,
-                    x.CampId
-                }).ToHashSet();
+                var trainees = camp.Trainees.ToHashSet();
 
-                var sheets = camp.Sheets.Where(x => x.EndDate <= DateOnly.FromDateTime(DateTime.Now) || x.Status == SheetStatus.Completed)
+                var sheets = camp.Sheets.Where(x => (x.EndDate <= DateOnly.FromDateTime(DateTime.Now)) 
+                                               && x.Type == SheetType.Sheet)
                                         .Select(x => new
                                         {
                                             x.Id,
@@ -55,7 +51,7 @@ namespace ISc.Infrastructure.Services.ScheduleTasks
                                                     sheetId: sheet.SheetCodefroceId,
                                                     count: 2700,
                                                     community: sheet.Community,
-                                                    handle:traineeHandle
+                                                    handle: traineeHandle
                                                     )!.Result.Where(x => x.verdict == "OK");
 
                         if (sheetSolvedProblems.IsNullOrEmpty())
@@ -78,6 +74,10 @@ namespace ISc.Infrastructure.Services.ScheduleTasks
                                 TraineeId = trainee.Id,
                                 Index = x
                             }).ToList();
+
+                        trainee.Points += 20 * newProblems.Count;
+
+                        await _unitOfWork.Trainees.UpdateAsync(new() { Account = trainee.Account, Member = trainee });
 
                         await _unitOfWork.Repository<TraineeAccessSheet>().AddRangeAsync(newProblemsToDatabase);
                     }

@@ -19,9 +19,9 @@ namespace ISc.Presistance.Repos
             _mapper = mapper;
         }
 
-        public async Task AddToArchiveAsync(Account member)
+        public async Task AddToArchiveAsync(Account member,string role)
         {
-            var entity = await Found(member);
+            var entity = await Found(member, role);
 
             if (entity is null)
             {
@@ -34,12 +34,12 @@ namespace ISc.Presistance.Repos
             } 
         }
 
-        private async Task<StuffArchive?> Found(Account member)
+        private async Task<StuffArchive?> Found(Account member,string role)
         {
             return await _context.StuffArchives.SingleOrDefaultAsync(x =>
-            (x.NationalId == member.NationalId) ||
+            ((x.NationalId == member.NationalId) ||
             (x.PhoneNumber == member.PhoneNumber) ||
-            ((x.FirstName + x.MiddleName + x.LastName).ToLower() == (member.FirstName + x.MiddleName + x.LastName).ToLower()));
+            ((x.FirstName + x.MiddleName + x.LastName).ToLower() == (member.FirstName + x.MiddleName + x.LastName).ToLower())) && x.Role == role);
         }
     }
 }

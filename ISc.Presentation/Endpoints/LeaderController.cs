@@ -1,4 +1,5 @@
-﻿using ISc.Application.Features.Leader.Accounts.Commands.Create;
+﻿using System.Runtime.CompilerServices;
+using ISc.Application.Features.Leader.Accounts.Commands.Create;
 using ISc.Application.Features.Leader.Camps.Commands.Create;
 using ISc.Application.Features.Leader.Camps.Commands.Delete;
 using ISc.Application.Features.Leader.Camps.Commands.Empty;
@@ -10,11 +11,14 @@ using ISc.Application.Features.Leader.Camps.Queries.GetCampEditById;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetFeedbacks;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
+using ISc.Application.Features.Leader.Request.Queries.DisplayAll;
+using ISc.Application.Features.Leader.Request.Queries.DisplayById;
 using ISc.Application.Features.Leader.Trainees.Queries.GetAllWithPagination;
 using ISc.Application.Features.Leader.Trainees.Queries.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 
 namespace ISc.Presentation.Endpoints
 {
@@ -111,6 +115,18 @@ namespace ISc.Presentation.Endpoints
         }
         [HttpGet("Trainees")]
         public async Task<ActionResult<GetAllTraineeWithPaginationQueryDto>> GetAllTraineesWithPagination([FromQuery] GetAllTraineeWithPaginationQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
+
+        [HttpGet("GetTraineesRegisterations/{campId}")]
+        public async Task<ActionResult<DisplayAllRegisterationQueryDto>> GetAllTraineesRegisterRequests(int campId)
+        {
+            return Ok(await _mediator.Send(new DisplayAllRegisterationQuery(campId)));
+        }
+
+        [HttpGet("GetTraineeRegisteration")]
+        public async Task<ActionResult<DisplayRegisterationByIdQueryDto>>GetTraineeRegisterReqeust(DisplayRegisterationByIdQuery query)
         {
             return Ok(await _mediator.Send(query));
         }

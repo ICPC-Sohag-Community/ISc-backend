@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ISc.Application.Interfaces.Repos;
+﻿using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Constant;
 using ISc.Domain.Models;
 using ISc.Domain.Models.IdentityModels;
 using ISc.Shared;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Application.Features.SystemRoles.Commands.Assign
 {
-    public record AssignToRoleCommand:IRequest<Response>
+    public record AssignToRoleCommand : IRequest<Response>
     {
         public string userId { get; set; }
         public string Role { get; set; }
@@ -66,15 +60,15 @@ namespace ISc.Application.Features.SystemRoles.Commands.Assign
                 return await Response.FailureAsync("Invalid reqeust");
             }
 
-            if(command.Role==Roles.Mentor)
+            if (command.Role == Roles.Mentor)
             {
                 await addToMentor(user, (int)command.CampId!);
             }
-            else if(command.Role == Roles.Trainee)
+            else if (command.Role == Roles.Trainee)
             {
                 await addToTrainee(user, (int)command.CampId!);
             }
-            else if(command.Role==Roles.Head_Of_Camp)
+            else if (command.Role == Roles.Head_Of_Camp)
             {
                 await addToHead(user, (int)command.CampId!);
             }
@@ -90,7 +84,7 @@ namespace ISc.Application.Features.SystemRoles.Commands.Assign
         private async Task addToMentor(Account user, int campId)
         {
             var mentor = await _unitOfWork.Mentors.GetByIdAsync(user.Id);
-            
+
 
             if (await _unitOfWork.Repository<MentorsOfCamp>().Entities.AnyAsync(x => x.CampId == campId && x.MentorId == user.Id))
             {
@@ -120,7 +114,7 @@ namespace ISc.Application.Features.SystemRoles.Commands.Assign
         {
             var trainee = await _unitOfWork.Trainees.GetByIdAsync(user.Id);
 
-            if(trainee is null)
+            if (trainee is null)
             {
                 await _unitOfWork.Trainees.AddAsync(new()
                 {
@@ -153,7 +147,7 @@ namespace ISc.Application.Features.SystemRoles.Commands.Assign
         {
             var head = await _unitOfWork.Heads.GetByIdAsync(user.Id);
 
-            if(head is null)
+            if (head is null)
             {
                 await _unitOfWork.Heads.AddAsync(new()
                 {

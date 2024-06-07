@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ISc.Infrastructure.Services.Media
 {
@@ -33,8 +34,9 @@ namespace ISc.Infrastructure.Services.Media
             await Task.CompletedTask;
         }
 
-        public string GetUrl(string url)
+        public string? GetUrl(string? url)
         {
+            if (url.IsNullOrEmpty()) return null;
             return _configuration["ImageSavePath"]!.ToString() + @"/" + url;
         }
 

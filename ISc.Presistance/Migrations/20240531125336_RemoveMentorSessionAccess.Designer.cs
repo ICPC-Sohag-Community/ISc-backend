@@ -4,6 +4,7 @@ using ISc.Presistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISc.Presistance.Migrations
 {
     [DbContext(typeof(ICPCDbContext))]
-    partial class ICPCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240531125336_RemoveMentorSessionAccess")]
+    partial class RemoveMentorSessionAccess
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -289,8 +292,9 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<byte>("College")
-                        .HasColumnType("tinyint");
+                    b.Property<string>("College")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
@@ -528,9 +532,6 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(14)
                         .HasColumnType("nvarchar(14)");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");
 
@@ -586,7 +587,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
-                    b.HasKey("NationalId", "Role");
+                    b.HasKey("NationalId");
 
                     b.ToTable("StuffArchives", "ICPC", t =>
                         {

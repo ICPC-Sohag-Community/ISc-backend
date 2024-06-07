@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using ISc.Application.Features.SystemRoles.Queries.GetUserRoles;
+using ISc.Application.Interfaces;
 using ISc.Application.Interfaces.Repos;
-using ISc.Domain.Comman.Constant;
 using ISc.Domain.Models.IdentityModels;
 using ISc.Shared;
 using Mapster;
@@ -27,17 +27,20 @@ namespace ISc.Application.Features.Leader.Trainees.Queries.GetById
         private readonly UserManager<Account> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMediator _mediator;
+        private readonly IMediaServices _mediaServices;
 
         public GetTraineeByIdQueryHandler(
             IUnitOfWork unitOfWork,
             UserManager<Account> userManager,
             RoleManager<IdentityRole> roleManager,
-            IMediator mediator)
+            IMediator mediator,
+            IMediaServices mediaServices)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _roleManager = roleManager;
             _mediator = mediator;
+            _mediaServices = mediaServices;
         }
 
         public async Task<Response> Handle(GetTraineeByIdQuery query, CancellationToken cancellationToken)
@@ -51,7 +54,9 @@ namespace ISc.Application.Features.Leader.Trainees.Queries.GetById
 
             var account = entity.Account;
             var trainee = account.Adapt<GetTraineeByIdQueryDto>();
+
             trainee.FullName = account.FirstName + ' ' + account.MiddleName + ' ' + account.LastName;
+            trainee.PhotoUrl = _mediaServices.GetUrl(trainee.PhotoUrl);
 
             var inRoles = await _userManager.GetRolesAsync(entity.Account);
             var outRoles = _roleManager.Roles.Select(x => x.Name).ToListAsync().Result.Except(inRoles);

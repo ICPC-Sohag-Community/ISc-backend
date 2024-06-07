@@ -14,7 +14,7 @@ namespace ISc.Presistance.EntitiesConfigurations
         [Obsolete]
         public void Configure(EntityTypeBuilder<StuffArchive> builder)
         {
-            builder.HasKey(x => x.NationalId);
+            builder.HasKey(x => new { x.NationalId,x.Role});
 
             builder.Property(x => x.FirstName).HasMaxLength(30);
             builder.Property(x => x.MiddleName).HasMaxLength(30);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using ISc.Application.Interfaces;
 using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Constant;
 using ISc.Domain.Comman.Dtos;
@@ -14,14 +15,17 @@ namespace ISc.Presistance.Repos
     {
         private readonly ICPCDbContext _context;
         private readonly UserManager<Account> _userManager;
+        private readonly IMediaServices _mediaServices;
 
 
         public TraineeRepo(
             ICPCDbContext context,
-            UserManager<Account> userManager)
+            UserManager<Account> userManager,
+            IMediaServices mediaServices)
         {
             _context = context;
             _userManager = userManager;
+            _mediaServices = mediaServices;
         }
         public IQueryable<Trainee> Entities => _context.Trainees;
 
@@ -34,6 +38,11 @@ namespace ISc.Presistance.Repos
 
             if (rolesCount == 1)
             {
+                if(account.PhotoUrl is not null)
+                {
+                    await _mediaServices.DeleteAsync(account.PhotoUrl);
+                }
+
                 await _userManager.DeleteAsync(account);
             }
             else
@@ -51,7 +60,7 @@ namespace ISc.Presistance.Repos
         {
             if (entity.Account != null)
             {
-                await _userManager.DeleteAsync(entity.Account);
+                await _userManager.UpdateAsync(entity.Account);
             }
 
             if (entity.Member != null)

@@ -1,4 +1,5 @@
-﻿using ISc.Application.Interfaces.Repos;
+﻿using ISc.Application.Interfaces;
+using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Constant;
 using ISc.Domain.Comman.Dtos;
 using ISc.Domain.Models.CommunityStuff;
@@ -14,21 +15,24 @@ namespace ISc.Presistance.Repos
         private readonly ICPCDbContext _context;
         private readonly UserManager<Account> _userManager;
         private readonly IStuffArchiveRepo _archiveRepo;
+        private readonly IMediaServices _mediaServices;
 
 
         public MentorRepo(
             ICPCDbContext context,
             UserManager<Account> userManager,
-            IStuffArchiveRepo archiveRepo)
+            IStuffArchiveRepo archiveRepo,
+            IMediaServices mediaServices)
         {
             _context = context;
             _userManager = userManager;
             _archiveRepo = archiveRepo;
+            _mediaServices = mediaServices;
         }
 
         public IQueryable<Mentor> Entities => _context.Set<Mentor>();
 
-        public async Task Delete(Account account, Mentor mentor)
+        public async Task Delete(Account account, Mentor mentor, int? campId = null)
         {
             if (mentor is null)
             {
@@ -37,20 +41,36 @@ namespace ISc.Presistance.Repos
 
             var rolesCount = _userManager.GetRolesAsync(account).Result.Count;
 
-            await _archiveRepo.AddToArchiveAsync(account);
             var participatedCamps = mentor.Camps.Count;
             if (rolesCount == 1 && participatedCamps == 1)
             {
+                if (account.PhotoUrl is not null)
+                {
+                    await _mediaServices.DeleteAsync(account.PhotoUrl);
+                }
+
+                await UnAssignMentorTrainees(mentor!);
+                await _archiveRepo.AddToArchiveAsync(account, Roles.Mentor);
                 await _userManager.DeleteAsync(account);
             }
             else
             {
-                await DeleteMentorTrainees(mentor!);
+                if (campId is not null)
+                {
+                    await UnAssignMentorTrainees(mentor!, campId);
 
-                var mentorOfCamp = await _context.MentorsOfCamps.SingleAsync(p => p.MentorId == account.Id);
-                _context.MentorsOfCamps.Remove(mentorOfCamp);
+                    var mentorOfCamp = await _context.MentorsOfCamps.SingleAsync(x => x.CampId == campId && x.MentorId == account.Id);
+                    _context.MentorsOfCamps.Remove(mentorOfCamp);
+                }
+                else
+                {
+                    await UnAssignMentorTrainees(mentor!);
 
-                if(participatedCamps == 1)
+                    var mentorOfCamps = await _context.MentorsOfCamps.Where(p => p.MentorId == account.Id).ToListAsync();
+                    _context.MentorsOfCamps.RemoveRange(mentorOfCamps);
+                }
+
+                if (participatedCamps == 1)
                 {
                     await _userManager.RemoveFromRoleAsync(account, Roles.Mentor);
                     _context.Mentors.Remove(mentor);
@@ -92,10 +112,18 @@ namespace ISc.Presistance.Repos
             return await _context.Mentors.ToListAsync();
         }
 
-        private async Task DeleteMentorTrainees(Mentor entity)
+        private async Task UnAssignMentorTrainees(Mentor entity, int? campId = null)
         {
-            var trainees = _context.Trainees.Where(p => p.MentorId == entity.Id);
-            await trainees.ForEachAsync(x => x.MentorId = null);
+            if (campId is not null)
+            {
+                var trainees = _context.Trainees.Where(p => p.MentorId == entity.Id && p.CampId == campId);
+                await trainees.ForEachAsync(x => x.MentorId = null);
+            }
+            else
+            {
+                var trainees = _context.Trainees.Where(p => p.MentorId == entity.Id);
+                await trainees.ForEachAsync(x => x.MentorId = null);
+            }
         }
 
         public async Task AddRangeAsync(ICollection<Mentor> entities)

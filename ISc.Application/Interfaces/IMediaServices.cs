@@ -10,6 +10,6 @@ namespace ISc.Application.Interfaces
 
         Task<string> UpdateAsync(string oldUrl, IFormFile newMedia);
 
-        string GetUrl(string url);
+        string? GetUrl(string? url);
     }
 }
