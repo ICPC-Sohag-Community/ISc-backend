@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.x' # Change this to match your .NET Core version
+
+      - name: Publish to Web Deploy
+        run: msbuild /t:Publish /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile="site4208-WebDeploy" /p:Password="Zw7+-3MhBy9#"
+
+      # You may need additional steps to handle database migrations or other deployment tasks.
