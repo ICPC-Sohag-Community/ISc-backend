@@ -15,6 +15,7 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddPresistance(builder.Configuration);
 
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
