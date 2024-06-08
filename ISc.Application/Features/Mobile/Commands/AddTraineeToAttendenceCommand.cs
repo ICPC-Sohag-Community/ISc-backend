@@ -9,7 +9,6 @@ namespace ISc.Application.Features.Mobile.Commands
     {
         public string TraineeId { get; set; }
 
-        public int SessionId { get; set; }
 
     }
     internal class AddTraineeToAttendenceCommandHandler : IRequestHandler<AddTraineeToAttendenceCommand, Response>
@@ -23,13 +22,17 @@ namespace ISc.Application.Features.Mobile.Commands
 
         public async Task<Response> Handle(AddTraineeToAttendenceCommand command, CancellationToken cancellationToken)
         {
-            if (!_unitOfWork.Trainees.Entities.Any(i => i.Id == command.TraineeId))
+            var trainee = _unitOfWork.Trainees.Entities.FirstOrDefault(i => i.Id == command.TraineeId);
+
+            if (trainee==null)
                 return await Response.FailureAsync("The Required Trainee Is Not Exist");
             
-            if (!_unitOfWork.Repository<Session>().Entities.Any(i => i.Id == command.SessionId))
-                return await Response.FailureAsync("The Required Session Is Not Exist");
+            var SessionId=trainee?.Camp?.Sessions.FirstOrDefault(i=>i.StartDate>=DateTime.Now.Date)?.Id;
 
-            await _unitOfWork.Repository<TraineeAttendence>().AddAsync(new TraineeAttendence { SessionId = command.SessionId, TraineeId = command.TraineeId });
+            if (SessionId == null) 
+                return await Response.FailureAsync("The Required Trainee Is Not Exist");
+
+            await _unitOfWork.Repository<TraineeAttendence>().AddAsync(new TraineeAttendence { SessionId = SessionId??0, TraineeId = command.TraineeId });
             return await Response.SuccessAsync("Success");
         }
     }
