@@ -25,12 +25,12 @@ namespace ISc.Application.Features.Mobile.Commands
             var trainee = _unitOfWork.Trainees.Entities.FirstOrDefault(i => i.Id == command.TraineeId);
 
             if (trainee==null)
-                return await Response.FailureAsync("The Required Trainee Is Not Exist");
+                return await Response.FailureAsync(" Trainee Not Allowed");
             
             var SessionId=trainee?.Camp?.Sessions.FirstOrDefault(i=>i.StartDate>=DateTime.Now.Date)?.Id;
 
             if (SessionId == null) 
-                return await Response.FailureAsync("The Required Trainee Is Not Exist");
+                return await Response.FailureAsync("There is no session for now ");
 
             await _unitOfWork.Repository<TraineeAttendence>().AddAsync(new TraineeAttendence { SessionId = SessionId??0, TraineeId = command.TraineeId });
             return await Response.SuccessAsync("Success");
