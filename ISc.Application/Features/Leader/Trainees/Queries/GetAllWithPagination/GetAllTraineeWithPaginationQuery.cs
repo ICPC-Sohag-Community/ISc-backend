@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ISc.Application.Extension;
+﻿using ISc.Application.Extension;
 using ISc.Application.Interfaces.Repos;
 using ISc.Shared;
-using Mapster;
 using MediatR;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ISc.Application.Features.Leader.Trainees.Queries.GetAllWithPagination
 {
-    public record GetAllTraineeWithPaginationQuery:PaginatedRequest,IRequest<PaginatedRespnose<GetAllTraineeWithPaginationQueryDto>>;
+    public record GetAllTraineeWithPaginationQuery : PaginatedRequest, IRequest<PaginatedRespnose<GetAllTraineeWithPaginationQueryDto>>;
 
     internal class GetAllTraineeWithPaginationQueryHandler : IRequestHandler<GetAllTraineeWithPaginationQuery, PaginatedRespnose<GetAllTraineeWithPaginationQueryDto>>
     {
