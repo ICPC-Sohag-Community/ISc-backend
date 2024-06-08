@@ -35,13 +35,13 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(new AddTraineeToAttendenceCommand(traineeId)));
         }
 
-        [HttpGet("GetPresentTrainees/{campId}")]
+        [HttpGet("getPresentTrainees/{campId}")]
         public async Task<ActionResult<List<GetPresentTraineesQueryDto>>> GetPresentTrainee(int campId)
         {
             return Ok(await _mediator.Send(new GetPresentTraineesQuery(campId)));
         }
 
-        [HttpPut("UpdateTraineePoints")]
+        [HttpPut("updateTraineePoints")]
         public async Task<ActionResult<int>> UpdateTraineePoints(UpdateTraineePointsCommand command)
         {
             return Ok(await _mediator.Send(command));
