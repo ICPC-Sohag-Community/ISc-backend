@@ -16,7 +16,7 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("getTraineesByCampId")]
-        public async Task<ActionResult<GetTraineesByCampIdQueryDto>> GetTraineesByCampId( GetTraineesByCampIdQuery query)
+        public async Task<ActionResult<GetTraineesByCampIdQueryDto>> GetTraineesByCampId(GetTraineesByCampIdQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
