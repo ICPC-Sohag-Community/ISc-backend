@@ -1,5 +1,7 @@
 ﻿using ISc.Application.Features.Mobile.Commands.AddAttendnce;
+using ISc.Application.Features.Mobile.Commands.UpdateTraineePoints;
 using ISc.Application.Features.Mobile.Queries.GetCamps;
+using ISc.Application.Features.Mobile.Queries.GetPresistanceTrainees;
 using ISc.Application.Features.Mobile.Queries.GetTraineesByCampId;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -33,5 +35,16 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(new AddTraineeToAttendenceCommand(traineeId)));
         }
 
+        [HttpGet("GetPresentTrainees/{campId}")]
+        public async Task<ActionResult<List<GetPresentTraineesQueryDto>>> GetPresentTrainee(int campId)
+        {
+            return Ok(await _mediator.Send(new GetPresentTraineesQuery(campId)));
+        }
+
+        [HttpPut("UpdateTraineePoints")]
+        public async Task<ActionResult<int>> UpdateTraineePoints(UpdateTraineePointsCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
     }
 }
