@@ -3,16 +3,11 @@ using ISc.Domain.Models;
 using ISc.Shared;
 using MediatR;
 
-namespace ISc.Application.Features.Mobile.Query
+namespace ISc.Application.Features.Mobile.Queries.GetTraineesByCampId
 {
-    public class GetTraineesByCampIdQuery:IRequest<Response>
+    public class GetTraineesByCampIdQuery : IRequest<Response>
     {
         public int CampId { get; set; }
-    }
-    public class GetTraineesByCampIdQueryDto
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
     }
 
     internal class GetTraineesByCampIdQueryHandler : IRequestHandler<GetTraineesByCampIdQuery, Response>
@@ -29,10 +24,10 @@ namespace ISc.Application.Features.Mobile.Query
             if (!_unitOfWork.Repository<Camp>().Entities.Any(i => i.Id == query.CampId))
                 return await Response.FailureAsync(" Camp not found ");
 
-            var trainees =  _unitOfWork.Trainees.Entities.
-                Where(i => i.CampId == query.CampId).Select(i => new GetTraineesByCampIdQueryDto { Id=i.Id, Name=i.Account.FirstName+' '+i.Account.LastName});
+            var trainees = _unitOfWork.Trainees.Entities.
+                Where(i => i.CampId == query.CampId).Select(i => new GetTraineesByCampIdQueryDto { Id = i.Id, Name = i.Account.FirstName + ' ' + i.Account.LastName });
 
-            return await Response.SuccessAsync(trainees,"Success"); 
+            return await Response.SuccessAsync(trainees, "Success");
         }
     }
 }

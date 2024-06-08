@@ -1,6 +1,6 @@
-﻿using ISc.Application.Features.Mobile.Commands;
-using ISc.Application.Features.Mobile.Queries;
-using ISc.Application.Features.Mobile.Query;
+﻿using ISc.Application.Features.Mobile.Commands.AddAttendnce;
+using ISc.Application.Features.Mobile.Queries.GetCamps;
+using ISc.Application.Features.Mobile.Queries.GetTraineesByCampId;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,15 +22,15 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("getCamps")]
-        public async Task<ActionResult<GetCampsQueryDto>> ForgetPassword(GetCampsQueryDto query)
+        public async Task<ActionResult<GetCampsQueryDto>> ForgetPassword(GetCampsQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
 
-        [HttpPost("addTraineeToAttendence")]
-        public async Task<ActionResult<string>> ResetPassword(AddTraineeToAttendenceCommand command)
+        [HttpPost("addTraineeToAttendence/{traineeId}")]
+        public async Task<ActionResult<string>> ResetPassword(string traineeId)
         {
-            return Ok(await _mediator.Send(command));
+            return Ok(await _mediator.Send(new AddTraineeToAttendenceCommand(traineeId)));
         }
 
     }
