@@ -8,6 +8,11 @@ namespace ISc.Application.Features.Mobile.Queries.GetTraineesByCampId
     public class GetTraineesByCampIdQuery : IRequest<Response>
     {
         public int CampId { get; set; }
+
+        public GetTraineesByCampIdQuery(int campId)
+        {
+            CampId = campId;
+        }
     }
 
     internal class GetTraineesByCampIdQueryHandler : IRequestHandler<GetTraineesByCampIdQuery, Response>

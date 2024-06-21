@@ -11,6 +11,7 @@ namespace ISc.Application.Features.Authentication.Login
     {
         public string UserName { get; set; }
         public string Password { get; set; }
+        public bool RememberMe { get; set; }
     }
     public class LoginQueryHandler : IRequestHandler<LoginQuery, Response>
     {
@@ -40,7 +41,7 @@ namespace ISc.Application.Features.Authentication.Login
 
             var response = user.Adapt<LoginQueryResponse>();
 
-            response.Token = _authServices.GenerateToken(user, roles);
+            response.Token = _authServices.GenerateToken(user, roles, query.RememberMe);
             response.Roles = roles;
 
             return await Response.SuccessAsync(response, "Success");

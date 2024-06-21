@@ -17,20 +17,20 @@ namespace ISc.Presentation.Endpoints
             _mediator = mediator;
         }
 
-        [HttpGet("getTraineesByCampId")]
-        public async Task<ActionResult<GetTraineesByCampIdQueryDto>> GetTraineesByCampId(GetTraineesByCampIdQuery query)
+        [HttpGet("getTraineesByCampId/{campId}")]
+        public async Task<ActionResult<GetTraineesByCampIdQueryDto>> GetTraineesByCampId(int campId)
         {
-            return Ok(await _mediator.Send(query));
+            return Ok(await _mediator.Send(new GetTraineesByCampIdQuery(campId)));
         }
 
         [HttpGet("getCamps")]
-        public async Task<ActionResult<GetCampsQueryDto>> ForgetPassword(GetCampsQuery query)
+        public async Task<ActionResult<GetCampsQueryDto>> GetCamps()
         {
-            return Ok(await _mediator.Send(query));
+            return Ok(await _mediator.Send(new GetCampsQuery()));
         }
 
         [HttpPost("addTraineeToAttendence/{traineeId}")]
-        public async Task<ActionResult<string>> ResetPassword(string traineeId)
+        public async Task<ActionResult<string>> AddTraineeToAttendence(string traineeId)
         {
             return Ok(await _mediator.Send(new AddTraineeToAttendenceCommand(traineeId)));
         }

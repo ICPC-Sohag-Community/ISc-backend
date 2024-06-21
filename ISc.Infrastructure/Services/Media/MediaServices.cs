@@ -21,7 +21,6 @@ namespace ISc.Infrastructure.Services.Media
 
         public async Task DeleteAsync(string url)
         {
-            string RootPath = _host.WebRootPath.Replace("\\\\", "\\");
             var imageNameToDelete = Path.GetFileNameWithoutExtension(url);
             var ext = Path.GetExtension(url);
             var oldImagePath = $@"{_configuration["ImageSavePath"]}\Images\{imageNameToDelete}{ext}";
@@ -37,6 +36,7 @@ namespace ISc.Infrastructure.Services.Media
         public string? GetUrl(string? url)
         {
             if (url.IsNullOrEmpty()) return null;
+
             return _configuration["ImageSavePath"]!.ToString() + @"/" + url;
         }
 
@@ -59,11 +59,13 @@ namespace ISc.Infrastructure.Services.Media
             }
 
             var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
             using (var stream = new FileStream(filePath, FileMode.OpenOrCreate))
             {
                 media.CopyTo(stream);
                 stream.Dispose();
             }
+
             return Task.FromResult(uniqueFileName);
         }
 

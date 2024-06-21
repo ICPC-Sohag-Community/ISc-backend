@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Hangfire;
+﻿using Hangfire;
 using ISc.Application.Interfaces;
+using ISc.Domain.Models;
 
 namespace ISc.Infrastructure.Services.ScheduleTasks
 {
@@ -16,7 +12,17 @@ namespace ISc.Infrastructure.Services.ScheduleTasks
         }
         public void TrackingTraineesSolving()
         {
-            RecurringJob.AddOrUpdate<TrackingTraineesJob>("Trainees-daily-task",x=>x.UpdateTraineesSolving(), "0 * * * *");
+            RecurringJob.AddOrUpdate<TrackingTraineesJob>("Update-Trainees-Progress", x => x.UpdateTraineesSolving(), "0 * * * *");
+        }
+        public void TrackingContest(Sheet contest)
+        {
+            if (contest.EndDate is null)
+            {
+                return;
+            }
+            var executeTime = DateTimeOffset.Parse(contest.EndDate.ToString()!).AddMinutes(30);
+
+            BackgroundJob.Schedule<RecordContestSolvedProblems>("Update-Trainees-Contest-Problems", x => x.Record(contest.Id), executeTime);
         }
     }
 }

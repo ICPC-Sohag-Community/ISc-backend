@@ -9,6 +9,6 @@ namespace ISc.Application.Interfaces
 {
     public interface IAuthServices
     {
-        string GenerateToken(Account user,ICollection<string> roles);
+        string GenerateToken(Account user,ICollection<string> roles, bool rembemerMe = false);
     }
 }

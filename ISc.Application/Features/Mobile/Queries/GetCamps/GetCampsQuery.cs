@@ -5,7 +5,7 @@ using MediatR;
 
 namespace ISc.Application.Features.Mobile.Queries.GetCamps
 {
-    public class GetCampsQuery : IRequest<Response> { }
+    public class GetCampsQuery : IRequest<Response>;
 
     public class GetCampsQueryHandler : IRequestHandler<GetCampsQuery, Response>
     {
