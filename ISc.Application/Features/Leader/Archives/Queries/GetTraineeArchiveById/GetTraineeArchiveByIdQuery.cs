@@ -13,6 +13,7 @@ namespace ISc.Application.Features.Leader.Archives.Queries.GetTraineeArchiveById
         public GetTraineeArchiveByIdQuery(int id)
         {
             Id = id;
+
         }
     }
 
