@@ -1,8 +1,8 @@
-﻿using System.Net;
-using System.Text.Json;
-using ISc.Application.Interfaces;
+﻿using ISc.Application.Interfaces;
 using ISc.Shared.Exceptions;
 using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Text.Json;
 
 namespace ISc.Infrastructure.Services.ApiRequest
 {
@@ -21,7 +21,7 @@ namespace ISc.Infrastructure.Services.ApiRequest
         {
             var response = await HttpClient.GetAsync(request);
 
-            if (response.StatusCode != HttpStatusCode.OK || response.StatusCode != HttpStatusCode.BadRequest)
+            if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.BadRequest)
             {
                 _logger.LogCritical("request url: " + request + "\n" +
                     await response.Content?.ReadAsStringAsync() ?? $"{serviceName} Site Error");

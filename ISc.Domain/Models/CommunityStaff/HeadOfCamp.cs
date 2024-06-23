@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using ISc.Domain.Models.IdentityModels;
 
-namespace ISc.Domain.Models.CommunityStuff
+namespace ISc.Domain.Models.CommunityStaff
 {
-    public class HeadOfCamp : Stuff
+    public class HeadOfCamp : Staff
     {
         public string? About { get; set; }
         public virtual Account Account { get; set; }

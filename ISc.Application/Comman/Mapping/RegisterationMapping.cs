@@ -16,14 +16,6 @@ namespace ISc.Application.Comman.Mapping
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<NewRegisteration, GetAllRegisterationQueryDto>()
-                .Map(dest => dest.FullName, src => src.FirstName + ' ' + src.MiddleName + ' ' + src.LastName);
-            config.NewConfig<NewRegisteration, GetRegisterationByIdQueryDto>()
-                .Map(dest => dest.FullName, src => src.FirstName + ' ' + src.MiddleName + ' ' + src.LastName);
-            config.NewConfig<NewRegisteration, GetRegisterationOnSystemFilterQueryDto>()
-                .Map(dest => dest.FullName, src => src.FirstName + ' ' + src.MiddleName + ' ' + src.LastName);
-            config.NewConfig<NewRegisteration, GetOnCustomerFilterQueryDto>()
-                .Map(dest => dest.FullName, src => src.FirstName + ' ' + src.MiddleName + ' ' + src.LastName);
 
         }
     }

@@ -58,9 +58,6 @@ namespace ISc.Application.Features.Leader.Trainees.Queries.GetById
             trainee.FullName = account.FirstName + ' ' + account.MiddleName + ' ' + account.LastName;
             trainee.PhotoUrl = _mediaServices.GetUrl(trainee.PhotoUrl);
 
-            var inRoles = await _userManager.GetRolesAsync(entity.Account);
-            var outRoles = _roleManager.Roles.Select(x => x.Name).ToListAsync().Result.Except(inRoles);
-
             trainee.UserRoles = await _mediator.Send(new GetUserRolesQuery(account));
 
             return await Response.SuccessAsync(trainee);

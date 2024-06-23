@@ -14,6 +14,6 @@ namespace ISc.Domain.Comman.Enums
         Engineering,
         Commerce,
         Law,
-        Other
+        Others
     }
 }

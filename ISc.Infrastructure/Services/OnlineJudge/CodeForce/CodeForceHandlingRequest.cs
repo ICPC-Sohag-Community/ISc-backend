@@ -50,7 +50,7 @@ namespace ISc.Infrastructure.Services.OnlineJudge.CodeForce
             {
                 case Community.Sohag:
                     return new KeyValuePair<string, string>(codeForceConfig["SohagApiKey"]!, codeForceConfig["SohagApiSecret"]!);
-                case Community.Assuit:
+                case Community.Assiut:
                     return new KeyValuePair<string, string>(codeForceConfig["AssuitApiKey"]!, codeForceConfig["AssuitApiSecret"]!);
             }
 

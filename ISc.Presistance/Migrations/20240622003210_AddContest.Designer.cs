@@ -4,6 +4,7 @@ using ISc.Presistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISc.Presistance.Migrations
 {
     [DbContext(typeof(ICPCDbContext))]
-    partial class ICPCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240622003210_AddContest")]
+    partial class AddContest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -566,11 +569,12 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.StuffArchive", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("NationalId")
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");
@@ -615,19 +619,10 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("NationalId")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("nvarchar(14)");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("VjudgeHandle")
                         .HasMaxLength(25)
@@ -636,10 +631,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("NationalId", "Role")
-                        .IsUnique();
+                    b.HasKey("NationalId", "Role");
 
                     b.ToTable("StuffArchives", "ICPC", t =>
                         {
@@ -674,24 +666,6 @@ namespace ISc.Presistance.Migrations
                     b.ToTable("Trainees", "ICPC");
                 });
 
-            modelBuilder.Entity("ISc.Domain.Models.TraineeAccessContest", b =>
-                {
-                    b.Property<string>("TraineeId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ContestId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Index")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("TraineeId", "ContestId", "Index");
-
-                    b.HasIndex("ContestId");
-
-                    b.ToTable("TraineesContest", "ICPC");
-                });
-
             modelBuilder.Entity("ISc.Domain.Models.TraineeAccessSheet", b =>
                 {
                     b.Property<string>("TraineeId")
@@ -715,18 +689,15 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.TraineeArchive", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("NationalId")
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("CampName")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");
-
-                    b.Property<string>("CampName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CodeForceHandle")
                         .IsRequired()
@@ -771,11 +742,6 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("NationalId")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("nvarchar(14)");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(12)
@@ -788,10 +754,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("NationalId", "CampName")
-                        .IsUnique();
+                    b.HasKey("NationalId", "CampName");
 
                     b.ToTable("TraineesArchives", "ICPC", t =>
                         {
@@ -1142,25 +1105,6 @@ namespace ISc.Presistance.Migrations
                     b.Navigation("Mentor");
                 });
 
-            modelBuilder.Entity("ISc.Domain.Models.TraineeAccessContest", b =>
-                {
-                    b.HasOne("ISc.Domain.Models.Contest", "Contest")
-                        .WithMany("Trainees")
-                        .HasForeignKey("ContestId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ISc.Domain.Models.Trainee", "Trainee")
-                        .WithMany("Contests")
-                        .HasForeignKey("TraineeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Contest");
-
-                    b.Navigation("Trainee");
-                });
-
             modelBuilder.Entity("ISc.Domain.Models.TraineeAccessSheet", b =>
                 {
                     b.HasOne("ISc.Domain.Models.Sheet", "Sheet")
@@ -1170,7 +1114,7 @@ namespace ISc.Presistance.Migrations
                         .IsRequired();
 
                     b.HasOne("ISc.Domain.Models.Trainee", "Trainee")
-                        .WithMany("Sheets")
+                        .WithMany()
                         .HasForeignKey("TraineeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1283,11 +1227,6 @@ namespace ISc.Presistance.Migrations
                     b.Navigation("Trainees");
                 });
 
-            modelBuilder.Entity("ISc.Domain.Models.Contest", b =>
-                {
-                    b.Navigation("Trainees");
-                });
-
             modelBuilder.Entity("ISc.Domain.Models.Session", b =>
                 {
                     b.Navigation("Attendences");
@@ -1306,11 +1245,7 @@ namespace ISc.Presistance.Migrations
                 {
                     b.Navigation("Attendences");
 
-                    b.Navigation("Contests");
-
                     b.Navigation("SessionFeedbacks");
-
-                    b.Navigation("Sheets");
 
                     b.Navigation("Tasks");
                 });

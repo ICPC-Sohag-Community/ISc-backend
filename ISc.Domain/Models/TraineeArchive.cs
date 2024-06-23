@@ -6,6 +6,5 @@ namespace ISc.Domain.Models
     {
         public string CampName { get; set; }
         public bool IsComplete { get; set; }
-        public int Year { get; set; }
     }
 }

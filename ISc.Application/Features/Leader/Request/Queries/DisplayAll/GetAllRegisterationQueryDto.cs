@@ -10,7 +10,9 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayAll
     public class GetAllRegisterationQueryDto
     {
         public int Id { get; set; }
-        public string FullName { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
         public int Grade { get; set; }
         public College College { get; set; }
         public Gender Gender { get; set; }

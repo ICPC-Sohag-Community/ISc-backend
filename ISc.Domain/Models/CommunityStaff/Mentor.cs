@@ -1,8 +1,8 @@
 ﻿using ISc.Domain.Models.IdentityModels;
 
-namespace ISc.Domain.Models.CommunityStuff
+namespace ISc.Domain.Models.CommunityStaff
 {
-    public class Mentor : Stuff
+    public class Mentor : Staff
     {
         public virtual Account Account { get; set; }
         public string? About { get; set; }

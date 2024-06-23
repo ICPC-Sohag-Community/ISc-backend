@@ -9,7 +9,9 @@ namespace ISc.Application.Comman.Mapping
         public void Register(TypeAdapterConfig config)
         {
             config.NewConfig<Trainee, GetTraineeAssignWithPaginationQueryDto>()
-                .Map(dest => dest.FullName, src => src.Account.FirstName + ' ' + src.Account.MiddleName + ' ' + src.Account.LastName)
+                .Map(dest => dest.FirstName, src => src.Account.FirstName)
+                .Map(dest => dest.MiddleName, src => src.Account.MiddleName)
+                .Map(dest => dest.LastName, src => src.Account.LastName)
                 .Map(dest => dest, src => src.Account);
         }
     }

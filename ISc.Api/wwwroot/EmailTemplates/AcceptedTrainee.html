@@ -1,92 +1,144 @@
-﻿Sure! Here's a more creative CSS style for the email content:
-
-```html
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ICPC Community Training Acceptance</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #113946;
+      }
 
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
+      .container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fdf3dd;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
+      .firstPart {
+        font-size: 20px;
+        font-weight: 550;
+      }
 
-        p {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
+      .Congrat{
+        font-size: 30px;
+        color: green ;
+      }
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 20px;
-        }
+      h1 {
+        text-align: left;
+        color: black;
+        font-size: 22px;
+        margin-bottom: 20px;
+      }
 
-            ul li {
-                margin-bottom: 10px;
-            }
+      a{
+        text-decoration: none;
+        font-weight: bold;
+        color: #DC5F00;
+      }
+      p {
+        color: black;
+        line-height: 1.6;
+        margin-bottom: 15px;
+      }
 
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
+      ol {
+        font-weight: bold;
+        color: #DC5F00;
+        list-style:outside;
+        padding: 0;
+        margin-bottom: 20px;
+        margin-left: 30px;
+      }
 
-            .button:hover {
-                background-color: #0056b3;
-            }
+      ol li {
+        margin-bottom: 10px;
+      }
+
+      p.signature {
+        margin-top: 30px;
+        font-size: 16px;
+        font-weight: bold;
+        color: black;
+      }
+
+      p.signature span {
+        display: block;
+        margin-top: 5px;
+        font-weight: bold;
+        color: #000000;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>Congratulations! You're Accepted into the ICPC Sohag Community @Model.CampName Training</h1>
-        <p>Dear @Model.TraineeName,</p>
-        <p>We are excited to inform you that you have been accepted into the ICPC Sohag community! Your interest in programming and problem-solving has caught our attention,<br /> and we believe that your enthusiasm and eagerness to learn will make a valuable addition to our community.</p>
-        <p>As an accepted trainee, here are your key roles and responsibilities within our community:</p>
-        <ul>
-            <li>Active Participation: Engage actively in discussions, problem-solving sessions, and collaborations within the ICPC community.</li>
-            <li>Continuous Learning: Keep yourself updated with the latest programming techniques, algorithms, and problem-solving strategies.</li>
-            <li>Mentorship: Seek guidance from experienced members.</li>
-        </ul>
-        <p>In preparation for our sessions, please remember to bring your own:</p>
-        <ul>
-            <li>Laptop</li>
-            <li>Charger</li>
-            <li>Any necessary Internet Source</li>
-        </ul>
-        <p>These items are essential to ensure you can fully participate in our activities. While we strive to provide a conducive learning environment, there may be instances where internet access is limited. Therefore, we recommend bringing along an internet source, such as a mobile hotspot or offline resources, to maximize your learning experience.</p>
-        <p>Your first session basiclly will commence on @Model.StartDate. Please ensure that you mark your calendar and make necessary arrangements to attend. We may also provide further details about the session closer to the date.</p>
-        <p>If you have any questions or need assistance, please do not hesitate to reach out to us by sending a message to our Fb page <a href="https://www.facebook.com/icpcsohag/">ICPC Sohag Community</a>. We're here to help!</p>
-        <p>Once again, congratulations on your acceptance into the ICPC community! We look forward to seeing you excel and thrive in our community.</p>
-        <p>
-            Best regards,<br>
-            ICPC Sohag Hr Team
-        </p>
+      <h1>
+        <span class="Congrat">Congratulations!</span> You're Accepted into the ICPC Sohag Community
+        @Model.CampName Training
+      </h1>
+      <p class="firstPart">Dear @Model.TraineeName,</p>
+      <p>
+        We are excited to inform you that you have been accepted into the ICPC
+        Sohag community! Your interest in programming and problem-solving has
+        caught our attention, <br />
+        and we believe that your enthusiasm and eagerness to learn will make a
+        valuable addition to our community.
+      </p>
+      <p>
+        As an accepted trainee, here are your key roles and responsibilities
+        within our community:
+      </p>
+      <ol>
+        <li>
+          Active Participation: Engage actively in discussions, problem-solving
+          sessions, and collaborations within the ICPC community.
+        </li>
+        <li>
+          Continuous Learning: Keep yourself updated with the latest programming
+          techniques, algorithms, and problem-solving strategies.
+        </li>
+        <li>Mentorship: Seek guidance from experienced members.</li>
+      </ol>
+      <p>In preparation for our sessions, please remember to bring your own:</p>
+      <ol>
+        <li>Laptop</li>
+        <li>Charger</li>
+        <li>Any necessary Internet Source</li>
+      </ol>
+      <p>
+        These items are essential to ensure you can fully participate in our
+        activities. While we strive to provide a conducive learning environment,
+        there may be instances where internet access is limited. Therefore, we
+        recommend bringing along an internet source, such as a mobile hotspot or
+        offline resources, to maximize your learning experience.
+      </p>
+      <p>
+        Your first session basiclly will commence on @Model.StartDate. Please
+        ensure that you mark your calendar and make necessary arrangements to
+        attend. We may also provide further details about the session closer to
+        the date.
+      </p>
+      <p>
+        If you have any questions or need assistance, please do not hesitate to
+        reach out to us by sending a message to our Fb page
+        <a href="https://www.facebook.com/icpcsohag/">ICPC Sohag Community</a>.
+        We're here to help!
+      </p>
+      <p>
+        Once again, congratulations on your acceptance into the ICPC community!
+        We look forward to seeing you excel and thrive in our community.
+      </p>
+      <p class="signature">
+        Sincerely,<br />
+        <span>ICPC HR Team</span>
+      </p>
     </div>
-</body>
+  </body>
 </html>

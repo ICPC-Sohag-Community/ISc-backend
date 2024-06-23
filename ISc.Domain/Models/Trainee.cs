@@ -1,4 +1,4 @@
-﻿using ISc.Domain.Models.CommunityStuff;
+﻿using ISc.Domain.Models.CommunityStaff;
 using ISc.Domain.Models.IdentityModels;
 
 namespace ISc.Domain.Models
@@ -14,6 +14,8 @@ namespace ISc.Domain.Models
         public int Points { get; set; }
         public virtual ICollection<TraineeTask> Tasks { get; set; }
         public virtual ICollection<TraineeAttendence> Attendences { get; set; }
+        public virtual ICollection<TraineeAccessContest> Contests { get; set; }
+        public virtual ICollection<TraineeAccessSheet> Sheets { get; set; }
         public virtual ICollection<SessionFeedback> SessionFeedbacks { get; set; }
     }
 }

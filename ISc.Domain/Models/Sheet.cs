@@ -14,7 +14,6 @@ namespace ISc.Domain.Models
         public string SheetCodefroceId { get; set; }
         public DateOnly StartDate { get; set; }
         public DateOnly? EndDate { get; set; }
-        public SheetType Type { get; set; }
         public SheetStatus Status { get; set; }
         public int CampId { get; set; }
         public virtual Camp Camp { get; set; }

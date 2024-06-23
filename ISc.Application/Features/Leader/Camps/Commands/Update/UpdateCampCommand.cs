@@ -4,7 +4,7 @@ using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Constant;
 using ISc.Domain.Comman.Enums;
 using ISc.Domain.Models;
-using ISc.Domain.Models.CommunityStuff;
+using ISc.Domain.Models.CommunityStaff;
 using ISc.Domain.Models.IdentityModels;
 using ISc.Shared;
 using Mapster;

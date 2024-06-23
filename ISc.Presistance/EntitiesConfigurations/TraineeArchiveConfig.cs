@@ -14,7 +14,7 @@ namespace ISc.Presistance.EntitiesConfigurations
         [Obsolete]
         public void Configure(EntityTypeBuilder<TraineeArchive> builder)
         {
-            builder.HasKey(x => new { x.NationalId, x.CampName });
+            builder.HasIndex(x => new { x.NationalId, x.CampName }).IsUnique();
 
             builder.Property(x => x.FirstName).HasMaxLength(30);
             builder.Property(x => x.MiddleName).HasMaxLength(30);

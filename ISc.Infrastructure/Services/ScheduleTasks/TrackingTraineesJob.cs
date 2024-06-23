@@ -30,8 +30,7 @@ namespace ISc.Infrastructure.Services.ScheduleTasks
             {
                 var trainees = camp.Trainees.ToHashSet();
 
-                var sheets = camp.Sheets.Where(x => (x.EndDate <= DateOnly.FromDateTime(DateTime.Now)) 
-                                               && x.Type == SheetType.Sheet)
+                var sheets = camp.Sheets.Where(x => x.EndDate <= DateOnly.FromDateTime(DateTime.Now))
                                         .Select(x => new
                                         {
                                             x.Id,

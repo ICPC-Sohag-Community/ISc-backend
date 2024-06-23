@@ -36,15 +36,15 @@ namespace ISc.Application.Features.SystemRoles.Queries.GetUserRoles
         {
             var roles = await _userManager.GetRolesAsync(query.User);
 
-            var userRoles = roles.Where(x => x != Domain.Comman.Constant.Roles.Trainee
-                                        && x != Domain.Comman.Constant.Roles.Head_Of_Camp
-                                        && x != Domain.Comman.Constant.Roles.Mentor)
-                .Select(x => new GetUserRolesQueryDto()
-                {
-                    Role = x
-                }).ToList();
+            var userRoles = roles.Where(x => x != Roles.Trainee
+                                        && x != Roles.Head_Of_Camp
+                                        && x != Roles.Mentor)
+                                 .Select(x => new GetUserRolesQueryDto()
+                                 {
+                                     Role = x
+                                 }).ToList();
 
-            if (roles.Contains(Domain.Comman.Constant.Roles.Mentor))
+            if (roles.Contains(Roles.Mentor))
             {
                 var mentorsDetails = GetMentorDetails(query.User);
                 if (mentorsDetails != null)
@@ -53,7 +53,7 @@ namespace ISc.Application.Features.SystemRoles.Queries.GetUserRoles
                 }
             }
 
-            if (roles.Contains(Domain.Comman.Constant.Roles.Trainee))
+            if (roles.Contains(Roles.Trainee))
             {
                 var traineeDetail = GetTraineeDetails(query.User);
                 if (traineeDetail != null)
@@ -63,7 +63,7 @@ namespace ISc.Application.Features.SystemRoles.Queries.GetUserRoles
                 }
             }
 
-            if (roles.Contains(Domain.Comman.Constant.Roles.Head_Of_Camp))
+            if (roles.Contains(Roles.Head_Of_Camp))
             {
                 var headDetail = GetHocDetails(query.User);
                 if (headDetail != null)

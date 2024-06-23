@@ -4,6 +4,7 @@ using ISc.Presistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISc.Presistance.Migrations
 {
     [DbContext(typeof(ICPCDbContext))]
-    partial class ICPCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240622035451_AddContestAccess")]
+    partial class AddContestAccess
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -566,11 +569,12 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.StuffArchive", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("NationalId")
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");
@@ -615,19 +619,10 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("NationalId")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("nvarchar(14)");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("VjudgeHandle")
                         .HasMaxLength(25)
@@ -636,10 +631,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("NationalId", "Role")
-                        .IsUnique();
+                    b.HasKey("NationalId", "Role");
 
                     b.ToTable("StuffArchives", "ICPC", t =>
                         {
@@ -715,18 +707,15 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.TraineeArchive", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("NationalId")
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("CampName")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");
-
-                    b.Property<string>("CampName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CodeForceHandle")
                         .IsRequired()
@@ -771,11 +760,6 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("NationalId")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("nvarchar(14)");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(12)
@@ -788,10 +772,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("NationalId", "CampName")
-                        .IsUnique();
+                    b.HasKey("NationalId", "CampName");
 
                     b.ToTable("TraineesArchives", "ICPC", t =>
                         {

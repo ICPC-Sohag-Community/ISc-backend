@@ -1,5 +1,5 @@
 ﻿using ISc.Domain.Interface;
-using ISc.Domain.Models.CommunityStuff;
+using ISc.Domain.Models.CommunityStaff;
 
 namespace ISc.Domain.Models
 {

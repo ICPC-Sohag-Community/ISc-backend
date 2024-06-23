@@ -1,6 +1,6 @@
 ﻿using ISc.Domain.Interface;
 using ISc.Domain.Models;
-using ISc.Domain.Models.CommunityStuff;
+using ISc.Domain.Models.CommunityStaff;
 using ISc.Domain.Models.IdentityModels;
 using ISc.Presistance.EntitiesConfigurations;
 using Microsoft.AspNetCore.Identity;
@@ -67,9 +67,11 @@ namespace ISc.Presistance
         public virtual DbSet<Session> Sessions { get; set; }
         public virtual DbSet<SessionFeedback> SessionFeedbacks { get; set; }
         public virtual DbSet<Sheet> Sheets { get; set; }
+        public virtual DbSet<Contest> Contests { get; set; }
         public virtual DbSet<StuffArchive> StuffArchives { get; set; }
         public virtual DbSet<TraineeAttendence> TraineeAttendences { get; set; }
         public virtual DbSet<TraineeAccessSheet> TraineesAccesses { get; set; }
+        public virtual DbSet<TraineeAccessContest>TraineesContest { get; set; }
         public virtual DbSet<TraineeTask> TraineeTasks { get; set; }
         public virtual DbSet<CampModel> CampModels { get; set; }
         #endregion

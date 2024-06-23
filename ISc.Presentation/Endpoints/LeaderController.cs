@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using ISc.Application.Features.Leader.Accounts.Commands.Create;
+using ISc.Application.Features.Leader.Archives.Queries.GetTraineeArchiveById;
 using ISc.Application.Features.Leader.Camps.Commands.Create;
 using ISc.Application.Features.Leader.Camps.Commands.Delete;
 using ISc.Application.Features.Leader.Camps.Commands.Empty;
@@ -17,6 +18,7 @@ using ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilter;
 using ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter;
 using ISc.Application.Features.Leader.Trainees.Queries.GetAllWithPagination;
 using ISc.Application.Features.Leader.Trainees.Queries.GetById;
+using ISc.Domain.Comman.Constant;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +26,7 @@ using Microsoft.Identity.Client;
 
 namespace ISc.Presentation.Endpoints
 {
-    [Authorize]
+    [Authorize(Roles =Roles.Leader)]
     public class LeaderController : ApiControllerBase
     {
         private readonly IMediator _mediator;
@@ -143,6 +145,12 @@ namespace ISc.Presentation.Endpoints
         public async Task<ActionResult<GetOnCustomerFilterQueryDto>>GetTraineeRequestsCustomFilter(GetOnCustomerFilterQuery query)
         {
             return Ok(await _mediator.Send(query));
+        }
+
+        [HttpGet("traineeArchive/{id}")]
+        public async Task<ActionResult<GetTraineeArchiveByIdQueryDto>>GetTraineeArchive(int id)
+        {
+            return Ok(await _mediator.Send(new GetTraineeArchiveByIdQuery(id)));
         }
     }
 }

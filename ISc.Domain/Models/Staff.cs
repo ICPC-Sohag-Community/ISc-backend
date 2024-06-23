@@ -7,7 +7,7 @@ using ISc.Domain.Models.IdentityModels;
 
 namespace ISc.Domain.Models
 {
-    public class Stuff
+    public class Staff
     {
         public string Id { get; set; }
     }

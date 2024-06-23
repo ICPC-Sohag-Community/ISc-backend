@@ -2,7 +2,7 @@
 
 namespace ISc.Domain.Models
 {
-    public abstract class Archive : Auditable
+    public abstract class Archive : BaseEntity
     {
         public string FirstName { get; set; }
         public string MiddleName { get; set; }

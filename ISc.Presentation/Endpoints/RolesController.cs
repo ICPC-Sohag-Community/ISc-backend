@@ -3,13 +3,14 @@ using ISc.Application.Features.SystemRoles.Commands.Create;
 using ISc.Application.Features.SystemRoles.Commands.Delete;
 using ISc.Application.Features.SystemRoles.Commands.UnAssign;
 using ISc.Application.Features.SystemRoles.Queries.GetAvailableRoles;
+using ISc.Domain.Comman.Constant;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISc.Presentation.Endpoints
 {
-    [Authorize]
+    [Authorize(Roles =Roles.Leader)]
     public class RolesController : ApiControllerBase
     {
         private readonly IMediator _mediator;

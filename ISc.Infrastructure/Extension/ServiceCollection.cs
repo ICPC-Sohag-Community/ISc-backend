@@ -10,6 +10,7 @@ using ISc.Infrastructure.Services.ApiRequest;
 using ISc.Infrastructure.Services.Authentication;
 using ISc.Infrastructure.Services.ScheduleTasks;
 using Hangfire;
+using ISc.Infrastructure.Services.Time;
 
 namespace ISc.Infrastructure.Extension
 {
@@ -63,7 +64,8 @@ namespace ISc.Infrastructure.Extension
                     .AddTransient<IEmailServices, EmailService>()
                     .AddTransient<IOnlineJudgeServices, CodeForceService>()
                     .AddTransient<IApiRequestsServices, ApiReqeustService>()
-                    .AddTransient<IJobServices, JobService>(); ;
+                    .AddTransient<IJobServices, JobService>()
+                    .AddTransient<ITimeServices, TimeService>();
 
             return services;
         }

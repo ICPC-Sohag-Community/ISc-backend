@@ -1,6 +1,6 @@
 ﻿using ISc.Domain.Comman.Enums;
 using ISc.Domain.Interface;
-using ISc.Domain.Models.CommunityStuff;
+using ISc.Domain.Models.CommunityStaff;
 
 namespace ISc.Domain.Models
 {
@@ -16,6 +16,7 @@ namespace ISc.Domain.Models
         public virtual ICollection<NewRegisteration> RegisterationRequests { get; set; }
         public virtual ICollection<Session> Sessions { get; set; }
         public virtual ICollection<Sheet> Sheets { get; set; }
+        public virtual ICollection<Contest> Contests { get; set; }
         public virtual ICollection<Trainee> Trainees { get; set; }
         public virtual ICollection<HeadOfCamp> Heads { get; set; }
     }
