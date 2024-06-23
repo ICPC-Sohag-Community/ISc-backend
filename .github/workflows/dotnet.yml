@@ -3,9 +3,9 @@ name: deploy ICPC community to monester asp.
 
 on:
   push:
-    branches: [develop]
+    branches: [main]
   pull_request:
-    branches: [develop]
+    branches: [main]
 jobs:
   build:
     runs-on: [ubuntu-latest]
