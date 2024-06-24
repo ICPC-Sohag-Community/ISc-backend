@@ -1,5 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using ISc.Application.Features.Leader.Accounts.Commands.Create;
+﻿using ISc.Application.Features.Leader.Accounts.Commands.Create;
+using ISc.Application.Features.Leader.Archives.Queries.GetAllTraineesArchiveWithPagination;
 using ISc.Application.Features.Leader.Archives.Queries.GetTraineeArchiveById;
 using ISc.Application.Features.Leader.Camps.Commands.Create;
 using ISc.Application.Features.Leader.Camps.Commands.Delete;
@@ -22,11 +22,10 @@ using ISc.Domain.Comman.Constant;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 
 namespace ISc.Presentation.Endpoints
 {
-    [Authorize(Roles =Roles.Leader)]
+    [Authorize(Roles = Roles.Leader)]
     public class LeaderController : ApiControllerBase
     {
         private readonly IMediator _mediator;
@@ -130,27 +129,33 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("traineeRegisteration")]
-        public async Task<ActionResult<GetRegisterationByIdQueryDto>>GetTraineeRegisterReqeust(GetRegisterationByIdQuery query)
+        public async Task<ActionResult<GetRegisterationByIdQueryDto>> GetTraineeRegisterReqeust(GetRegisterationByIdQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
 
         [HttpGet("traineesRegisterationSystemFilter/{campId}")]
-        public async Task<ActionResult<GetRegisterationOnSystemFilterQueryDto>>GetTraineeRegistersSystemFilter(int campId)
+        public async Task<ActionResult<GetRegisterationOnSystemFilterQueryDto>> GetTraineeRegistersSystemFilter(int campId)
         {
             return Ok(await _mediator.Send(new GetRegisterationOnSystemFilterQuery(campId)));
         }
 
         [HttpGet("traineesRegisterationCustomFilter")]
-        public async Task<ActionResult<GetOnCustomerFilterQueryDto>>GetTraineeRequestsCustomFilter(GetOnCustomerFilterQuery query)
+        public async Task<ActionResult<GetOnCustomerFilterQueryDto>> GetTraineeRequestsCustomFilter(GetOnCustomerFilterQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
 
         [HttpGet("traineeArchive/{id}")]
-        public async Task<ActionResult<GetTraineeArchiveByIdQueryDto>>GetTraineeArchive(int id)
+        public async Task<ActionResult<GetTraineeArchiveByIdQueryDto>> GetTraineeArchiveById(int id)
         {
             return Ok(await _mediator.Send(new GetTraineeArchiveByIdQuery(id)));
+        }
+
+        [HttpGet("traineesArchive")]
+        public async Task<ActionResult<GetAllTraineesArchiveWithPaginationQueryDto>> GetTraineesArchive(GetAllTraineesArchiveWithPaginationQuery query)
+        {
+            return Ok(await _mediator.Send(query));
         }
     }
 }
