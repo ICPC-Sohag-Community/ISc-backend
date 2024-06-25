@@ -25,7 +25,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ISc.Presentation.Endpoints
 {
-    [Authorize()]
+    [Authorize(Roles=Roles.Leader)]
     public class LeaderController : ApiControllerBase
     {
         private readonly IMediator _mediator;
