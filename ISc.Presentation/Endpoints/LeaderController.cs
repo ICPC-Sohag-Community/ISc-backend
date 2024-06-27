@@ -25,7 +25,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ISc.Presentation.Endpoints
 {
-    [Authorize(Roles=Roles.Leader)]
+    [Authorize(Roles = Roles.Leader)]
     public class LeaderController : ApiControllerBase
     {
         private readonly IMediator _mediator;
@@ -129,7 +129,7 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("traineeRegisteration")]
-        public async Task<ActionResult<GetRegisterationByIdQueryDto>> GetTraineeRegisterReqeust(GetRegisterationByIdQuery query)
+        public async Task<ActionResult<GetRegisterationByIdQueryDto>> GetTraineeRegisterReqeust([FromQuery] GetRegisterationByIdQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
