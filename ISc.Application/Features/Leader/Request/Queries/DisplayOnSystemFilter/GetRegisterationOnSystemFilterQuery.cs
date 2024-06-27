@@ -11,11 +11,7 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter
     public record GetRegisterationOnSystemFilterQuery : IRequest<Response>
     {
         public int CampId { get; set; }
-
-        public GetRegisterationOnSystemFilterQuery(int campId)
-        {
-            CampId = campId;
-        }
+        public List<int> RegisterationId { get; set; }
     }
 
     internal class DisplayOnSystemFilterQueryHandler : IRequestHandler<GetRegisterationOnSystemFilterQuery, Response>
@@ -45,6 +41,7 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter
                                 .ToListAsync(cancellationToken);
 
             var campRequests = await _unitOfWork.Repository<NewRegisteration>().Entities
+                            .Where(x=>query.RegisterationId.Contains(x.Id))
                             .Where(x => x.CampId == query.CampId)
                             .Where(x => !archive.Any(r => (r.FirstName + r.MiddleName + r.LastName).Trim().ToLower() == (x.FirstName + x.MiddleName + x.LastName).Trim().ToLower()))
                             .Where(x => !archive.Any(r => r.NationalId == x.NationalId))

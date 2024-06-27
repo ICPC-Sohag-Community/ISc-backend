@@ -1,5 +1,4 @@
 ﻿using ISc.Application.Dtos.CodeForce;
-using ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter;
 using ISc.Application.Interfaces;
 using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Enums;
@@ -16,6 +15,7 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilte
     {
         public int CampId { get; set; }
         public List<FilterationModel> Filters { get; set; }
+        public List<int> RegisterationIds { get; set; }
     }
     public record FilterationModel
     {
@@ -26,18 +26,15 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilte
 
     internal class DisplayOnCustomerFilterQueryHandler : IRequestHandler<GetOnCustomerFilterQuery, Response>
     {
-        private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IOnlineJudgeServices _onlineJudgeServices;
 
         public DisplayOnCustomerFilterQueryHandler(
-            IMediator mediator,
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IOnlineJudgeServices onlineJudgeServices)
         {
-            _mediator = mediator;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _onlineJudgeServices = onlineJudgeServices;
@@ -52,35 +49,32 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilte
                 return await Response.FailureAsync("Request not found.", System.Net.HttpStatusCode.NotFound);
             }
 
-            var validTraineesResponse = await _mediator.Send(new GetRegisterationOnSystemFilterQuery(camp.Id));
-
-            var trainees = validTraineesResponse.Data as List<GetRegisterationOnSystemFilterQueryDto>;
+            var trainees = await _unitOfWork.Repository<NewRegisteration>().Entities
+                          .Where(x => query.RegisterationIds.Contains(x.Id))
+                          .ToListAsync();
 
             var sheetsInfo = await GetCodeForceSheetsInfo(query.Filters);
 
-            var acceptableRequests = new List<int>();
+            var acceptableRequests = new List<NewRegisteration>();
 
             foreach (var trainee in trainees)
             {
                 foreach (var sheet in sheetsInfo)
                 {
                     var submissions = await _onlineJudgeServices.GetGroupSheetStatusAsync(sheet.SheetId, 300, sheet.Community, trainee.CodeForceHandle)!;
-                    if(submissions is null)
+                    if (submissions is null)
                     {
                         continue;
                     }
 
                     if (IsAcceptedTrainee(submissions, sheet.ProblemCount, sheet.PassingPrecent))
                     {
-                        acceptableRequests.Add(trainee.Id);
+                        acceptableRequests.Add(trainee);
                     }
                 }
             }
 
-            var FilterResult = await _unitOfWork.Repository<NewRegisteration>().Entities
-                            .Where(x => acceptableRequests.Contains(x.Id))
-                            .ProjectToType<GetOnCustomerFilterQueryDto>(_mapper.Config)
-                            .ToListAsync();
+            var FilterResult = acceptableRequests.Adapt<List<GetOnCustomerFilterQueryDto>>(_mapper.Config);
 
             return await Response.SuccessAsync(FilterResult);
         }
@@ -105,14 +99,14 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilte
                 {
                     SheetId = filter.SheetId,
                     Community = filter.Community,
-                    ProblemCount= standing.problems.Count,
-                    PassingPrecent=filter.PassingPrecent
+                    ProblemCount = standing.problems.Count,
+                    PassingPrecent = filter.PassingPrecent
                 });
             }
 
             return sheetsInfo;
         }
-        private static bool IsAcceptedTrainee(List<CodeForceSubmissionDto>submissions,int sheetProblemCount,int passingPrecent)
+        private static bool IsAcceptedTrainee(List<CodeForceSubmissionDto> submissions, int sheetProblemCount, int passingPrecent)
         {
             var acceptedProblems = submissions.Where(x => x.verdict == "OK").DistinctBy(x => x.problem.index).Count();
 

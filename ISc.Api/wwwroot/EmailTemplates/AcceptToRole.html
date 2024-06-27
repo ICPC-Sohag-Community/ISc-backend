@@ -1,93 +1,56 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Role Assigned</title>
     <style>
-      body {
-        font-family: "Arial", sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #113946;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-      .container {
-        max-width: 600px;
-        margin: 40px auto;
-        padding: 20px;
-        background-color: #fdf3dd;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-      }
-
-      h1 {
-        text-align: left;
-        font-size: 30px;
-        margin-bottom: 20px;
-        color: black;
-        padding-bottom: 10px;
-      }
-
-      .firstPart {
-        font-size: 20px;
-        font-weight: 550;
-      }
-
-      p {
-        font-size: 16px;
-        line-height: 1.6;
-        margin-bottom: 15px;
-        color: black;
-      }
-
-      .hrRegards {
-        font-weight: bold;
-        color: black;
-      }
-
-      a{
-        font-weight: bold;
-        color: #DC5F00;
-        text-decoration: none;
-      }
-
-
-      @media (max-width: 600px) {
         .container {
-          padding: 15px;
-          margin: 20px auto;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
         }
 
-        h1 {
-          font-size: 22px;
+        .header {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
         }
 
-        p {
-          font-size: 14px;
+        .content {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
         }
-    }
+
+        .footer {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="container">
-        <h1>New Role Assigned!</h1>
-        <p class="firstPart">Hi @Model.User,</p>
-        <p style="color: green;">
-          We're thrilled to inform you that you've been assigned a new role:
-        </p>
-        <p><strong>Role:</strong> @Model.Role</p>
-        <p>
-          This role amplifies your access and responsibilities. Any queries?
-          Don't hesitate to reach out.
-        </p>
-        <p>Best Regards,<br /> <span class="hrRegards"> Sohag Hr Team </span></p>
-        <p>
-          Contact us at
-          <a href="mailto:icpc.sohag.community@gmail.com"
-            >Support@SohagIcpcCommunity.org</a
-          >
-        </p>
-      </div>
-  </body>
+        <div class="header">
+            <h1>New Role Assigned!</h1>
+        </div>
+        <div class="content">
+            <p>Hi @Model.User,</p>
+            <p>We're thrilled to inform you that you've been assigned a new role:</p>
+            <p><strong>Role:</strong> @Model.Role</p>
+            <p>This role amplifies your access and responsibilities. Any queries? Don't hesitate to reach out.</p>
+            <p>Best Regards,<br>ICPC Sohag Hr Team</p>
+        </div>
+        <div class="footer">
+            <p>Contact us at <a href="mailto:icpc.sohag.community@gmail.com">Support@SohagIcpcCommunity.org</a></p>
+        </div>
+    </div>
+</body>
 </html>
