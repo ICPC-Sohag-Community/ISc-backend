@@ -126,7 +126,7 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
                 var trainee = command.Adapt<Trainee>();
                 trainee.Id = user.Id;
 
-                await _unitOfWork.Trainees.AddAsync(new() { Member = trainee });
+                await _unitOfWork.Trainees.AddAsync(new() { Account = user, Member = trainee });
             }
             else if (command.Role == Roles.Head_Of_Camp)
             {
@@ -134,17 +134,19 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
                 head.Id = user.Id;
                 head.CampId = (int)command.CampId!;
 
-                await _unitOfWork.Heads.AddAsync(new() { Member = head });
+                await _unitOfWork.Heads.AddAsync(new() { Account = user, Member = head });
             }
             else if (command.Role == Roles.Mentor)
             {
                 Mentor mentor = command.Adapt<Mentor>();
                 mentor.Id = user.Id;
 
-                await _unitOfWork.Mentors.AddAsync(new() { Member = mentor });
+                await _unitOfWork.Mentors.AddAsync(new() { Account = user, Member = mentor });
             }
-
-            await _userManager.AddToRoleAsync(user, command.Role);
+            else
+            {
+                await _userManager.AddToRoleAsync(user, command.Role);
+            }
 
             if (command.ProfileImage != null)
             {
@@ -186,9 +188,8 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             else
             {
                 await _userManager.CreateAsync(account, password);
+                await _userManager.AddToRoleAsync(account, command.Role);
             }
-
-            await _userManager.AddToRoleAsync(account, command.Role);
 
 
             await _emailSender.SendAccountInfoAsync(account, password, command.Role);

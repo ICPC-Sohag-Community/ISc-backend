@@ -65,6 +65,7 @@ namespace ISc.Presistance.Repos
             {
                 await _userManager.CreateAsync(entity.Account, entity.Password);
             }
+
             await _context.HeadsOfCamps.AddAsync(entity.Member);
 
             if (!await _userManager.IsInRoleAsync(entity.Account!,Roles.Head_Of_Camp))
