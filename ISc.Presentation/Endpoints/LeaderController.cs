@@ -134,10 +134,10 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(query));
         }
 
-        [HttpGet("traineesRegisterationSystemFilter/{campId}")]
-        public async Task<ActionResult<GetRegisterationOnSystemFilterQueryDto>> GetTraineeRegistersSystemFilter(int campId)
+        [HttpGet("traineesRegisterationSystemFilter")]
+        public async Task<ActionResult<GetRegisterationOnSystemFilterQueryDto>> GetTraineeRegistersSystemFilter(GetRegisterationOnSystemFilterQuery query)
         {
-            return Ok(await _mediator.Send(new GetRegisterationOnSystemFilterQuery(campId)));
+            return Ok(await _mediator.Send(query));
         }
 
         [HttpGet("traineesRegisterationCustomFilter")]
