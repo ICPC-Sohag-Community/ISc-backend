@@ -29,8 +29,8 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(new GetCampsQuery()));
         }
 
-        [HttpPost("addTraineeToAttendence/{traineeId}")]
-        public async Task<ActionResult<string>> AddTraineeToAttendence(string traineeId)
+        [HttpPost("addTraineeToAttendence")]
+        public async Task<ActionResult<string>> AddTraineeToAttendence([FromBody] string traineeId)
         {
             return Ok(await _mediator.Send(new AddTraineeToAttendenceCommand(traineeId)));
         }

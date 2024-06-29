@@ -63,12 +63,6 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Create
                 return await Response.FailureAsync("Some mentors not valid.");
             }
 
-            if (!command.HeadsIds.IsNullOrEmpty()
-                && command.HeadsIds!.Any(x => !_unitOfWork.Heads.Entities.Select(m => m.Id).Contains(x)))
-            {
-                return await Response.FailureAsync("Some heads not valid.");
-            }
-
             var camp = command.Adapt<Camp>();
 
             await _unitOfWork.Repository<Camp>().AddAsync(camp);
@@ -102,9 +96,7 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Create
                     var newHead = new HeadOfCamp() { Id = headId, CampId = camp.Id };
                     var account = await _userManager.FindByIdAsync(headId);
 
-                    await _unitOfWork.Heads.AddAsync(new() { Member = newHead });
-
-                    await _userManager.AddToRoleAsync(account!, Roles.Head_Of_Camp);
+                    await _unitOfWork.Heads.AddAsync(new() { Member = newHead, Account = account });
                 }
             }
 
