@@ -45,14 +45,13 @@ namespace ISc.Application.Features.Leader.Trainees.Queries.GetById
 
         public async Task<Response> Handle(GetTraineeByIdQuery query, CancellationToken cancellationToken)
         {
-            var entity = await _unitOfWork.Trainees.GetByIdAsync(query.Id);
+            var account = await _userManager.FindByIdAsync(query.Id);
 
-            if (entity == null)
+            if (account == null)
             {
                 return await Response.FailureAsync("Fail to get data for this trainee.", HttpStatusCode.NotFound);
             }
 
-            var account = entity.Account;
             var trainee = account.Adapt<GetTraineeByIdQueryDto>();
 
             trainee.FullName = account.FirstName + ' ' + account.MiddleName + ' ' + account.LastName;
