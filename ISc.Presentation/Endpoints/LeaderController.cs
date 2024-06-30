@@ -128,12 +128,6 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(new GetAllRegisterationQuery(campId)));
         }
 
-        [HttpGet("traineeRegisteration")]
-        public async Task<ActionResult<GetRegisterationByIdQueryDto>> GetTraineeRegisterReqeust([FromQuery] GetRegisterationByIdQuery query)
-        {
-            return Ok(await _mediator.Send(query));
-        }
-
         [HttpGet("traineesRegisterationSystemFilter")]
         public async Task<ActionResult<GetRegisterationOnSystemFilterQueryDto>> GetTraineeRegistersSystemFilter(GetRegisterationOnSystemFilterQuery query)
         {
