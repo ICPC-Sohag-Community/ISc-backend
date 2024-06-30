@@ -99,63 +99,12 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             }
             else
             {
-                if (await _userManager.IsInRoleAsync(user, command.Role))
-                {
-                    return await Response.FailureAsync($"User already has role: {command.Role}");
-                }
+                return await Response.FailureAsync("User already exist");
+			}
 
-                var response = await AddExistUser(command, user);
-
-                if (!response.IsSuccess)
-                {
-                    return response;
-                }
-            }
-
-            await _unitOfWork.SaveAsync();
+			await _unitOfWork.SaveAsync();
 
             return await Response.SuccessAsync("User added successfully.");
-        }
-
-
-        private async Task<Response> AddExistUser(CreateAccountCommand command, Account user)
-        {
-
-            if (command.Role == Roles.Trainee)
-            {
-                var trainee = command.Adapt<Trainee>();
-                trainee.Id = user.Id;
-
-                await _unitOfWork.Trainees.AddAsync(new() { Account = user, Member = trainee });
-            }
-            else if (command.Role == Roles.Head_Of_Camp)
-            {
-                HeadOfCamp head = command.Adapt<HeadOfCamp>();
-                head.Id = user.Id;
-                head.CampId = (int)command.CampId!;
-
-                await _unitOfWork.Heads.AddAsync(new() { Account = user, Member = head });
-            }
-            else if (command.Role == Roles.Mentor)
-            {
-                Mentor mentor = command.Adapt<Mentor>();
-                mentor.Id = user.Id;
-
-                await _unitOfWork.Mentors.AddAsync(new() { Account = user, Member = mentor });
-            }
-            else
-            {
-                await _userManager.AddToRoleAsync(user, command.Role);
-            }
-
-            if (command.ProfileImage != null)
-            {
-                user.PhotoUrl = await _mediaServices.UpdateAsync(user.PhotoUrl!, command.ProfileImage);
-            }
-
-            await _emailSender.SendAcceptToRoleAsync(command.Email, command.FirstName + ' ' + command.MiddleName, command.Role);
-
-            return await Response.SuccessAsync();
         }
 
         private async Task AddNewUser(CreateAccountCommand command)
@@ -182,8 +131,9 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             else if (command.Role == Roles.Head_Of_Camp)
             {
                 HeadOfCamp head = account.Adapt<HeadOfCamp>();
+                head.CampId = (int)command.CampId!;
 
-                await _unitOfWork.Heads.AddAsync(new() { Account = account, Member = head, Password = password });
+				await _unitOfWork.Heads.AddAsync(new() { Account = account, Member = head, Password = password });
             }
             else
             {
