@@ -32,7 +32,7 @@ namespace ISc.Application.Features.Mobile.Commands.AddAttendnce
                 return await Response.FailureAsync(" Trainee not allowed.");
             }
 
-            var Session = trainee.Camp.Sessions.FirstOrDefault(i => i.StartDate >= DateTime.Now.Date);
+            var Session = trainee.Camp.Sessions.FirstOrDefault(i => i.StartDate.Date >= DateTime.Now.Date);
 
             if (Session == null)
             {

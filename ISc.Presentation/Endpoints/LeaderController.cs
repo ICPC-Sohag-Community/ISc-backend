@@ -13,7 +13,6 @@ using ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetFeedbacks;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
 using ISc.Application.Features.Leader.Request.Queries.DisplayAll;
-using ISc.Application.Features.Leader.Request.Queries.DisplayById;
 using ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilter;
 using ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter;
 using ISc.Application.Features.Leader.Trainees.Queries.GetAllWithPagination;
