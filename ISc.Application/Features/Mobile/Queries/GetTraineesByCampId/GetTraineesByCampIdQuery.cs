@@ -2,6 +2,7 @@
 using ISc.Domain.Models;
 using ISc.Shared;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Application.Features.Mobile.Queries.GetTraineesByCampId
 {
@@ -27,10 +28,18 @@ namespace ISc.Application.Features.Mobile.Queries.GetTraineesByCampId
         public async Task<Response> Handle(GetTraineesByCampIdQuery query, CancellationToken cancellationToken)
         {
             if (!_unitOfWork.Repository<Camp>().Entities.Any(i => i.Id == query.CampId))
-                return await Response.FailureAsync(" Camp not found ");
+            {
+                return await Response.FailureAsync("Camp not found.");
+            }
 
-            var trainees = _unitOfWork.Trainees.Entities.
-                Where(i => i.CampId == query.CampId).Select(i => new GetTraineesByCampIdQueryDto { Id = i.Id, Name = i.Account.FirstName + ' ' + i.Account.LastName });
+            var trainees = await _unitOfWork.Trainees.Entities.
+                Where(i => i.CampId == query.CampId)
+                .Select(i => new GetTraineesByCampIdQueryDto
+                {
+                    Id = i.Id,
+                    Name = i.Account.FirstName + ' ' + i.Account.MiddleName
+                })
+                .ToListAsync(cancellationToken);
 
             return await Response.SuccessAsync(trainees, "Success");
         }

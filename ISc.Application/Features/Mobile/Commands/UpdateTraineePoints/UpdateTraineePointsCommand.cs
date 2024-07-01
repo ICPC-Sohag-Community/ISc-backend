@@ -42,7 +42,7 @@ namespace ISc.Application.Features.Mobile.Commands.UpdateTraineePoints
             });
             await _unitOfWork.SaveAsync();
 
-            return await Response.SuccessAsync();
+            return await Response.SuccessAsync("Success");
         }
     }
 }
