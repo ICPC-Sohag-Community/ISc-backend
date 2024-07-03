@@ -17,16 +17,16 @@ using System.Threading.Tasks;
 
 namespace ISc.Application.Features.Leader.Staff.Queries.GetById
 {
-	public record GetStuffByIdQuery : IRequest<Response>
+	public record GetStaffByIdQuery : IRequest<Response>
 	{
         public string Id { get; set; }
 
-        public GetStuffByIdQuery(string id)
+        public GetStaffByIdQuery(string id)
         {
             Id = id;
         }
     }
-	internal class GetStuffByIdQueryHandler : IRequestHandler<GetStuffByIdQuery, Response>
+	internal class GetStuffByIdQueryHandler : IRequestHandler<GetStaffByIdQuery, Response>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly UserManager<Account> _userManager;
@@ -45,22 +45,20 @@ namespace ISc.Application.Features.Leader.Staff.Queries.GetById
 			_mediator = mediator;
 		}
 
-		public async Task<Response> Handle(GetStuffByIdQuery query, CancellationToken cancellationToken)
+		public async Task<Response> Handle(GetStaffByIdQuery query, CancellationToken cancellationToken)
 		{
 			var account = await _userManager.FindByIdAsync(query.Id);
 			if (account == null)
 			{
 				return await Response.FailureAsync("no data!", HttpStatusCode.NotFound);
 			}
-			var stuff = account.Adapt<GetTraineeByIdQueryDto>();
+			var staff = account.Adapt<GetStaffByIdQueryDto>();
 
-			stuff.FullName = $"{account.FirstName}' '{account.MiddleName}' '{account.LastName}";
+			staff.PhotoUrl = _mediaServices.GetUrl(staff.PhotoUrl);
 
-			stuff.PhotoUrl = _mediaServices.GetUrl(stuff.PhotoUrl);
+			staff.UserRoles = await _mediator.Send(new GetUserRolesQuery(account));
 
-			stuff.UserRoles = await _mediator.Send(new GetUserRolesQuery(account));
-
-			return await Response.SuccessAsync(stuff);
+			return await Response.SuccessAsync(staff);
 
 		}
 	}

@@ -159,10 +159,10 @@ namespace ISc.Presentation.Endpoints
 			return Ok(await _mediator.Send(new DeleteTraineeArchiveByIdCommand(id)));
 		}
 
-		[HttpGet("stuff/{id}")]
-		public async Task<ActionResult<GetTraineeByIdQueryDto>> GetTStuffById(string id)
+		[HttpGet("staff/{id}")]
+		public async Task<ActionResult<GetStaffByIdQueryDto>> GetStaffById(string id)
 		{
-			return Ok(await _mediator.Send(new GetStuffByIdQuery(id)));
+			return Ok(await _mediator.Send(new GetStaffByIdQuery(id)));
 		}
 	}
 }

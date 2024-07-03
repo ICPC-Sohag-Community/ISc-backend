@@ -31,18 +31,18 @@ namespace ISc.Application.Features.Leader.Archives.Commands.DeleteTraineeById
 
 		public async Task<Response> Handle(DeleteTraineeArchiveByIdCommand command, CancellationToken cancellationToken)
 		{
-			var trainee = await _unitOfWork.Repository<TraineeArchive>().GetByIdAsync(command.Id);
+			var archive = await _unitOfWork.Repository<TraineeArchive>().GetByIdAsync(command.Id);
 
-			if(trainee==null)
+			if(archive == null)
 			{
 
 				return await Response.FailureAsync("Archive not found.", HttpStatusCode.NotFound);
 			}
 
-			_unitOfWork.Repository<TraineeArchive>().Delete(trainee);
+			_unitOfWork.Repository<TraineeArchive>().Delete(archive);
 			await _unitOfWork.SaveAsync();
 
-			return await Response.SuccessAsync("trainee deleted.");
+			return await Response.SuccessAsync("archive deleted.");
 		}
 	}
 }
