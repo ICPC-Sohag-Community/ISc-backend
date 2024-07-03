@@ -1,4 +1,5 @@
 ﻿using ISc.Application.Features.Leader.Accounts.Commands.Create;
+using ISc.Application.Features.Leader.Archives.Commands.DeleteTraineeById;
 using ISc.Application.Features.Leader.Archives.Queries.GetAllTraineesArchiveWithPagination;
 using ISc.Application.Features.Leader.Archives.Queries.GetTraineeArchiveById;
 using ISc.Application.Features.Leader.Camps.Commands.Create;
@@ -151,7 +152,14 @@ namespace ISc.Presentation.Endpoints
         {
             return Ok(await _mediator.Send(query));
         }
-        [HttpGet("stuff/{id}")]
+
+		[HttpDelete("traineesArchive/{id}")]
+		public async Task<ActionResult<string>> DeleteTraineeArchiveById(int id)
+		{
+			return Ok(await _mediator.Send(new DeleteTraineeArchiveByIdCommand(id)));
+		}
+
+		[HttpGet("stuff/{id}")]
 		public async Task<ActionResult<GetTraineeByIdQueryDto>> GetTStuffById(string id)
 		{
 			return Ok(await _mediator.Send(new GetStuffByIdQuery(id)));
