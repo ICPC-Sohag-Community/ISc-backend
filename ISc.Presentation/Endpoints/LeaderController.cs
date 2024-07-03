@@ -1,4 +1,5 @@
 ﻿using ISc.Application.Features.Leader.Accounts.Commands.Create;
+using ISc.Application.Features.Leader.Archives.Commands.DeleteTraineeById;
 using ISc.Application.Features.Leader.Archives.Queries.GetAllTraineesArchiveWithPagination;
 using ISc.Application.Features.Leader.Archives.Queries.GetTraineeArchiveById;
 using ISc.Application.Features.Leader.Camps.Commands.Create;
@@ -15,6 +16,7 @@ using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
 using ISc.Application.Features.Leader.Request.Queries.DisplayAll;
 using ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilter;
 using ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter;
+using ISc.Application.Features.Leader.Staff.Queries.GetById;
 using ISc.Application.Features.Leader.Trainees.Queries.GetAllWithPagination;
 using ISc.Application.Features.Leader.Trainees.Queries.GetById;
 using ISc.Domain.Comman.Constant;
@@ -150,5 +152,17 @@ namespace ISc.Presentation.Endpoints
         {
             return Ok(await _mediator.Send(query));
         }
-    }
+
+		[HttpDelete("traineesArchive/{id}")]
+		public async Task<ActionResult<string>> DeleteTraineeArchiveById(int id)
+		{
+			return Ok(await _mediator.Send(new DeleteTraineeArchiveByIdCommand(id)));
+		}
+
+		[HttpGet("staff/{id}")]
+		public async Task<ActionResult<GetStaffByIdQueryDto>> GetStaffById(string id)
+		{
+			return Ok(await _mediator.Send(new GetStaffByIdQuery(id)));
+		}
+	}
 }

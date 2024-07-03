@@ -80,6 +80,7 @@ namespace ISc.Application.Features.SystemRoles.Queries.GetUserRoles
                             .Where(x => x.MentorId == user.Id)
                             .Select(x => new GetUserRolesQueryDto()
                             {
+                                 
                                 Role = Roles.Mentor,
                                 CampId = x.CampId,
                                 CampName = x.Camp.Name
