@@ -19,7 +19,9 @@ namespace ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis
 
         public async Task<Response> Handle(GetCampsAnalysisQuery request, CancellationToken cancellationToken)
         {
-            var camps = await _unitOfWork.Repository<Camp>().GetAllAsync();
+            var camps = await _unitOfWork.Repository<Camp>().Entities
+                        .Where(x => x.Trainees.Count() > 0)
+                        .ToListAsync(cancellationToken);
 
             var campsAnalysis = new List<GetCampsAnalysisQueryDto>();
 
