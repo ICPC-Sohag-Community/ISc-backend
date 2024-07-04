@@ -4,6 +4,7 @@ using ISc.Domain.Models;
 using ISc.Shared;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,11 @@ namespace ISc.Application.Features.Leader.Request.Commands.DeleteRequestsByIds
             var requests = await _unitOfWork.Repository<NewRegisteration>().Entities
                           .Where(x => command.RequestsIds.Contains(x.Id))
                           .ToListAsync(cancellationToken);
+
+            if(requests.IsNullOrEmpty())
+            {
+                return await Response.FailureAsync("No requests found.");
+            }
 
             requests.ForEach(x => _emailService.SendTraineeRejectionEmailAsync(x.Email, x.FirstName + ' ' + x.MiddleName)); 
 
