@@ -2,6 +2,7 @@
 using ISc.Application.Features.HeadOfCamps.Assigning.Commands.UnAssignTrainees;
 using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetMentorAssign;
 using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetTraineeAssignWithPagination;
+using ISc.Application.Features.HeadOfCamps.Attendance.Queries.GetAllAttendance;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,12 @@ namespace ISc.Presentation.Endpoints
         public async Task<ActionResult<List<GetMentorAssignQueryDto>>> GetMentorForAssign() 
         {
             return Ok(await _mediator.Send(new GetMentorAssignQuery()));
+        }
+
+        [HttpGet("attendance")]
+        public async Task<ActionResult<GetAllAttendanceQueryDto>> GetAllAttendance()
+        {
+            return Ok(await _mediator.Send(new GetAllAttendanceQuery()));
         }
 
     }
