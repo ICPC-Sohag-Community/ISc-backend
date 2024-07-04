@@ -35,14 +35,13 @@ namespace ISc.Application.Features.Leader.Archives.Commands.DeleteTraineeById
 
 			if(archive == null)
 			{
-
 				return await Response.FailureAsync("Archive not found.", HttpStatusCode.NotFound);
 			}
 
 			_unitOfWork.Repository<TraineeArchive>().Delete(archive);
 			await _unitOfWork.SaveAsync();
 
-			return await Response.SuccessAsync("archive deleted.");
+			return await Response.SuccessAsync("Archive deleted.");
 		}
 	}
 }

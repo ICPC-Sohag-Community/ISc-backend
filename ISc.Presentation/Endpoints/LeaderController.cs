@@ -166,7 +166,6 @@ namespace ISc.Presentation.Endpoints
         {
             return Ok(await _mediator.Send(command));
         }
-    }
 
 		[HttpDelete("traineesArchive/{id}")]
 		public async Task<ActionResult<string>> DeleteTraineeArchiveById(int id)

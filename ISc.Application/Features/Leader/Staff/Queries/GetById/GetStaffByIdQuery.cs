@@ -48,10 +48,12 @@ namespace ISc.Application.Features.Leader.Staff.Queries.GetById
 		public async Task<Response> Handle(GetStaffByIdQuery query, CancellationToken cancellationToken)
 		{
 			var account = await _userManager.FindByIdAsync(query.Id);
+
 			if (account == null)
 			{
-				return await Response.FailureAsync("no data!", HttpStatusCode.NotFound);
+				return await Response.FailureAsync("Account not found.", HttpStatusCode.NotFound);
 			}
+
 			var staff = account.Adapt<GetStaffByIdQueryDto>();
 
 			staff.PhotoUrl = _mediaServices.GetUrl(staff.PhotoUrl);
@@ -59,7 +61,6 @@ namespace ISc.Application.Features.Leader.Staff.Queries.GetById
 			staff.UserRoles = await _mediator.Send(new GetUserRolesQuery(account));
 
 			return await Response.SuccessAsync(staff);
-
 		}
 	}
 }
