@@ -17,6 +17,7 @@ namespace ISc.Domain.Models.IdentityModels
         public College College { get; set; }
         public Gender Gender { get; set; }
         public string? PhotoUrl { get; set; }
+        public string? FacebookLink { get; set; }
         public string CodeForceHandle { get; set; }
         public string? VjudgeHandle { get; set; }
     }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Models
 {
-    public class Contest:BaseEntity,ISoftEntity
+    public class Contest:BaseEntity,ISoftEntity,IProblemContainers
     {
         public string Name { get; set; }
         public string Link { get; set; }

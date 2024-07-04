@@ -12,6 +12,8 @@ using ISc.Application.Features.Leader.Camps.Queries.GetCampEditById;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetFeedbacks;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
+using ISc.Application.Features.Leader.Reports.Queries.CampReoprts;
+using ISc.Application.Features.Leader.Request.Commands.SubmitRequests;
 using ISc.Application.Features.Leader.Request.Queries.DisplayAll;
 using ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilter;
 using ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter;
@@ -149,6 +151,18 @@ namespace ISc.Presentation.Endpoints
         public async Task<ActionResult<GetAllTraineesArchiveWithPaginationQueryDto>> GetTraineesArchive(GetAllTraineesArchiveWithPaginationQuery query)
         {
             return Ok(await _mediator.Send(query));
+        }
+
+        [HttpGet("camps/reports")]
+        public async Task<ActionResult<List<GetCampReoprtsQueryDto>>> CampsReoprts()
+        {
+            return Ok(await _mediator.Send(new GetCampReoprtsQuery()));
+        }
+
+        [HttpPost("Traineeregisteration/submit")]
+        public async Task<ActionResult<string>>SubmitRegisterationRequests(SubmitRequestsCommand command)
+        {
+            return Ok(await _mediator.Send(command));
         }
     }
 }

@@ -43,6 +43,7 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
         private readonly IOnlineJudgeServices _onlineJudgeServices;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHelperService _helperService;
         public CreateAccountCommandHandler(
             UserManager<Account> userManager,
             IValidator<CreateAccountCommand> validator,
@@ -50,7 +51,8 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             IEmailSender emailSender,
             IOnlineJudgeServices onlineJudgeServices,
             RoleManager<IdentityRole> roleManager,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IHelperService helperService)
         {
             _userManager = userManager;
             _validator = validator;
@@ -59,6 +61,7 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             _onlineJudgeServices = onlineJudgeServices;
             _roleManager = roleManager;
             _unitOfWork = unitOfWork;
+            _helperService = helperService;
         }
 
         public async Task<Response> Handle(CreateAccountCommand command, CancellationToken cancellationToken)
@@ -111,29 +114,35 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
         {
             var account = command.Adapt<Account>();
 
-            account.UserName = "ICPC" + GenerateRandom(account);
-            var password = "ICPC" + GenerateRandom(account);
+            account.UserName = _helperService.GetRandomString(command.FirstName, command.NationalId);
+            var password = _helperService.GetRandomString(command.FirstName, command.NationalId);
 
             if (command.Role == Roles.Trainee)
             {
-                Trainee trainee = account.Adapt<Trainee>();
-                trainee.CampId = (int)command.CampId!;
+                Trainee trainee = new Trainee
+                {
+                    Id = account.Id,
+                    CampId = (int)command.CampId!
+                };
 
                 await _unitOfWork.Trainees.AddAsync(new() { Account = account, Member = trainee, Password = password });
             }
             else if (command.Role == Roles.Mentor)
             {
-                Mentor mentor = account.Adapt<Mentor>();
+                Mentor mentor = new() { Id = account.Id };
 
                 await _unitOfWork.Mentors.AddAsync(new() { Account = account, Member = mentor, Password = password });
 
             }
             else if (command.Role == Roles.Head_Of_Camp)
             {
-                HeadOfCamp head = account.Adapt<HeadOfCamp>();
-                head.CampId = (int)command.CampId!;
+                HeadOfCamp head = new HeadOfCamp
+                {
+                    Id = account.Id,
+                    CampId = (int)command.CampId!
+                };
 
-				await _unitOfWork.Heads.AddAsync(new() { Account = account, Member = head, Password = password });
+                await _unitOfWork.Heads.AddAsync(new() { Account = account, Member = head, Password = password });
             }
             else
             {
@@ -148,11 +157,6 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             {
                 account.PhotoUrl = await _mediaServices.SaveAsync(command.ProfileImage);
             }
-        }
-
-        private string GenerateRandom(Account account)
-        {
-            return new Random().Next(1, 99).ToString() + account.FirstName.ToLower() + account.NationalId[..3] + '@';
         }
     }
 }

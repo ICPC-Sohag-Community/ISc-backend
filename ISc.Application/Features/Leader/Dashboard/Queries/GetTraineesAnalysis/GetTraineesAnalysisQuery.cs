@@ -26,8 +26,8 @@ namespace ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis
 					count = x.Count()
 				}).ToDictionaryAsync(x => x.Gender, x => x.count);
 
-			traineesAnalysis.TryGetValue(Gender.female, out int femalesCount);
-			traineesAnalysis.TryGetValue(Gender.male, out int malesCount);
+			traineesAnalysis.TryGetValue(Gender.Female, out int femalesCount);
+			traineesAnalysis.TryGetValue(Gender.Male, out int malesCount);
 
 			var analysis = new GetTraineesAnalysisQueryDto()
 			{

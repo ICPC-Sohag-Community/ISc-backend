@@ -43,7 +43,7 @@ namespace ISc.Presistance.Seeding
                     NationalId = "11111111111111",
                     Grade = 4,
                     Email = "icpc.sohag.community@gmail.com",
-                    Gender = Gender.male,
+                    Gender = Gender.Male,
                     CodeForceHandle = "IcpcSohag"
                 };
                 await userManager.CreateAsync(leader, "123@Abc");

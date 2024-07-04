@@ -3,7 +3,7 @@ using ISc.Domain.Interface;
 
 namespace ISc.Domain.Models
 {
-    public class Sheet : BaseEntity, ISoftEntity
+    public class Sheet : BaseEntity, ISoftEntity,IProblemContainers
     {
         public string Name { get; set; }
         public string SheetLink { get; set; }

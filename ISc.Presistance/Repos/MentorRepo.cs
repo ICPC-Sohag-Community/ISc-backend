@@ -95,6 +95,7 @@ namespace ISc.Presistance.Repos
             if (entity.Account is not null && entity.Password is not null)
             {
                 await _userManager.CreateAsync(entity.Account, entity.Password);
+                entity.Member.Id = entity.Account.Id;
             }
 
             await _context.AddAsync(entity.Member);

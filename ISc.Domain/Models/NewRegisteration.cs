@@ -14,11 +14,11 @@ namespace ISc.Domain.Models
         public College College { get; set; }
         public Gender Gender { get; set; }
         public string CodeForceHandle { get; set; }
-        public string? FacebookHandle { get; set; }
+        public string? FacebookLink { get; set; }
         public string? VjudgeHandle { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public string? ImageUrl { get; set; }
+        public string? PhotoUrl { get; set; }
         public string? Comment { get; set; }
         public bool HasLaptop { get; set; }
         public int CampId { get; set; }

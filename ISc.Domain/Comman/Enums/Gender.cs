@@ -8,7 +8,7 @@ namespace ISc.Domain.Comman.Enums
 {
 	public enum Gender:byte
 	{ 
-		male, 
-		female 
+		Male, 
+		Female 
 	}
 }
