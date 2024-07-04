@@ -151,7 +151,7 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             }
 
 
-            await _emailSender.SendAccountInfoAsync(account, password, command.Role);
+            await _emailSender.SendAccountInfoEmailAsync(account, password, command.Role);
 
             if (command.ProfileImage != null)
             {

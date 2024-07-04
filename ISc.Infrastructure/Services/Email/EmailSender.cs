@@ -24,7 +24,7 @@ namespace ISc.Infrastructure.Services.Email
             _host = host;
         }
 
-        public async Task<bool> SendAcceptToRoleAsync(string email, string name, string role)
+        public async Task<bool> SendAcceptToRoleEmailAsync(string email, string name, string role)
         {
             var content = File.ReadAllText(_host.WebRootPath + _filePath["AccpetToRole"]);
 
@@ -61,7 +61,7 @@ namespace ISc.Infrastructure.Services.Email
             });
         }
 
-        public async Task<bool> SendAccountInfoAsync(Account user, string password, string role)
+        public async Task<bool> SendAccountInfoEmailAsync(Account user, string password, string role)
         {
             var content = File.ReadAllText(_host.WebRootPath + _filePath["AccoutInfo"]);
 
@@ -98,7 +98,7 @@ namespace ISc.Infrastructure.Services.Email
             });
         }
 
-        public async Task<bool> SendForgetPassword(string email, string name, int otp)
+        public async Task<bool> SendForgetPasswordEmailAsync(string email, string name, int otp)
         {
             var content = File.ReadAllText(_host.WebRootPath + _filePath["OtpResetPassword"]);
 
@@ -147,6 +147,23 @@ namespace ISc.Infrastructure.Services.Email
                 BodyData = new
                 {
                     ApplicantName = applicantName
+                }
+            });
+        }
+
+        public async Task<bool> SendTraineeRejectionEmailAsync(string email, string fullName)
+        {
+            var content = File.ReadAllText(_host.WebRootPath + _filePath["TraineeRejection"]);
+
+            return await _emailService.SendMailUsingRazorTemplateAsync(new EmailRequestDto()
+            {
+                To = email!,
+                From = _email,
+                Subject = "ISc - Training Registeration Update",
+                Body = content,
+                BodyData = new
+                {
+                    TraineeName = fullName
                 }
             });
         }

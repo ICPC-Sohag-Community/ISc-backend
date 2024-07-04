@@ -67,7 +67,7 @@ namespace ISc.Application.Features.Authentication.ForgetPassword
                         return Task.FromResult(new Random().Next(1000));
                     });
 
-            var isEmailSent = await _emailSender.SendForgetPassword(command.Email, user.FirstName + ' ' + user.MiddleName, otp);
+            var isEmailSent = await _emailSender.SendForgetPasswordEmailAsync(command.Email, user.FirstName + ' ' + user.MiddleName, otp);
 
             if (!isEmailSent)
             {

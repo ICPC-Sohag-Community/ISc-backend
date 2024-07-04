@@ -14,6 +14,7 @@ using ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetFeedbacks;
 using ISc.Application.Features.Leader.Dashboard.Queries.GetTraineesAnalysis;
 using ISc.Application.Features.Leader.Reports.Queries.CampReoprts;
+using ISc.Application.Features.Leader.Request.Commands.DeleteRequestsByIds;
 using ISc.Application.Features.Leader.Request.Commands.SubmitRequests;
 using ISc.Application.Features.Leader.Request.Queries.DisplayAll;
 using ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilter;
@@ -178,5 +179,11 @@ namespace ISc.Presentation.Endpoints
 		{
 			return Ok(await _mediator.Send(new GetStaffByIdQuery(id)));
 		}
+
+        [HttpDelete("traineeRegisteration")]
+        public async Task<ActionResult<string>>DeleteRequests(List<int> requests)
+        {
+            return Ok(await _mediator.Send(new DeleteRequestsByIdsCommand(requests)));
+        }
 	}
 }
