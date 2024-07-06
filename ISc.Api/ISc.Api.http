@@ -1,0 +1,6 @@
+@ISc.Api_HostAddress = http://localhost:5264
+
+GET {{ISc.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

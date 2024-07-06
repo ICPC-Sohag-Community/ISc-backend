@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>ICPC Community Account Access Email</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #113946;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fdf3dd;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      h1 {
+        text-align: left;
+        font-size: 30px;
+        margin-bottom: 20px;
+        color: black;
+        padding-bottom: 10px;
+      }
+
+      .firstPart {
+        font-size: 20px;
+        font-weight: 550;
+      }
+
+      p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 15px;
+        color: black;
+      }
+
+      .hrRegards {
+        font-weight: bold;
+        color: black;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        display: flex;
+        align-items: center;
+      }
+
+      h2 {
+        color: #31304D;
+        font-size: 25px;
+        font-weight: 700;
+        margin: 20px 0;
+      }
+
+      h5,
+      h6 {
+        font-size: 16px;
+        font-weight: 400;
+        margin: 5px 0;
+      }
+
+      p,
+      li {
+        margin: 10px 0;
+        line-height: 1.5;
+      }
+
+      a {
+        color: #DC5F00;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .AccountInfo{
+        padding: 10px;
+        background-color: #a8a8a8;
+      }
+
+      ul {
+        margin-left: 20px;
+      }
+
+      ol {
+        margin-left: 20px;
+      }
+
+      ul li{
+        color: #31304D ;
+      }
+      ol li{
+        font-weight: 600;
+      }
+
+      .Regards{
+        font-weight: bold;
+        color: black;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>ICPC Community - Account Access Information</h1>
+      <p class="firstPart">Dear @Model.TraineeName,</p>
+      <p>
+        We hope this email finds you well. We are excited to inform you that the
+        ICPC Community has created a username and password for you to access
+        your account. <br />This account will provide you with various features
+        and benefits within our community.
+      </p>
+
+      <div class="AccountInfo">
+        <h2>Login Details</h2>
+        <ul>
+            <li><strong> Username: </strong>@Model.UserName</li>
+            <li><strong>Password: </strong>@Model.Password</li>
+            <li><strong>Role: </strong>@Model.Role</li>
+        </ul>
+      </div>
+
+      <p>To access your account, please follow these simple steps:</p>
+      <ol>
+        <li>
+          Visit the ICPC Community website at
+          <a href="www.icpc-community.org">www.icpc-community.org</a>.
+        </li>
+        <li>
+          Click on the <em>"Login"</em> button located at the top right corner
+          of the homepage.
+        </li>
+        <li>Enter the provided username and password.</li>
+        <li>Click on the <em>"Login"</em> button to access your account.</li>
+      </ol>
+
+      <p>
+        Once logged in, you will have the opportunity to explore and utilize the
+        resources available to you within the ICPC Community. If you have any
+        questions or require assistance, please do not hesitate to contact our
+        support team at
+        <a href="mailto:icpc.sohag.community@gmail.com"
+          >support@icpc-community</a
+        >.
+      </p>
+
+      <p>
+        Thank you for joining the ICPC Community, and we look forward to having
+        you as an active member.
+      </p>
+
+      <p class="Regards">Warm regards,</p>
+      <p class="Regards">ICPC Sohag Hr Team</p>
+    </div>
+  </body>
+</html>
