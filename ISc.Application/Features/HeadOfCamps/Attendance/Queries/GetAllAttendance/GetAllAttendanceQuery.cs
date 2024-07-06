@@ -49,7 +49,7 @@ namespace ISc.Application.Features.HeadOfCamps.Attendance.Queries.GetAllAttendan
 
             var traineeAttendance = await _memoryCache.GetOrCreateAsync($"CampAttendance{campId}", cache =>
             {
-                cache.SlidingExpiration = TimeSpan.FromMinutes(5);
+                cache.SlidingExpiration = TimeSpan.FromMinutes(1);
                 GetAllAttendanceQueryDto attendance = GetAttendance(campId.Value);
 
                 cache.Value = attendance;
@@ -91,7 +91,6 @@ namespace ISc.Application.Features.HeadOfCamps.Attendance.Queries.GetAllAttendan
                                   .Select(x => x.Id)
                                   .Where(x => !traineesAttendence.Select(ta => ta.SessionId).Contains(x))
                                   .ToHashSet();
-
 
             foreach (var trainee in trainees)
             {

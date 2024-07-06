@@ -2,6 +2,7 @@
 using ISc.Domain.Models;
 using ISc.Shared;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Application.Features.Mobile.Commands.AddAttendnce
 {
@@ -29,7 +30,7 @@ namespace ISc.Application.Features.Mobile.Commands.AddAttendnce
 
             if (trainee == null)
             {
-                return await Response.FailureAsync(" Trainee not allowed.");
+                return await Response.FailureAsync("Trainee not found.");
             }
 
             var Session = trainee.Camp.Sessions.FirstOrDefault(i => i.StartDate.Date >= DateTime.Now.Date);
@@ -37,6 +38,11 @@ namespace ISc.Application.Features.Mobile.Commands.AddAttendnce
             if (Session == null)
             {
                 return await Response.FailureAsync("There is no session for now.");
+            }
+
+            if(await _unitOfWork.Repository<TraineeAttendence>().Entities.AnyAsync(x=>x.TraineeId == command.TraineeId && x.SessionId == Session.Id))
+            {
+                return await Response.FailureAsync("Trainee already attend.");
             }
 
             await _unitOfWork.Repository<TraineeAttendence>()

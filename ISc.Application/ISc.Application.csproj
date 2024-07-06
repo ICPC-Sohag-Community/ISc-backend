@@ -20,7 +20,6 @@
 	  <ProjectReference Include="..\ISc.Shared\ISc.Shared.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Features\HeadOfCamps\WeeklyFilter\" />
 	  <Folder Include="Features\Leader\Reports\Commands\" />
 	  <Folder Include="Features\Leader\Staff\Commands\" />
 	  <Folder Include="Features\Leader\Trainees\Commands\" />
