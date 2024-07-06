@@ -47,3 +47,9 @@ jobs:
     #     open -u $SFTP_USERNAME,$SFTP_PASSWORD sftp://$SFTP_SERVER;
     #     mirror -R ./publish $SFTP_DESTINATION_PATH;
     #     "
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: 	site4208.siteasp.net
+        username: 	site4208
+        password: ${{ secrets.SFTP_PASSWORD }}
