@@ -54,4 +54,4 @@ jobs:
         username: 	site4208
         password: ${{ secrets.SFTP_PASSWORD }}
         #local-dir: ./publish/
-        server-dir: /wwwroot
+        server-dir: /wwwroot/
