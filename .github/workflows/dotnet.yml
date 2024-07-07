@@ -29,7 +29,7 @@ jobs:
       run: dotnet build --no-restore
 
     - name: Publish
-      run: dotnet publish --configuration Release --output ./publish
+      run: dotnet publish --configuration Release --output ./publish/
 
     # - name: Deploy to Monester ASP.NET Server
     #   if: github.event_name == 'push'  # Only run deployment on push events, not pull requests
@@ -53,5 +53,5 @@ jobs:
         server: 	site4208.siteasp.net
         username: 	site4208
         password: ${{ secrets.SFTP_PASSWORD }}
-        local-dir: ./publish
+        local-dir: ./publish/
         server-dir: /wwwroot
