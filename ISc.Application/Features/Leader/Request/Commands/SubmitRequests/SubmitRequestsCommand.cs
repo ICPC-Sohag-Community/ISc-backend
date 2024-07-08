@@ -52,8 +52,8 @@ namespace ISc.Application.Features.Leader.Request.Commands.SubmitRequests
 
             foreach (var account in newAccounts)
             {
-                account.UserName = _helperService.GetRandomString(account.FirstName, account.NationalId);
-                var password = _helperService.GetRandomString(account.FirstName, account.NationalId);
+                account.UserName = _helperService.GetRandomUserNameString(account.FirstName, account.NationalId);
+                var password = _helperService.GetRandomPasswordString(account.FirstName, account.NationalId);
 
                 var trainee = new Trainee()
                 {

@@ -85,7 +85,7 @@ namespace ISc.Application.Features.SystemRoles.Commands.UnAssign
 				{
 					var trainee = await _unitOfWork.Trainees.GetByIdAsync(user.Id);
 
-					await _unitOfWork.Trainees.Delete(user, trainee, false);
+					await _unitOfWork.Trainees.DeleteAsync(user, trainee, false);
 				}
 				else if (roleInfo.Role == Roles.Head_Of_Camp)
 				{

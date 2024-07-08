@@ -40,7 +40,7 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Empty
 
             foreach (var trainee in trainees)
             {
-                await _unitOfWork.Trainees.Delete(trainee.Account, trainee, isCompleted);
+                await _unitOfWork.Trainees.DeleteAsync(trainee.Account, trainee, isCompleted);
             }
 
             foreach (var mentor in mentors)

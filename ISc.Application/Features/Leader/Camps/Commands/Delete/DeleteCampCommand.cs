@@ -43,7 +43,7 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Delete
 
             foreach(var trainee in trainees)
             {
-                await _unitOfWork.Trainees.Delete(trainee.Account, trainee, isCompleted);
+                await _unitOfWork.Trainees.DeleteAsync(trainee.Account, trainee, isCompleted);
             }
 
             _unitOfWork.Repository<Camp>().Delete(camp);

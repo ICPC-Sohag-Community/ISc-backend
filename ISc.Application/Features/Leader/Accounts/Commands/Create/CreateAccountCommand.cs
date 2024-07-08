@@ -12,6 +12,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Specialized;
 
 namespace ISc.Application.Features.Leader.Accounts.Commands.Create
 {
@@ -104,9 +105,7 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             {
                 return await Response.FailureAsync("User already exist");
 			}
-
-			await _unitOfWork.SaveAsync();
-
+            
             return await Response.SuccessAsync("User added successfully.");
         }
 
@@ -114,8 +113,8 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
         {
             var account = command.Adapt<Account>();
 
-            account.UserName = _helperService.GetRandomString(command.FirstName, command.NationalId);
-            var password = _helperService.GetRandomString(command.FirstName, command.NationalId);
+            account.UserName = _helperService.GetRandomUserNameString(command.FirstName, command.NationalId);
+            var password = _helperService.GetRandomPasswordString(command.FirstName, command.NationalId);
 
             if (command.Role == Roles.Trainee)
             {
@@ -146,10 +145,15 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             }
             else
             {
-                await _userManager.CreateAsync(account, password);
+                var result = await _userManager.CreateAsync(account, password);
+
+                if (!result.Succeeded) {
+                    Console.WriteLine(result.Errors.First().ToString);
+                }
                 await _userManager.AddToRoleAsync(account, command.Role);
             }
 
+            await _unitOfWork.SaveAsync();
 
             await _emailSender.SendAccountInfoEmailAsync(account, password, command.Role);
 

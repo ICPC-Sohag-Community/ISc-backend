@@ -25,6 +25,7 @@ namespace ISc.Infrastructure.Services.ScheduleTasks
             var solvedProblems = _unitOfWork.Repository<TraineeAccessSheet>()
                                     .Entities
                                     .ToHashSet();
+            int requestCount = 1;
 
             foreach (var camp in camps)
             {
@@ -79,6 +80,12 @@ namespace ISc.Infrastructure.Services.ScheduleTasks
                         await _unitOfWork.Trainees.UpdateAsync(new() { Account = trainee.Account, Member = trainee });
 
                         await _unitOfWork.Repository<TraineeAccessSheet>().AddRangeAsync(newProblemsToDatabase);
+
+                        if (requestCount % 100 == 0)
+                        {
+                            Thread.Sleep(2000);
+                        }
+                        requestCount++;
                     }
                 }
             }

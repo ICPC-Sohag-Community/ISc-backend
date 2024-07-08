@@ -23,7 +23,7 @@ namespace ISc.Infrastructure.Services.ApiRequest
 
             if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.BadRequest)
             {
-                _logger.LogCritical("request url: " + request + "\n" +
+                _logger.LogCritical($"{response.StatusCode}: request url: " + request + "\n" +
                     await response.Content?.ReadAsStringAsync() ?? $"{serviceName} Site Error");
 
                 throw new SerivceErrorException($"{HttpClient.BaseAddress} unaviable for now... please try again later");

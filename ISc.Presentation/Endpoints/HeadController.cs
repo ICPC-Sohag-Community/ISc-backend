@@ -3,6 +3,9 @@ using ISc.Application.Features.HeadOfCamps.Assigning.Commands.UnAssignTrainees;
 using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetMentorAssign;
 using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetTraineeAssignWithPagination;
 using ISc.Application.Features.HeadOfCamps.Attendance.Queries.GetAllAttendance;
+using ISc.Application.Features.HeadOfCamps.Materials.GetAllMaterials;
+using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Commands.FilterTraineeById;
+using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetOtherTrainees;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetToFilter;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -56,5 +59,22 @@ namespace ISc.Presentation.Endpoints
             return Ok (await _mediator.Send(new GetToFilterQuery()));
         }
 
+        [HttpDelete("weeklyFilter/filterTrainee")]
+        public async Task<ActionResult<string>>FilterTraineeById([FromBody]string id)
+        {
+            return Ok(await _mediator.Send(new FilterTraineeByIdCommand(id)));
+        }
+
+        [HttpGet("getMaterailsBySheetId/{id}")]
+        public async Task<ActionResult<List<GetAllMaterialsQueryDto>>>GetAllMaterialsBySheetId(int id)
+        {
+            return Ok(await _mediator.Send(new GetAllMaterialsQuery(id)));
+        }
+
+        [HttpGet("weeklyFilter/getOthers")]
+        public async Task<ActionResult<List<GetOtherTraineesQueryDto>>>GetOtherTrainees(List<string> traineesIds)
+        {
+            return Ok(await _mediator.Send(new GetOtherTraineesQuery(traineesIds)));
+        }
     }
 }
