@@ -1,4 +1,5 @@
-﻿using ISc.Application.Interfaces.Repos;
+﻿using FluentValidation;
+using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Models;
 using ISc.Domain.Models.IdentityModels;
 using ISc.Shared;
@@ -27,20 +28,30 @@ namespace ISc.Application.Features.HeadOfCamps.Materials.Commands.Create
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IValidator<CreateMaterialCommand> _validator;
         private readonly UserManager<Account> _userManager;
 
         public CreateMaterialCommandHandler(
             IUnitOfWork unitOfWork,
             IHttpContextAccessor contextAccessor,
-            UserManager<Account> userManager)
+            UserManager<Account> userManager,
+            IValidator<CreateMaterialCommand> validator)
         {
             _unitOfWork = unitOfWork;
             _contextAccessor = contextAccessor;
             _userManager = userManager;
+            _validator = validator;
         }
 
         public async Task<Response> Handle(CreateMaterialCommand command, CancellationToken cancellationToken)
         {
+            var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+
+            if (!validationResult.IsValid)
+            {
+                return await Response.ValidationFailureAsync(validationResult.Errors, System.Net.HttpStatusCode.UnprocessableEntity);
+            }
+
             var user = await _userManager.GetUserAsync(_contextAccessor.HttpContext!.User);
 
             if(user is null)
@@ -64,7 +75,7 @@ namespace ISc.Application.Features.HeadOfCamps.Materials.Commands.Create
 
             var material = command.Adapt<Material>();
 
-            material.MaterialOrder = await _unitOfWork.Repository<Material>().Entities.CountAsync(cancellationToken) + 1;
+            material.MaterialOrder = await _unitOfWork.Repository<Material>().Entities.Where(x=>x.SheetId==sheet.Id).CountAsync(cancellationToken) + 1;
 
             await _unitOfWork.Repository<Material>().AddAsync(material);
             await _unitOfWork.SaveAsync();

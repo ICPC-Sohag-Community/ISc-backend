@@ -4,7 +4,9 @@ using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetMentorAssign;
 using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetTraineeAssignWithPagination;
 using ISc.Application.Features.HeadOfCamps.Attendance.Queries.GetAllAttendance;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.Create;
+using ISc.Application.Features.HeadOfCamps.Materials.Commands.Delete;
 using ISc.Application.Features.HeadOfCamps.Materials.Queries.GetAllMaterials;
+using ISc.Application.Features.HeadOfCamps.Sheets.Commands.Create;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Commands.FilterTraineeById;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetOtherTrainees;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetToFilter;
@@ -78,8 +80,20 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(new GetOtherTraineesQuery(traineesIds)));
         }
 
-        [HttpPost("material")]
+        [HttpPost("materials")]
         public async Task<ActionResult<int>>CreateMaterial(CreateMaterialCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpDelete("materials/{id}")]
+        public async Task<ActionResult<string>>DeleteMaterial(int id)
+        {
+            return Ok(await _mediator.Send(new DeleteMaterialByIdCommand(id)));
+        }
+
+        [HttpPost("sheets")]
+        public async Task<ActionResult<int>>CreateSheet(CreateSheetCommand command)
         {
             return Ok(await _mediator.Send(command));
         }

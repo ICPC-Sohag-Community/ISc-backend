@@ -37,7 +37,7 @@ namespace ISc.Application.Features.Mobile.Queries.GetTraineesByCampId
                 .Select(i => new GetTraineesByCampIdQueryDto
                 {
                     Id = i.Id,
-                    Name = i.Account.FirstName + ' ' + i.Account.MiddleName
+                    Name = i.Account.FirstName + ' ' + i.Account.MiddleName + ' ' + i.Account.LastName
                 })
                 .ToListAsync(cancellationToken);
 

@@ -9,6 +9,9 @@ namespace ISc.Application.Features.HeadOfCamps.Materials.Commands.Create
 {
     public class CreateMaterialCommandValidator:AbstractValidator<CreateMaterialCommand>
     {
-
+        public CreateMaterialCommandValidator()
+        {
+            RuleFor(x=>x.Title).NotEmpty().MaximumLength(100);
+        }
     }
 }
