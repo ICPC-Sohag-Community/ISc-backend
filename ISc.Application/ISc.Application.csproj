@@ -19,11 +19,11 @@
 	  <ProjectReference Include="..\ISc.Domain\ISc.Domain.csproj" />
 	  <ProjectReference Include="..\ISc.Shared\ISc.Shared.csproj" />
 	</ItemGroup>
-	<ItemGroup>
+	<!--<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
 			<_Paramter1>ISC.UnitTests</_Paramter1>
 		</AssemblyAttribute>
-	</ItemGroup>
+	</ItemGroup>-->
 	<ItemGroup>
 	  <Folder Include="Features\Leader\Reports\Commands\" />
 	  <Folder Include="Features\Leader\Staff\Commands\" />

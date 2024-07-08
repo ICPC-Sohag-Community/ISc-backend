@@ -7,25 +7,29 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ISc.Application.Features.HeadOfCamps.Materials.GetAllMaterials
+namespace ISc.Application.Features.HeadOfCamps.Materials.Commands.Create
 {
-    public record GetAllMaterialsQuery : IRequest<Response>
+    public record CreateMaterialCommand:IRequest<Response>
     {
+        public string Title { get; set; }
+        public string Link { get; set; }
         public int SheetId { get; set; }
-
-        public GetAllMaterialsQuery(int sheetId)
-        {
-            SheetId = sheetId;
-        }
     }
 
-    internal class GetAllMaterialsQueryHandler : IRequestHandler<GetAllMaterialsQuery, Response>
+    internal class CreateMaterialCommandHandler : IRequestHandler<CreateMaterialCommand, Response>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly UserManager<Account> _userManager;
-        public GetAllMaterialsQueryHandler(
+
+        public CreateMaterialCommandHandler(
             IUnitOfWork unitOfWork,
             IHttpContextAccessor contextAccessor,
             UserManager<Account> userManager)
@@ -35,33 +39,37 @@ namespace ISc.Application.Features.HeadOfCamps.Materials.GetAllMaterials
             _userManager = userManager;
         }
 
-        public async Task<Response> Handle(GetAllMaterialsQuery query, CancellationToken cancellationToken)
+        public async Task<Response> Handle(CreateMaterialCommand command, CancellationToken cancellationToken)
         {
             var user = await _userManager.GetUserAsync(_contextAccessor.HttpContext!.User);
 
-            if (user == null)
+            if(user is null)
             {
                 return await Response.FailureAsync("Unauthorized.", System.Net.HttpStatusCode.Unauthorized);
             }
 
             var head = await _unitOfWork.Heads.GetByIdAsync(user.Id);
-
-            if (head is null)
+            
+            if(head is null)
             {
                 return await Response.FailureAsync("Unauthorized.", System.Net.HttpStatusCode.Unauthorized);
             }
 
-            var sheet = await _unitOfWork.Repository<Sheet>().Entities
-                        .SingleOrDefaultAsync(x => x.Id == query.SheetId && x.CampId == head.CampId);
+            var sheet = await _unitOfWork.Repository<Sheet>().GetByIdAsync(command.SheetId);
 
-            if (sheet is null)
+            if(sheet is null || sheet.CampId != head.CampId)
             {
                 return await Response.FailureAsync("Sheet not found.", System.Net.HttpStatusCode.NotFound);
             }
 
-            var materials = sheet.Materials.OrderBy(x => x.MaterialOrder).Adapt<List<GetAllMaterialsQueryDto>>();
+            var material = command.Adapt<Material>();
 
-            return await Response.SuccessAsync(materials);
+            material.MaterialOrder = await _unitOfWork.Repository<Material>().Entities.CountAsync(cancellationToken) + 1;
+
+            await _unitOfWork.Repository<Material>().AddAsync(material);
+            await _unitOfWork.SaveAsync();
+
+            return await Response.SuccessAsync(material.Id, "Material added");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ISc.Application.Features.HeadOfCamps.Materials.GetAllMaterials
+﻿namespace ISc.Application.Features.HeadOfCamps.Materials.Queries.GetAllMaterials
 {
     public class GetAllMaterialsQueryDto
     {

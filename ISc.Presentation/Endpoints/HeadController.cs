@@ -3,7 +3,8 @@ using ISc.Application.Features.HeadOfCamps.Assigning.Commands.UnAssignTrainees;
 using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetMentorAssign;
 using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetTraineeAssignWithPagination;
 using ISc.Application.Features.HeadOfCamps.Attendance.Queries.GetAllAttendance;
-using ISc.Application.Features.HeadOfCamps.Materials.GetAllMaterials;
+using ISc.Application.Features.HeadOfCamps.Materials.Commands.Create;
+using ISc.Application.Features.HeadOfCamps.Materials.Queries.GetAllMaterials;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Commands.FilterTraineeById;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetOtherTrainees;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetToFilter;
@@ -75,6 +76,12 @@ namespace ISc.Presentation.Endpoints
         public async Task<ActionResult<List<GetOtherTraineesQueryDto>>>GetOtherTrainees(List<string> traineesIds)
         {
             return Ok(await _mediator.Send(new GetOtherTraineesQuery(traineesIds)));
+        }
+
+        [HttpPost("material")]
+        public async Task<ActionResult<int>>CreateMaterial(CreateMaterialCommand command)
+        {
+            return Ok(await _mediator.Send(command));
         }
     }
 }
