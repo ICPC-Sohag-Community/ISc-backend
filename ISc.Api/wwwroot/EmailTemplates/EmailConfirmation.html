@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Confirmation OTP</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #113946;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fdf3dd;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2{
+            font-size: 30px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .firstPart {
+            font-size: 20px;
+            font-weight: 550;
+        }
+
+        p {
+            color: black;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        .theOtp{
+            border-radius: 5px;
+            text-align: center;
+            padding: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Confrim Your Email</h2>
+        <p class="firstPart">Dear User,</p>
+        <p>Your verification code for confirming your email address is : 
+            <span class="theOtp"><strong>@Model.Otp</strong>.</span>
+        </p>
+        <p>Please use this code within to complete the process.</p>
+        <p>Thank you,</p>
+        <p><strong >ISc Training Platform</strong></p>
+    </div>
+</body>
+</html>

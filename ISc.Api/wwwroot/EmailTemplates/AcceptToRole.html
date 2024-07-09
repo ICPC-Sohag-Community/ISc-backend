@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Role Assigned</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .content {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
+        .footer {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>New Role Assigned!</h1>
+        </div>
+        <div class="content">
+            <p>Hi @Model.User,</p>
+            <p>We're thrilled to inform you that you've been assigned a new role:</p>
+            <p><strong>Role:</strong> @Model.Role</p>
+            <p>This role amplifies your access and responsibilities. Any queries? Don't hesitate to reach out.</p>
+            <p>Best Regards,<br>ICPC Sohag Hr Team</p>
+        </div>
+        <div class="footer">
+            <p>Contact us at <a href="mailto:icpc.sohag.community@gmail.com">Support@SohagIcpcCommunity.org</a></p>
+        </div>
+    </div>
+</body>
+</html>

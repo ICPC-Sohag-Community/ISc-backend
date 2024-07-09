@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ISc.Application.Interfaces;
+using ISc.Domain.Models;
+using ISc.Domain.Models.IdentityModels;
+using Mapster;
+
+namespace ISc.Application.Comman.Mapping
+{
+    public class StuffArchiveMapping : IRegister
+    {
+        public void Register(TypeAdapterConfig config)
+        {
+            config.NewConfig<Account,StuffArchive>();
+        }
+    }
+}

@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+	<PreserveCompilationContext>true</PreserveCompilationContext>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="11.9.0" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
+		<PackageReference Include="Mapster" Version="7.4.0" />
+		<PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.2.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.2.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\ISc.Domain\ISc.Domain.csproj" />
+	  <ProjectReference Include="..\ISc.Shared\ISc.Shared.csproj" />
+	</ItemGroup>
+	<!--<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Paramter1>ISC.UnitTests</_Paramter1>
+		</AssemblyAttribute>
+	</ItemGroup>-->
+	<ItemGroup>
+	  <Folder Include="Features\HeadOfCamps\Sheets\Queries\" />
+	  <Folder Include="Features\Leader\Reports\Commands\" />
+	  <Folder Include="Features\Leader\Staff\Commands\" />
+	  <Folder Include="Features\Leader\Trainees\Commands\" />
+	  <Folder Include="Features\Mentor\" />
+	  <Folder Include="Features\Trainee\" />
+	</ItemGroup>
+</Project>
