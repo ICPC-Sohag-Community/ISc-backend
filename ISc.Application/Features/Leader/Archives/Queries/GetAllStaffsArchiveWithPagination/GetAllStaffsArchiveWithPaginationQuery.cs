@@ -16,7 +16,7 @@ namespace ISc.Application.Features.Leader.Archives.Queries.GetAllStaffsArchiveWi
 {
 	public record GetAllStaffsArchiveWithPaginationQuery:PaginatedRequest,IRequest<PaginatedRespnose<GetAllStaffsArchiveWithPaginationQueryDto>>
 	{
-        public filters? SorteBy { get; set; }
+        public Filters? SortBy { get; set; }
     }
 	internal class GetAllStaffsArchiveWithPaginationQueryHandler : IRequestHandler<GetAllStaffsArchiveWithPaginationQuery, PaginatedRespnose<GetAllStaffsArchiveWithPaginationQueryDto>>
 	{
@@ -35,17 +35,17 @@ namespace ISc.Application.Features.Leader.Archives.Queries.GetAllStaffsArchiveWi
 			{
 				archives = archives.Where(x => (x.FirstName + x.MiddleName + x.LastName).Trim().ToLower().StartsWith(query.KeyWord.Trim().ToLower())
 											   || x.CodeForceHandle.StartsWith(query.KeyWord));
-				if (query.SorteBy is not null)
+				if (query.SortBy is not null)
 				{
-					if (query.SorteBy == filters.Gender)
+					if (query.SortBy == Filters.Gender)
 					{
 						archives = archives.OrderBy(x => x.Gender);
 					}
-					else if (query.SorteBy == filters.College)
+					else if (query.SortBy == Filters.College)
 					{
 						archives = archives.OrderBy(x => x.College);
 					}
-					else if (query.SorteBy == filters.Grade)
+					else if (query.SortBy == Filters.Grade)
 					{
 						archives = archives.OrderBy(x => x.Grade);
 					}

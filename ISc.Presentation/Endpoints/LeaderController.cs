@@ -165,40 +165,40 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpPost("Traineeregisteration/submit")]
-        public async Task<ActionResult<string>>SubmitRegisterationRequests(SubmitRequestsCommand command)
+        public async Task<ActionResult<string>> SubmitRegisterationRequests(SubmitRequestsCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
-		[HttpDelete("traineesArchive/{id}")]
-		public async Task<ActionResult<string>> DeleteTraineeArchiveById(int id)
-		{
-			return Ok(await _mediator.Send(new DeleteTraineeArchiveByIdCommand(id)));
-		}
+        [HttpDelete("traineesArchive/{id}")]
+        public async Task<ActionResult<string>> DeleteTraineeArchiveById(int id)
+        {
+            return Ok(await _mediator.Send(new DeleteTraineeArchiveByIdCommand(id)));
+        }
 
-		[HttpDelete("traineeRegisteration")]
-        public async Task<ActionResult<string>>DeleteRequests(List<int> requests)
+        [HttpDelete("traineeRegisteration")]
+        public async Task<ActionResult<string>> DeleteRequests(List<int> requests)
         {
             return Ok(await _mediator.Send(new DeleteRequestsByIdsCommand(requests)));
         }
 
-		[HttpGet("staff/{id}")]
-		public async Task<ActionResult<GetStaffByIdQueryDto>> GetStaffById(string id)
-		{
-			return Ok(await _mediator.Send(new GetStaffByIdQuery(id)));
-		}
+        [HttpGet("staff/{id}")]
+        public async Task<ActionResult<GetStaffByIdQueryDto>> GetStaffById(string id)
+        {
+            return Ok(await _mediator.Send(new GetStaffByIdQuery(id)));
+        }
 
-		[HttpGet("staffArchive/{id}")]
-		public async Task<ActionResult<GetStaffArchiveByIdQueryDto>> GetStaffArchiveById(int id)
-		{
-			return Ok(await _mediator.Send(new GetStaffArchiveByIdQuery(id)));
-		}
+        [HttpGet("staffArchive/{id}")]
+        public async Task<ActionResult<GetStaffArchiveByIdQueryDto>> GetStaffArchiveById(int id)
+        {
+            return Ok(await _mediator.Send(new GetStaffArchiveByIdQuery(id)));
+        }
 
-		[HttpGet("staffsArchive")]
-		public async Task<ActionResult<GetAllStaffsArchiveWithPaginationQueryDto>> GetStaffsArchive(GetAllStaffsArchiveWithPaginationQuery query)
-		{
-			return Ok(await _mediator.Send(query));
-		}
+        [HttpGet("staffsArchive")]
+        public async Task<ActionResult<GetAllStaffsArchiveWithPaginationQueryDto>> GetStaffsArchive([FromQuery] GetAllStaffsArchiveWithPaginationQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
 
-	}
+    }
 }
