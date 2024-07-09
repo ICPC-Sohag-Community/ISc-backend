@@ -3,7 +3,7 @@ using ISc.Domain.Models.IdentityModels;
 
 namespace ISc.Application.Interfaces.Repos
 {
-    public interface IStuffArchiveRepo : IBaseRepo<StuffArchive>
+    public interface IStuffArchiveRepo : IBaseRepo<StaffArchive>
     {
         Task AddToArchiveAsync(Account member,string role);
     }

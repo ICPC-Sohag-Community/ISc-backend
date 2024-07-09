@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Models
 {
-	public class StuffArchive:Archive,ISoftEntity
+	public class StaffArchive:Archive,ISoftEntity
 	{
 		public string Role { get; set; }
 	}

@@ -1,4 +1,5 @@
-﻿using ISc.Domain.Models;
+﻿using ISc.Application.Features.Leader.Archives.Queries.GetAllTraineesArchiveWithPagination;
+using ISc.Domain.Models;
 using ISc.Domain.Models.IdentityModels;
 using Mapster;
 using System;

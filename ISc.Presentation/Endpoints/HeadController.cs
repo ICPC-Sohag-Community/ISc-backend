@@ -99,7 +99,7 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(command));
         }
 
-        [HttpPut("material/updateOrders")]
+        [HttpPut("materials/updateOrders")]
         public async Task<ActionResult<int>>UpdateMaterialOrders(UpdateMaterialOrderCommand command)
         {
             return Ok(await _mediator.Send(command));
