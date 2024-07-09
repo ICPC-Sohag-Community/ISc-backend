@@ -1,8 +1,10 @@
 ﻿using ISc.Domain.Models.CommunityStaff;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace ISC.UnitTests
 {
-    public class Class1
+    public class TestBase
     {
         [Fact]
         public void TestInheritance()

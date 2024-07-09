@@ -152,7 +152,7 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(new GetTraineeArchiveByIdQuery(id)));
         }
 
-        [HttpGet("traineesArchive")]
+        [HttpGet("traineesArchiveWithPagination")]
         public async Task<ActionResult<GetAllTraineesArchiveWithPaginationQueryDto>> GetTraineesArchive([FromQuery]GetAllTraineesArchiveWithPaginationQuery query)
         {
             return Ok(await _mediator.Send(query));
@@ -194,7 +194,7 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(new GetStaffArchiveByIdQuery(id)));
         }
 
-        [HttpGet("staffArchiveWitPagination")]
+        [HttpGet("staffArchiveWithPagination")]
         public async Task<ActionResult<GetAllStaffsArchiveWithPaginationQueryDto>> GetStaffsArchive([FromQuery] GetAllStaffsArchiveWithPaginationQuery query)
         {
             return Ok(await _mediator.Send(query));
