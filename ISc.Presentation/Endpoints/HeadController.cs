@@ -76,7 +76,7 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("weeklyFilter/getOthers")]
-        public async Task<ActionResult<List<GetOtherTraineesQueryDto>>>GetOtherTrainees(List<string> traineesIds)
+        public async Task<ActionResult<List<GetOtherTraineesQueryDto>>>GetOtherTrainees([FromQuery]List<string> traineesIds)
         {
             return Ok(await _mediator.Send(new GetOtherTraineesQuery(traineesIds)));
         }

@@ -135,13 +135,13 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("traineesRegisterationSystemFilter")]
-        public async Task<ActionResult<GetRegisterationOnSystemFilterQueryDto>> GetTraineeRegistersSystemFilter(GetRegisterationOnSystemFilterQuery query)
+        public async Task<ActionResult<GetRegisterationOnSystemFilterQueryDto>> GetTraineeRegistersSystemFilter([FromQuery] GetRegisterationOnSystemFilterQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
 
         [HttpGet("traineesRegisterationCustomFilter")]
-        public async Task<ActionResult<GetOnCustomerFilterQueryDto>> GetTraineeRequestsCustomFilter(GetOnCustomerFilterQuery query)
+        public async Task<ActionResult<GetOnCustomerFilterQueryDto>> GetTraineeRequestsCustomFilter([FromQuery] GetOnCustomerFilterQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
