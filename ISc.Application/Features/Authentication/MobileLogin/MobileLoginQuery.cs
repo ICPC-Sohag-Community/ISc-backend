@@ -14,7 +14,6 @@ namespace ISc.Application.Features.Authentication.MobileLogin
     {
         public string UserName { get; set; }
         public string Password { get; set; }
-        public bool RememberMe { get; set; }
     }
 
     internal class MobileLoginQueryHandler : IRequestHandler<MobileLoginQuery, Response>
@@ -49,7 +48,7 @@ namespace ISc.Application.Features.Authentication.MobileLogin
                 return await Response.FailureAsync("Account role forbidden.", HttpStatusCode.Forbidden);
             }
 
-            var signInResult = await _signInManager.PasswordSignInAsync(user, query.Password, query.RememberMe, true);
+            var signInResult = await _signInManager.PasswordSignInAsync(user, query.Password, false, true);
 
             if (!signInResult.Succeeded && signInResult.IsLockedOut)
             {
@@ -67,7 +66,7 @@ namespace ISc.Application.Features.Authentication.MobileLogin
 
             var response = user.Adapt<MobileLoginQueryDto>();
 
-            response.Token = _authServices.GenerateToken(user, roles, query.RememberMe);
+            response.Token = _authServices.GenerateToken(user, roles, false);
             response.Roles = roles;
 
             return await Response.SuccessAsync(response, "Success");

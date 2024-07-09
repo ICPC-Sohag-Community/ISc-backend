@@ -5,6 +5,7 @@ using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetTraineeAssignWit
 using ISc.Application.Features.HeadOfCamps.Attendance.Queries.GetAllAttendance;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.Create;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.Delete;
+using ISc.Application.Features.HeadOfCamps.Materials.Commands.UpdateMaterialOrder;
 using ISc.Application.Features.HeadOfCamps.Materials.Queries.GetAllMaterials;
 using ISc.Application.Features.HeadOfCamps.Sheets.Commands.Create;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Commands.FilterTraineeById;
@@ -94,6 +95,12 @@ namespace ISc.Presentation.Endpoints
 
         [HttpPost("sheets")]
         public async Task<ActionResult<int>>CreateSheet(CreateSheetCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPut("material/updateOrders")]
+        public async Task<ActionResult<int>>UpdateMaterialOrders(UpdateMaterialOrderCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
