@@ -116,7 +116,7 @@ namespace ISc.Infrastructure.Services.Email
             });
         }
 
-        public async Task<bool> SendKickedoutEmailAsync(string email, string campName, string traineeName)
+        public async Task<bool> SendKickedoutEmailAsync(string email, string campName, string traineeName,string mentorEmail)
         {
             var content = File.ReadAllText(_host.WebRootPath + _filePath["Kickedout"]);
 
@@ -130,7 +130,8 @@ namespace ISc.Infrastructure.Services.Email
                 {
                     CampName = campName,
                     TraineeName = traineeName
-                }
+                },
+                CC = mentorEmail
             });
         }
 

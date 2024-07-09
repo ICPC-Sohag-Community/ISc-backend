@@ -1,0 +1,49 @@
+# Build and deploy ICPC community website
+name: Deploy ICPC community to Monester ASP.NET
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout develop branch code
+      uses: actions/checkout@v4
+      with:
+        ref: develop  # Check out the develop branch
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Publish
+      run: dotnet publish --configuration Release --output ./publish
+
+    # - name: Deploy to Monester ASP.NET Server
+    #   if: github.event_name == 'push'  # Only run deployment on push events, not pull requests
+    #   env:
+    #     SFTP_SERVER: ${{ secrets.SFTP_SERVER }}
+    #     SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
+    #     SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+    #     SFTP_DESTINATION_PATH: ${{ secrets.SFTP_DESTINATION_PATH }}
+    #   run: |
+    #     # Install lftp
+    #     choco install lftp
+
+    #     # Deploy using lftp
+    #     lftp -c "
+    #     open -u $SFTP_USERNAME,$SFTP_PASSWORD sftp://$SFTP_SERVER;
+    #     mirror -R ./publish $SFTP_DESTINATION_PATH;
+    #     "

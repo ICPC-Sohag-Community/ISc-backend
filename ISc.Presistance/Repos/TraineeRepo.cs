@@ -29,7 +29,7 @@ namespace ISc.Presistance.Repos
         }
         public IQueryable<Trainee> Entities => _context.Trainees;
 
-        public async Task Delete(Account account,Trainee trainee, bool isComplete)
+        public async Task DeleteAsync(Account account,Trainee trainee, bool isComplete)
         {
 
             var rolesCount = _userManager.GetRolesAsync(account).Result.Count;
@@ -116,7 +116,7 @@ namespace ISc.Presistance.Repos
             return await _context.TraineesArchives.SingleOrDefaultAsync(x =>
                         (x.NationalId == entity.NationalId ||
                         x.PhoneNumber == entity.PhoneNumber ||
-                        (x.FirstName + x.MiddleName + x.LastName).ToLower() == (entity.FirstName + entity.MiddleName + entity.LastName).ToLower())
+                        (x.FirstName + x.MiddleName + x.LastName).Trim().ToLower() == (entity.FirstName + entity.MiddleName + entity.LastName).Trim().ToLower())
                         && campName.ToLower().Trim() == x.CampName.ToLower().Trim());
         }
 

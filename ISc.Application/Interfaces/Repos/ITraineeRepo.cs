@@ -6,6 +6,6 @@ namespace ISc.Application.Interfaces.Repos
 {
     public interface ITraineeRepo:IActorQeueryRepo<Trainee>
     {
-        Task Delete(Account account,Trainee trainee, bool isComplete);
+        Task DeleteAsync(Account account,Trainee trainee, bool isComplete);
     }
 }

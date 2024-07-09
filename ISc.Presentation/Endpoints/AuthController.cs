@@ -1,5 +1,6 @@
 ﻿using ISc.Application.Features.Authentication.ForgetPassword;
 using ISc.Application.Features.Authentication.Login;
+using ISc.Application.Features.Authentication.MobileLogin;
 using ISc.Application.Features.Authentication.ResetPassword;
 using ISc.Application.Features.Authentication.SendConfirmEmailOtp;
 using MediatR;
@@ -18,6 +19,12 @@ namespace ISc.Presentation.Endpoints
 
         [HttpPost("login")]
         public async Task<ActionResult<LoginQueryResponse>> Login([FromBody] LoginQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
+
+        [HttpPost("mobile-login")]
+        public async Task<ActionResult<MobileLoginQueryDto>> MobileLogin([FromBody] MobileLoginQuery query)
         {
             return Ok(await _mediator.Send(query));
         }

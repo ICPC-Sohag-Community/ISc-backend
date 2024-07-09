@@ -29,6 +29,7 @@ namespace ISc.Presistance.Extension
                     .AddEntityFrameworkStores<ICPCDbContext>()
                     .AddUserManager<UserManager<Account>>()
                     .AddRoleManager<RoleManager<IdentityRole>>()
+                    .AddSignInManager<SignInManager<Account>>()
                     .AddSignInManager()
                     .AddDefaultTokenProviders();
 

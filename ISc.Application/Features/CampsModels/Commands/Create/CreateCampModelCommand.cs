@@ -50,7 +50,7 @@ namespace ISc.Application.Features.CampsModels.Commands.Create
             await _unitOfWork.Repository<CampModel>().AddAsync(model);
             await _unitOfWork.SaveAsync();
 
-            return await Response.SuccessAsync();
+            return await Response.SuccessAsync("Model added successfully");
         }
     }
 }

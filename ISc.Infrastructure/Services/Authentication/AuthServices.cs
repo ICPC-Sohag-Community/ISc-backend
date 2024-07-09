@@ -40,7 +40,7 @@ namespace ISc.Infrastructure.Services.Authentication
                 claims: claims,
                 expires: rembemerMe == true ?
                  DateTime.Now.AddDays(double.Parse(_configuration["Jwt:ExpireInDays"]!))
-                : DateTime.Now.AddHours(1), // Token expiration time
+                : DateTime.Now.AddHours(6), // Token expiration time
                 signingCredentials: creds
             );
 

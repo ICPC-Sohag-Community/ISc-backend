@@ -8,6 +8,7 @@ namespace ISc.Application.Interfaces
 {
     public interface IHelperService
     {
-        string GetRandomString(string firstName,string nationalId);
+        string GetRandomPasswordString(string firstName,string nationalId);
+        string GetRandomUserNameString(string firstName,string nationalId);
     }
 }
