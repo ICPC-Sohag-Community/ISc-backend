@@ -199,6 +199,5 @@ namespace ISc.Presentation.Endpoints
         {
             return Ok(await _mediator.Send(query));
         }
-
     }
 }
