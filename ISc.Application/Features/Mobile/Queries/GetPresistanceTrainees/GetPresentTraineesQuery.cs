@@ -9,11 +9,7 @@ namespace ISc.Application.Features.Mobile.Queries.GetPresistanceTrainees
     public record GetPresentTraineesQuery : IRequest<Response>
     {
         public int CampId { get; set; }
-
-        public GetPresentTraineesQuery(int campId)
-        {
-            CampId = campId;
-        }
+        public DateTime CurrentDate { get; set; }
     }
 
     internal class GetPresistanceTraineesQueryHandler : IRequestHandler<GetPresentTraineesQuery, Response>
@@ -34,7 +30,7 @@ namespace ISc.Application.Features.Mobile.Queries.GetPresistanceTrainees
                 return await Response.FailureAsync("Camp not found.");
             }
 
-            var session = camp.Sessions.SingleOrDefault(x => x.StartDate.Date == DateTime.Now.Date);
+            var session = camp.Sessions.SingleOrDefault(x => x.StartDate.Date == query.CurrentDate.Date);
 
             if (session == null)
             {
