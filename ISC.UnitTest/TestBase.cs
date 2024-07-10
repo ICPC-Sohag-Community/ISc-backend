@@ -1,37 +1,104 @@
-﻿using ISc.Application.Extension;
-using ISc.Application.Interfaces;
+﻿using ISc.Application.Interfaces;
 using ISc.Application.Interfaces.Repos;
-using ISc.Domain.Models.CommunityStaff;
+using ISc.Domain.Models.IdentityModels;
+using ISc.Infrastructure.Services.Media;
+using ISc.Presistance;
 using ISc.Presistance.Repos;
+using Mapster;
+using MapsterMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace ISC.UnitTests
 {
-    public class TestBase
+    public class TestBase : IDisposable
     {
-        protected IServiceProvider _serviceProvider;
+        protected readonly DbContextOptions<ICPCDbContext> _dbContextOptions;
+        protected readonly ServiceProvider _serviceProvider;
+        private readonly IServiceScope _serviceScope;
 
         public TestBase()
         {
-            var builder = WebApplication.CreateBuilder();
-            builder.Configuration.AddJsonFile("appsettings.json", false, true);
 
-            builder.Services.AddApplication();
-            AddRepositories(builder.Services);
+            _dbContextOptions = new DbContextOptionsBuilder<ICPCDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
 
-            _serviceProvider = builder.Services.BuildServiceProvider();
+            var services = new ServiceCollection();
+
+            var mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
+            var mockConfiguration = new Mock<IConfiguration>();
+            var mockMediator = new Mock<IMediator>();
+
+            AddServices(services, mockWebHostEnvironment, mockConfiguration,mockMediator);
+
+            _serviceProvider = services.BuildServiceProvider();
+            _serviceScope = _serviceProvider.CreateScope();
 
         }
 
-        private static void AddRepositories(IServiceCollection services)
+        private void AddServices(
+            ServiceCollection services,
+            Mock<IWebHostEnvironment> mockWebHostEnvironment,
+            Mock<IConfiguration> mockConfiguration,
+            Mock<IMediator> mockMediator)
         {
-            services
-                .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWorkTest))
-                .AddTransient<IStuffArchiveRepo, StuffArhciveRepo>();
+            services.AddSingleton(provider =>
+            {
+                return new ICPCDbContext(_dbContextOptions);
+            });
+
+            services.AddSingleton(provider =>
+            {
+                var dbContext = provider.GetRequiredService<ICPCDbContext>();
+                var userStore = new UserStore<Account>(dbContext);
+                return new UserManager<Account>(userStore, null, null, null, null, null, null, null, null);
+            });
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IStuffArchiveRepo, StuffArhciveRepo>();
+            services.AddTransient<IMapper>(provider =>
+            {
+                var config = new TypeAdapterConfig();
+                return new Mapper(config);
+            });
+            services.AddTransient<IMediaServices, MediaServices>();
+            services.AddSingleton(mockWebHostEnvironment.Object);
+            services.AddSingleton(mockConfiguration.Object);
+            services.AddSingleton(mockMediator.Object);
+        }
+
+        public UserManager<Account> GetUserManager()
+        {
+            return _serviceProvider.GetRequiredService<UserManager<Account>>();
+        }
+
+        public ICPCDbContext GetDbContext()
+        {
+            return _serviceProvider.GetRequiredService<ICPCDbContext>();
+        }
+
+        public IUnitOfWork GetUnitOfWork()
+        {
+            return _serviceProvider.GetRequiredService<IUnitOfWork>();
+        }
+
+        public void Dispose()
+        {
+            using (var serviceScope = _serviceProvider.CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ICPCDbContext>();
+                context.Database.EnsureDeleted(); 
+            }
         }
     }
 }

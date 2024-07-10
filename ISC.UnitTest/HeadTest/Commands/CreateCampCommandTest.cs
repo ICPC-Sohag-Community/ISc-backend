@@ -1,7 +1,5 @@
-﻿using ISc.Application.Interfaces.Repos;
-using ISc.Domain.Models;
-using ISc.Presistance.Repos;
-using Microsoft.Extensions.DependencyInjection;
+﻿using ISc.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +8,15 @@ using System.Threading.Tasks;
 
 namespace ISC.UnitTests.HeadTest.Commands
 {
-    
-    public class HeadCommandsTest:TestBase
+    public class CreateCampCommandTest:TestBase
     {
-        public HeadCommandsTest()
-        {
-            
-        }
-
         [Fact]
         public async Task CreateCampCommand_WhenCreate_ReturnTrue()
         {
-            var unitofWork = _serviceProvider.GetRequiredService<IUnitOfWork>();
+            var unitofWork = GetUnitOfWork();
+            var usermanager = GetUserManager();
 
+            var users = await usermanager.Users.ToListAsync();
             var camp = new Camp()
             {
                 Name = "Abc",
@@ -37,6 +31,5 @@ namespace ISC.UnitTests.HeadTest.Commands
 
             Assert.True(camp.Id > 0);
         }
-
     }
 }
