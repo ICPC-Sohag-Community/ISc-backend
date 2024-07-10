@@ -46,7 +46,7 @@ namespace ISc.Application.Features.Mobile.Queries.GetPresistanceTrainees
                             .Select(x => new GetPresentTraineesQueryDto()
                             {
                                 Id = x.TraineeId,
-                                Name = x.Trainee.Account.FirstName +' '+ x.Trainee.Account.MiddleName+' ' + x.Trainee.Account.MiddleName
+                                Name = x.Trainee.Account.FirstName +' '+ x.Trainee.Account.MiddleName+' ' + x.Trainee.Account.LastName
                             })
                             .ToListAsync();
 

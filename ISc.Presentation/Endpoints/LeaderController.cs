@@ -21,10 +21,12 @@ using ISc.Application.Features.Leader.Request.Commands.SubmitRequests;
 using ISc.Application.Features.Leader.Request.Queries.DisplayAll;
 using ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilter;
 using ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter;
+using ISc.Application.Features.Leader.Staff.Queries.GetAllWithPagination;
 using ISc.Application.Features.Leader.Staff.Queries.GetById;
 using ISc.Application.Features.Leader.Trainees.Queries.GetAllWithPagination;
 using ISc.Application.Features.Leader.Trainees.Queries.GetById;
 using ISc.Domain.Comman.Constant;
+using ISc.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -153,7 +155,7 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("traineesArchive")]
-        public async Task<ActionResult<GetAllTraineesArchiveWithPaginationQueryDto>> GetTraineesArchive([FromQuery]GetAllTraineesArchiveWithPaginationQuery query)
+        public async Task<ActionResult<GetAllTraineesArchiveWithPaginationQueryDto>> GetTraineesArchive([FromQuery] GetAllTraineesArchiveWithPaginationQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
@@ -196,6 +198,12 @@ namespace ISc.Presentation.Endpoints
 
         [HttpGet("staffArchiveWitPagination")]
         public async Task<ActionResult<GetAllStaffsArchiveWithPaginationQueryDto>> GetStaffsArchive([FromQuery] GetAllStaffsArchiveWithPaginationQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
+
+        [HttpGet("StaffWithPagination")]
+        public async Task<ActionResult<PaginatedRespnose<GetAllStaffWithPaginationQueryDto>>> GetAllStaff([FromQuery] GetAllStaffWithPaginationQuery query)
         {
             return Ok(await _mediator.Send(query));
         }

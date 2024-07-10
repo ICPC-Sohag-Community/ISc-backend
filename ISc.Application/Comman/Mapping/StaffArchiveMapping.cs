@@ -11,7 +11,7 @@ using Mapster;
 
 namespace ISc.Application.Comman.Mapping
 {
-    public class StuffArchiveMapping : IRegister
+    public class StaffArchiveMapping : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {
