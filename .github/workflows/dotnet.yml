@@ -52,4 +52,3 @@ jobs:
           password: ${{ secrets.SFTP_PASSWORD }}
           local-dir: ./publish/
           server-dir: /wwwroot/
-          delete: true
