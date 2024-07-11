@@ -8,6 +8,8 @@ using ISc.Application.Features.HeadOfCamps.Materials.Commands.Delete;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.UpdateMaterialOrder;
 using ISc.Application.Features.HeadOfCamps.Materials.Queries.GetAllMaterials;
 using ISc.Application.Features.HeadOfCamps.Sheets.Commands.Create;
+using ISc.Application.Features.HeadOfCamps.Sheets.Commands.Update;
+using ISc.Application.Features.HeadOfCamps.Sheets.Queries.GetById;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Commands.FilterTraineeById;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetOtherTrainees;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetToFilter;
