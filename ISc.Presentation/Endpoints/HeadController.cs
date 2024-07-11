@@ -104,5 +104,17 @@ namespace ISc.Presentation.Endpoints
         {
             return Ok(await _mediator.Send(command));
         }
+
+        [HttpGet("sheets/{id}")]
+        public async Task<ActionResult<GetSheetByIdQueryDto>>GetSheetById(int id)
+        {
+            return Ok(await _mediator.Send(new GetSheetByIdQuery(id)));
+        }
+
+        [HttpPut("sheets")]
+        public async Task<ActionResult<int>>UpdateSheet(UpdateSheetCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
     }
 }
