@@ -70,5 +70,29 @@ namespace ISC.UnitTests.HeadTest.Commands
             //Assert
             result.IsSuccess.Should().BeFalse();
         }
+
+        [Fact]
+        public async Task Handler_WhenValidationFailBySendEndDateWitNull_ReturnIsSuccessEqualFalseAndErrorContainData()
+        {
+            //Arrange
+            var unitOfWork = GetUnitOfWork();
+            var userManager = GetUserManager();
+
+            var validator = new CreateCampCommandValidator();
+            var handler = new CreateCampCommandHandler(unitOfWork, validator, userManager);
+
+            //Act
+            var result = await handler.Handle(new()
+            {
+                Name = "NewComer",
+                startDate = DateOnly.MinValue,
+                DurationInWeeks = 5,
+                OpenForRegister = false,
+                Term = Term.FirstTerm
+            }, default);
+
+            //Assert
+            result.Errors.Count.Should().BeGreaterThan(0);
+        }
     }
 }
