@@ -8,6 +8,8 @@ using ISc.Application.Features.HeadOfCamps.Materials.Commands.Delete;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.UpdateMaterialOrder;
 using ISc.Application.Features.HeadOfCamps.Materials.Queries.GetAllMaterials;
 using ISc.Application.Features.HeadOfCamps.Sheets.Commands.Create;
+using ISc.Application.Features.HeadOfCamps.Sheets.Commands.Update;
+using ISc.Application.Features.HeadOfCamps.Sheets.Queries.GetById;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Commands.FilterTraineeById;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetOtherTrainees;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetToFilter;
@@ -101,6 +103,18 @@ namespace ISc.Presentation.Endpoints
 
         [HttpPut("materials/updateOrders")]
         public async Task<ActionResult<int>>UpdateMaterialOrders(UpdateMaterialOrderCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpGet("sheet/{id}")]
+        public async Task<ActionResult<GetSheetByIdQueryDto>>GetSheetById(int id)
+        {
+            return Ok(await _mediator.Send(new GetSheetByIdQuery(id)));
+        }
+
+        [HttpPut("sheet")]
+        public async Task<ActionResult<int>>UpdateSheet(UpdateSheetCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
