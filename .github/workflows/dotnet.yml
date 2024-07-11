@@ -1,4 +1,4 @@
-name: Build and Deploy All Files
+name: Build and Deploy ISc Solution
 
 on:
   push:
@@ -29,11 +29,17 @@ jobs:
       - name: Build solution
         run: dotnet build --configuration Release
 
-      - name: Deploy all files to FTP
+
+      - name: publish
+        run: dotnet publish -c Release --output ./Release
+
+
+
+      - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: site4208.siteasp.net
           username: site4208
           password: ${{ secrets.SFTP_PASSWORD }}
-          local-dir: ./
+          local-dir: ./Release/
           server-dir: /wwwroot/
