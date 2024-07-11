@@ -30,6 +30,7 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="FakeItEasy" Version="8.3.0" />
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.7" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
@@ -42,13 +43,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AuthenticationTest\" />
-    <Folder Include="HeadTest\Queries\" />
-    <Folder Include="LeaderTest\Commands\" />
-    <Folder Include="LeaderTest\Queries\" />
-    <Folder Include="MentorTest\Commands\" />
-    <Folder Include="MentorTest\Queries\" />
-    <Folder Include="TraineeTest\" />
+    <Folder Include="AuthenticationTests\Commands\" />
+    <Folder Include="AuthenticationTests\Queries\" />
+    <Folder Include="HeadTests\Queries\" />
+    <Folder Include="LeaderTests\Commands\" />
+    <Folder Include="LeaderTests\Queries\" />
+    <Folder Include="MentorTests\Commands\" />
+    <Folder Include="MentorTests\Queries\" />
+    <Folder Include="TraineeTests\Commands\" />
+    <Folder Include="TraineeTests\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
