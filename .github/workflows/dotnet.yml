@@ -3,9 +3,9 @@ name: Deploy ICPC community to Monester ASP.NET
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
   pull_request:
-    branches: [main]
+    branches: [develop]
 
 jobs:
   build:
@@ -31,19 +31,12 @@ jobs:
     - name: Publish
       run: dotnet publish --configuration Release --output ./publish
 
-    # - name: Deploy to Monester ASP.NET Server
-    #   if: github.event_name == 'push'  # Only run deployment on push events, not pull requests
-    #   env:
-    #     SFTP_SERVER: ${{ secrets.SFTP_SERVER }}
-    #     SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
-    #     SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
-    #     SFTP_DESTINATION_PATH: ${{ secrets.SFTP_DESTINATION_PATH }}
-    #   run: |
-    #     # Install lftp
-    #     choco install lftp
 
-    #     # Deploy using lftp
-    #     lftp -c "
-    #     open -u $SFTP_USERNAME,$SFTP_PASSWORD sftp://$SFTP_SERVER;
-    #     mirror -R ./publish $SFTP_DESTINATION_PATH;
-    #     "
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: 	site4208.siteasp.net
+        username: 	site4208
+        password: ${{ secrets.SFTP_PASSWORD }}
+        #local-dir: ./publish/
+        server-dir: /wwwroot/
