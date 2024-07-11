@@ -68,7 +68,7 @@ namespace ISc.Presistance
         public virtual DbSet<SessionFeedback> SessionFeedbacks { get; set; }
         public virtual DbSet<Sheet> Sheets { get; set; }
         public virtual DbSet<Contest> Contests { get; set; }
-        public virtual DbSet<StuffArchive> StuffArchives { get; set; }
+        public virtual DbSet<StaffArchive> StuffArchives { get; set; }
         public virtual DbSet<TraineeAttendence> TraineeAttendences { get; set; }
         public virtual DbSet<TraineeAccessSheet> TraineesAccesses { get; set; }
         public virtual DbSet<TraineeAccessContest>TraineesContest { get; set; }

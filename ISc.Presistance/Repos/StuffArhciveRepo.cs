@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Presistance.Repos
 {
-    public class StuffArhciveRepo : BaseRepo<StuffArchive>,IStuffArchiveRepo
+    public class StuffArhciveRepo : BaseRepo<StaffArchive>,IStuffArchiveRepo
     {
         private readonly ICPCDbContext _context;
         private readonly IMapper _mapper;
@@ -25,7 +25,7 @@ namespace ISc.Presistance.Repos
 
             if (entity is null)
             {
-                await _context.AddAsync(member.Adapt<StuffArchive>());
+                await _context.AddAsync(member.Adapt<StaffArchive>());
             }
             else
             {
@@ -34,7 +34,7 @@ namespace ISc.Presistance.Repos
             } 
         }
 
-        private async Task<StuffArchive?> Found(Account member,string role)
+        private async Task<StaffArchive?> Found(Account member,string role)
         {
             return await _context.StuffArchives.SingleOrDefaultAsync(x =>
             ((x.NationalId == member.NationalId) ||

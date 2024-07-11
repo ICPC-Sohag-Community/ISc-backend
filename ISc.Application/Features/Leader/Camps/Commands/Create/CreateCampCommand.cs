@@ -102,7 +102,7 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Create
 
             await _unitOfWork.SaveAsync();
 
-            return await Response.SuccessAsync("Camp added successfully.");
+            return await Response.SuccessAsync(camp.Id,"Camp added successfully.");
         }
     }
 }

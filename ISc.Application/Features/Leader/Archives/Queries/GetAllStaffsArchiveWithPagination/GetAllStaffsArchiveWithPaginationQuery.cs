@@ -29,7 +29,7 @@ namespace ISc.Application.Features.Leader.Archives.Queries.GetAllStaffsArchiveWi
 
 		public async Task<PaginatedRespnose<GetAllStaffsArchiveWithPaginationQueryDto>> Handle(GetAllStaffsArchiveWithPaginationQuery query, CancellationToken cancellationToken)
 		{
-			var archives = _unitOfWork.Repository<StuffArchive>().Entities;
+			var archives = _unitOfWork.Repository<StaffArchive>().Entities;
 
 			if (!query.KeyWord.IsNullOrEmpty())
 			{

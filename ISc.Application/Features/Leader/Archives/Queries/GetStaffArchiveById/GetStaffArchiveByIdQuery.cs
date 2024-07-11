@@ -32,7 +32,7 @@ namespace ISc.Application.Features.Leader.Archives.Queries.GetStaffArchiveById
 
 		public async Task<Response> Handle(GetStaffArchiveByIdQuery query, CancellationToken cancellationToken)
 		{
-			var entity = await _unitOfWork.Repository<StuffArchive>().GetByIdAsync(query.Id);
+			var entity = await _unitOfWork.Repository<StaffArchive>().GetByIdAsync(query.Id);
 			
 			if(entity==null)
 			{

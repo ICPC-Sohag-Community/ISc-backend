@@ -15,7 +15,9 @@
     <PackageReference Include="Hangfire" Version="1.8.12" />
     <PackageReference Include="OLT.FluentEmail.SendGrid" Version="6.0.0" />
   </ItemGroup>
-	
+	<ItemGroup>
+		<InternalsVisibleTo Include="ISC.UnitTests" />
+	</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ISc.Application\ISc.Application.csproj" />
     <ProjectReference Include="..\ISc.Domain\ISc.Domain.csproj" />

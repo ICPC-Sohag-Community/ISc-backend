@@ -1,5 +1,4 @@
-﻿using ISc.Application.Features.Leader.Archives.Queries.GetAllTraineesArchiveWithPagination;
-using ISc.Domain.Models;
+﻿using ISc.Application.Features.Leader.Staff.Queries.GetAllWithPagination;
 using ISc.Domain.Models.IdentityModels;
 using Mapster;
 using System;
@@ -10,12 +9,10 @@ using System.Threading.Tasks;
 
 namespace ISc.Application.Comman.Mapping
 {
-    public class TraineeArchiveMapping : IRegister
+    internal class StaffMapping : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<Account, TraineeArchive>()
-                .Ignore(dest => dest.Id);
         }
     }
 }
