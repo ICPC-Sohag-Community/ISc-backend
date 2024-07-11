@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ISc.Shared", "ISc.Shared\IS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ISc.Api", "ISc.Api\ISc.Api.csproj", "{7C17BB7E-E8CE-4308-8A74-4980B944CD3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISC.UnitTests", "ISC.UnitTest\ISC.UnitTests.csproj", "{5958A7AD-89B7-478D-BC81-B9360337AEDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ISc.UnitTests", "ISC.UnitTest\ISc.UnitTests.csproj", "{5958A7AD-89B7-478D-BC81-B9360337AEDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

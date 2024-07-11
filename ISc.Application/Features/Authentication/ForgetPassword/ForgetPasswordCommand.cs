@@ -55,16 +55,14 @@ namespace ISc.Application.Features.Authentication.ForgetPassword
                 return await Response.FailureAsync("Email not found");
             }
 
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-
             _memoryCache.Remove(user.Id);
 
             int otp = await _memoryCache.GetOrCreateAsync(
-                    key: user.Id,
+                    key: "Reset"+user.Id,
                     cacheEntry =>
                     {
                         cacheEntry.SlidingExpiration = TimeSpan.FromMinutes(3);
-                        return Task.FromResult(new Random().Next(1000));
+                        return Task.FromResult(new Random().Next(1000,10000));
                     });
 
             var isEmailSent = await _emailSender.SendForgetPasswordEmailAsync(command.Email, user.FirstName + ' ' + user.MiddleName, otp);
@@ -75,7 +73,7 @@ namespace ISc.Application.Features.Authentication.ForgetPassword
                 return await Response.FailureAsync($"Fail to send otp to {command.Email}");
             }
 
-            return await Response.SuccessAsync(data: token);
+            return await Response.SuccessAsync($"Otp was sent to {command.Email}.");
         }
     }
 }

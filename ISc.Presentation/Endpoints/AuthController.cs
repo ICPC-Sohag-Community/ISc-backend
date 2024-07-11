@@ -1,4 +1,5 @@
-﻿using ISc.Application.Features.Authentication.ForgetPassword;
+﻿using ISc.Application.Features.Authentication.CheckResetOtp;
+using ISc.Application.Features.Authentication.ForgetPassword;
 using ISc.Application.Features.Authentication.Login;
 using ISc.Application.Features.Authentication.MobileLogin;
 using ISc.Application.Features.Authentication.ResetPassword;
@@ -45,6 +46,12 @@ namespace ISc.Presentation.Endpoints
         public async Task<ActionResult<int>> SendEmailConfirmation([FromBody] string email)
         {
             return Ok(await _mediator.Send(new SendConfirmEmailOtpCommand(email)));
+        }
+
+        [HttpGet("checkResetOtp")]
+        public async Task<ActionResult<int>> CheckResetOtp([FromQuery]CheckResetOtpQuery query)
+        {
+            return Ok(await _mediator.Send(query));
         }
     }
 }

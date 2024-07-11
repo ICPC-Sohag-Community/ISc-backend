@@ -7,7 +7,7 @@ using ISc.Domain.Models.CommunityStaff;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace ISC.UnitTests.HeadTest.Commands
+namespace ISc.UnitTests.HeadTest.Commands
 {
     public class CreateCampCommandTest : TestBase
     {

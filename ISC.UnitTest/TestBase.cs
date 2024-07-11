@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 
-namespace ISC.UnitTests
+namespace ISc.UnitTests
 {
     public class TestBase : IDisposable
     {
