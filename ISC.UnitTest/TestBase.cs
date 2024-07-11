@@ -1,5 +1,7 @@
 ﻿using ISc.Application.Interfaces;
 using ISc.Application.Interfaces.Repos;
+using ISc.Domain.Comman.Constant;
+using ISc.Domain.Comman.Enums;
 using ISc.Domain.Models.IdentityModels;
 using ISc.Infrastructure.Services.Media;
 using ISc.Presistance;
@@ -7,16 +9,15 @@ using ISc.Presistance.Repos;
 using Mapster;
 using MapsterMapper;
 using MediatR;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
-using System.Reflection;
+using System;
 
 namespace ISC.UnitTests
 {
@@ -25,6 +26,7 @@ namespace ISC.UnitTests
         protected readonly DbContextOptions<ICPCDbContext> _dbContextOptions;
         protected readonly ServiceProvider _serviceProvider;
         private readonly IServiceScope _serviceScope;
+        private readonly IServiceScopeFactory _scopeFactory;
 
         public TestBase()
         {
@@ -39,11 +41,14 @@ namespace ISC.UnitTests
             var mockConfiguration = new Mock<IConfiguration>();
             var mockMediator = new Mock<IMediator>();
 
-            AddServices(services, mockWebHostEnvironment, mockConfiguration,mockMediator);
+
+            AddServices(services, mockWebHostEnvironment, mockConfiguration, mockMediator);
 
             _serviceProvider = services.BuildServiceProvider();
             _serviceScope = _serviceProvider.CreateScope();
+            _scopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();
 
+            InitializeDatabase().GetAwaiter();
         }
 
         private void AddServices(
@@ -52,16 +57,20 @@ namespace ISC.UnitTests
             Mock<IConfiguration> mockConfiguration,
             Mock<IMediator> mockMediator)
         {
+            services.AddIdentity<Account, IdentityRole>()
+               .AddEntityFrameworkStores<ICPCDbContext>()
+               .AddDefaultTokenProviders();
+
             services.AddSingleton(provider =>
             {
                 return new ICPCDbContext(_dbContextOptions);
             });
 
-            services.AddSingleton(provider =>
+
+            services.AddLogging(builder =>
             {
-                var dbContext = provider.GetRequiredService<ICPCDbContext>();
-                var userStore = new UserStore<Account>(dbContext);
-                return new UserManager<Account>(userStore, null, null, null, null, null, null, null, null);
+                builder.AddConsole();
+                builder.AddDebug();
             });
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -77,9 +86,15 @@ namespace ISC.UnitTests
             services.AddSingleton(mockMediator.Object);
         }
 
+
         public UserManager<Account> GetUserManager()
         {
             return _serviceProvider.GetRequiredService<UserManager<Account>>();
+        }
+
+        public RoleManager<IdentityRole> GetRoleManager()
+        {
+            return _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         }
 
         public ICPCDbContext GetDbContext()
@@ -92,13 +107,53 @@ namespace ISC.UnitTests
             return _serviceProvider.GetRequiredService<IUnitOfWork>();
         }
 
+        public async Task<Account> CreateUser()
+        {
+            var userManager = GetUserManager();
+
+            var user = new Account()
+            {
+                FirstName = "ahmed",
+                MiddleName = "ahmed",
+                LastName = "ahmed",
+                NationalId = "11111111111111",
+                BirthDate = DateOnly.MaxValue,
+                CodeForceHandle = "ABC",
+                College = College.Science,
+                Email = "test@gmail.com",
+                CreationDate = DateTime.Now,
+                Gender = Gender.Male,
+                Grade = 4,
+                PhoneNumber = "0112434444",
+                UserName = "TestUser"
+            };
+
+            await userManager.CreateAsync(user);
+
+            return user;
+        }
+
         public void Dispose()
         {
-            using (var serviceScope = _serviceProvider.CreateScope())
+            var context = _serviceProvider.GetRequiredService<ICPCDbContext>();
+            context.Database.EnsureDeleted();
+        }
+        private async Task InitializeDatabase()
+        {
+            using (var scope = _scopeFactory.CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetRequiredService<ICPCDbContext>();
-                context.Database.EnsureDeleted(); 
+                var context = scope.ServiceProvider.GetRequiredService<ICPCDbContext>();
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                await context.Database.EnsureCreatedAsync();
+
+                await roleManager.CreateAsync(new IdentityRole(Roles.Leader));
+                await roleManager.CreateAsync(new IdentityRole(Roles.Head_Of_Camp));
+                await roleManager.CreateAsync(new IdentityRole(Roles.Mentor));
+                await roleManager.CreateAsync(new IdentityRole(Roles.Trainee));
+                await roleManager.CreateAsync(new IdentityRole(Roles.Instructor));
             }
         }
+
     }
 }
