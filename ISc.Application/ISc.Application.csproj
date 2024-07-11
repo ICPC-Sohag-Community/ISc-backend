@@ -19,11 +19,9 @@
 	  <ProjectReference Include="..\ISc.Domain\ISc.Domain.csproj" />
 	  <ProjectReference Include="..\ISc.Shared\ISc.Shared.csproj" />
 	</ItemGroup>
-	<!--<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-			<_Paramter1>ISC.UnitTests</_Paramter1>
-		</AssemblyAttribute>
-	</ItemGroup>-->
+	<ItemGroup>
+		<InternalsVisibleTo Include="ISC.UnitTests" />
+	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Features\HeadOfCamps\Sheets\Queries\" />
 	  <Folder Include="Features\Leader\Reports\Commands\" />
