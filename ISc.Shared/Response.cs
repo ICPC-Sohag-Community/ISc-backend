@@ -119,6 +119,11 @@ namespace ISc.Shared
 
             return Task.FromResult(response);
         }
-        #endregion
-    }
+
+		public static Task<PaginatedRespnose<T>> FailureAsync<T>(string v, HttpStatusCode unauthorized)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+	}
 }
