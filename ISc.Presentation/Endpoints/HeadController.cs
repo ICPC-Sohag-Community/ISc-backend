@@ -19,6 +19,7 @@ using ISc.Application.Features.Leader.Trainees.Queries.GetAllWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ISc.Application.Features.HeadOfCamps.Contests.Commands.Create;
 
 namespace ISc.Presentation.Endpoints
 {
@@ -105,7 +106,6 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("sheets")]
-
         public async Task<ActionResult<GetAllSheetsWithPaginationQueryDto>> GetAllSheets([FromQuery] GetAllSheetsWithPaginationQuery query)
         {
 			return Ok(await _mediator.Send(query));
@@ -129,10 +129,16 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(command));
         }
 
-        [HttpDelete("sheet/{id}")]
+        [HttpDelete("sheets/{id}")]
         public async Task<ActionResult<string>>DeleteSheet(int id)
         {
             return Ok(await _mediator.Send(new DeleteSheetByIdCommand(id)));
+        }
+
+        [HttpPost("contest")]
+        public async Task<ActionResult<int>>CreateContest(CreatecontestCommand command)
+        {
+            return Ok(await _mediator.Send(command));
         }
     }
 }

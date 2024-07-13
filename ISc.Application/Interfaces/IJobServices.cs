@@ -10,6 +10,6 @@ namespace ISc.Application.Interfaces
     public interface IJobServices
     {
         void TrackingTraineesSolving();
-        void TrackingContest(Sheet contest);
+        void TrackingContest(Contest contest);
     }
 }

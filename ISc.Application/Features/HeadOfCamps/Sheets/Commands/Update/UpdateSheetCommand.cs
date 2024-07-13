@@ -4,21 +4,16 @@ using ISc.Domain.Comman.Enums;
 using ISc.Domain.Models;
 using ISc.Domain.Models.IdentityModels;
 using ISc.Shared;
-using Mapster;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace ISc.Application.Features.HeadOfCamps.Sheets.Commands.Update
 {
-    public record UpdateSheetCommand:IRequest<Response>
+    public record UpdateSheetCommand : IRequest<Response>
     {
         public int id { get; set; }
         public string Name { get; set; }
@@ -60,37 +55,44 @@ namespace ISc.Application.Features.HeadOfCamps.Sheets.Commands.Update
 
             if (!validationResult.IsValid)
             {
-                return await Response.ValidationFailureAsync(validationResult.Errors, System.Net.HttpStatusCode.UnprocessableEntity);
+                return await Response.ValidationFailureAsync(validationResult.Errors, HttpStatusCode.UnprocessableEntity);
             }
 
             var user = await _userManager.GetUserAsync(_contextAccessor.HttpContext!.User);
 
             if (user is null)
             {
-                return await Response.FailureAsync("Unauthorized.", System.Net.HttpStatusCode.Unauthorized);
+                return await Response.FailureAsync("Unauthorized.", HttpStatusCode.Unauthorized);
             }
 
             var head = await _unitOfWork.Heads.GetByIdAsync(user.Id);
 
             if (head is null)
             {
-                return await Response.FailureAsync("Unauthorized.", System.Net.HttpStatusCode.Unauthorized);
+                return await Response.FailureAsync("Unauthorized.", HttpStatusCode.Unauthorized);
             }
 
             var sheet = await _unitOfWork.Repository<Sheet>().GetByIdAsync(command.id);
 
-            if(sheet is null)
+            if (sheet is null)
             {
-                return await Response.FailureAsync("Sheet not found.", System.Net.HttpStatusCode.NotFound);
+                return await Response.FailureAsync("Sheet not found.", HttpStatusCode.NotFound);
             }
 
-            if(sheet.CampId != head.CampId)
+            if (sheet.CampId != head.CampId)
             {
-                return await Response.FailureAsync("Unauthorized.", System.Net.HttpStatusCode.Unauthorized);
+                return await Response.FailureAsync("Unauthorized.", HttpStatusCode.Unauthorized);
 
             }
 
-            _mapper.Map(command,sheet);
+            if (await _unitOfWork.Repository<Sheet>().Entities
+                .AnyAsync(x => (x.SheetLink == sheet.SheetLink || x.Name == sheet.Name || x.SheetCodefroceId == sheet.SheetCodefroceId)
+                && x.CampId != sheet.CampId))
+            {
+                return await Response.FailureAsync("there is conflict with another sheet.", HttpStatusCode.BadRequest);
+            }
+            
+            _mapper.Map(command, sheet);
 
             await _unitOfWork.Repository<Sheet>().UpdateAsync(sheet);
             await _unitOfWork.SaveAsync();
