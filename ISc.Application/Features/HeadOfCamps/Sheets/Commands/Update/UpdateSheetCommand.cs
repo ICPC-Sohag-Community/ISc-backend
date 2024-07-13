@@ -87,11 +87,11 @@ namespace ISc.Application.Features.HeadOfCamps.Sheets.Commands.Update
 
             if (await _unitOfWork.Repository<Sheet>().Entities
                 .AnyAsync(x => (x.SheetLink == sheet.SheetLink || x.Name == sheet.Name || x.SheetCodefroceId == sheet.SheetCodefroceId)
-                && x.CampId != sheet.CampId))
+                && x.CampId == sheet.CampId && x.Id != command.id))
             {
                 return await Response.FailureAsync("there is conflict with another sheet.", HttpStatusCode.BadRequest);
             }
-            
+
             _mapper.Map(command, sheet);
 
             await _unitOfWork.Repository<Sheet>().UpdateAsync(sheet);
