@@ -70,6 +70,7 @@ namespace ISc.Application.Features.Leader.Reports.Queries.CampReoprts
         {
             var contestAverage = _unitOfWork.Repository<TraineeAccessContest>().Entities
                                 .Where(x => trainees.Select(x => x.Id).Contains(x.TraineeId))
+                                .OrderBy(x=>x.Contest.StartTime)
                                 .GroupBy(x => x.Contest).Select(x => new
                                 {
                                     Contest = x.Key,
@@ -92,6 +93,7 @@ namespace ISc.Application.Features.Leader.Reports.Queries.CampReoprts
         {
             var sheetsAverage = _unitOfWork.Repository<TraineeAccessSheet>().Entities
                                                .Where(x => trainees.Select(x => x.Id).Contains(x.TraineeId))
+                                               .OrderBy(x=>x.Sheet.SheetOrder)
                                                .GroupBy(x => x.Sheet).Select(x => new
                                                {
                                                    Sheet = x.Key,

@@ -2,11 +2,8 @@
 using ISc.Application.Features.HeadOfCamps.Assigning.Commands.UnAssignTrainees;
 using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetMentorAssign;
 using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetTraineeAssignWithPagination;
-using ISc.Application.Features.HeadOfCamps.Attendance.Command;
 using ISc.Application.Features.HeadOfCamps.Attendance.Queries.GetAllAttendance;
-using ISc.Application.Features.HeadOfCamps.Contests.Commands.Create;
-using ISc.Application.Features.HeadOfCamps.Contests.Commands.Update;
-using ISc.Application.Features.HeadOfCamps.Contests.Queries.GetAllWithPagination;
+using ISc.Application.Features.HeadOfCamps.Dashboard.Queries.GetDashbaord;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.Create;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.Delete;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.UpdateMaterialOrder;
@@ -108,6 +105,7 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("sheets")]
+
         public async Task<ActionResult<GetAllSheetsWithPaginationQueryDto>> GetAllSheets([FromQuery] GetAllSheetsWithPaginationQuery query)
         {
             return Ok(await _mediator.Send(query));
@@ -131,34 +129,16 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(command));
         }
 
-        [HttpDelete("sheets/{id}")]
+        [HttpDelete("sheet/{id}")]
         public async Task<ActionResult<string>> DeleteSheet(int id)
         {
             return Ok(await _mediator.Send(new DeleteSheetByIdCommand(id)));
         }
 
-        [HttpPost("contests")]
-        public async Task<ActionResult<int>> CreateContest([FromBody] CreatecontestCommand command)
+        [HttpGet("dashboard")]
+        public async Task<ActionResult<GetHeadDashboardQueryDto>> GetDashboard()
         {
-            return Ok(await _mediator.Send(command));
-        }
-
-        [HttpPut("contests")]
-        public async Task<ActionResult<int>> Updatecontest([FromBody] UpdateContestCommand command)
-        {
-            return Ok(await _mediator.Send(command));
-        }
-
-        [HttpGet("contests")]
-        public async Task<ActionResult<List<GetAllContestWithPaginationDto>>> GetAllContestsWithPagination(GetAllContestWithPagination query)
-        {
-            return Ok(await _mediator.Send(query));
-        }
-
-        [HttpPut("attendance")]
-        public async Task<ActionResult<string>>UpdateAttendance(UpdateAttendanceCommand command)
-        {
-            return Ok(await _mediator.Send(command));
+            return Ok(await _mediator.Send(new GetHeadDashboardQuery()));
         }
     }
 }

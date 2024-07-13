@@ -1,4 +1,5 @@
 ﻿using ISc.Application.Interfaces.Repos;
+using ISc.Domain.Comman.Enums;
 using ISc.Domain.Models;
 using ISc.Shared;
 using MediatR;
@@ -28,7 +29,7 @@ namespace ISc.Application.Features.Leader.Dashboard.Queries.GetCampsAnalysis
             foreach (var camp in camps)
             {
                 var completedSheets = camp.Sheets
-                    .Where(x => x.EndDate <= DateOnly.FromDateTime(DateTime.Now))
+                    .Where(x => x.Status == SheetStatus.Completed || x.Status == SheetStatus.InProgress)
                     .ToList();
 
                 var completedSheetsCount = completedSheets.Count;
