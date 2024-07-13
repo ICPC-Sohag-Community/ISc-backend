@@ -17,7 +17,7 @@ namespace ISc.Application.Features.HeadOfCamps.Contests.Commands.Create
             RuleFor(x=>x.CodeForceId).NotEmpty();
             RuleFor(x=>x.ProblemCount).NotEmpty();
             RuleFor(x => x.Community).NotEmpty();
-            RuleFor(x => x).Must(x => x.StartTime <= x.EndTime);
+            RuleFor(x => x).Must(x => x.StartTime <= x.EndTime).WithMessage("Start time must be less than end time.");
         }
     }
 }

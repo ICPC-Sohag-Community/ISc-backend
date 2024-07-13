@@ -45,7 +45,9 @@ namespace ISc.Application.Features.HeadOfCamps.Sheets.Queries.GetAllWithPaginati
                 return await Response.FailureAsync<GetAllSheetsWithPaginationQueryDto>("Unauthorized.", System.Net.HttpStatusCode.Unauthorized);
             }
 
-            var sheets = _unitOfWork.Repository<Sheet>().Entities.Where(x => x.CampId == head.CampId);
+            var sheets = _unitOfWork.Repository<Sheet>().Entities
+                                    .Where(x => x.CampId == head.CampId)
+                                    .OrderBy(x=>x.SheetOrder);
 
 
             return await sheets.ProjectToType<GetAllSheetsWithPaginationQueryDto>()
