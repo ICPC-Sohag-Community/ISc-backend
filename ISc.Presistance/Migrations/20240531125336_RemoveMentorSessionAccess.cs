@@ -49,7 +49,7 @@ namespace ISc.Presistance.Migrations
                 column: "SessionId",
                 principalSchema: "ICPC",
                 principalTable: "Sessions",
-                principalColumn: "Id");
+                principalColumn: "id");
         }
     }
 }
