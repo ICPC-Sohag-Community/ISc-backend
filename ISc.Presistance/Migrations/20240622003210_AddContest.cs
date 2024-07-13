@@ -41,7 +41,7 @@ namespace ISc.Presistance.Migrations
                         column: x => x.CampId,
                         principalSchema: "ICPC",
                         principalTable: "Camps",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

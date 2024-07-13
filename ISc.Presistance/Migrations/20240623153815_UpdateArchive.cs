@@ -21,7 +21,7 @@ namespace ISc.Presistance.Migrations
                 table: "StuffArchives");
 
             migrationBuilder.AddColumn<int>(
-                name: "Id",
+                name: "id",
                 schema: "ICPC",
                 table: "TraineesArchives",
                 type: "int",
@@ -30,7 +30,7 @@ namespace ISc.Presistance.Migrations
                 .Annotation("SqlServer:Identity", "1, 1");
 
             migrationBuilder.AddColumn<int>(
-                name: "Id",
+                name: "id",
                 schema: "ICPC",
                 table: "StuffArchives",
                 type: "int",
@@ -42,13 +42,13 @@ namespace ISc.Presistance.Migrations
                 name: "PK_TraineesArchives",
                 schema: "ICPC",
                 table: "TraineesArchives",
-                column: "Id");
+                column: "id");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_StuffArchives",
                 schema: "ICPC",
                 table: "StuffArchives",
-                column: "Id");
+                column: "id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TraineesArchives_NationalId_CampName",
@@ -89,12 +89,12 @@ namespace ISc.Presistance.Migrations
                 table: "StuffArchives");
 
             migrationBuilder.DropColumn(
-                name: "Id",
+                name: "id",
                 schema: "ICPC",
                 table: "TraineesArchives");
 
             migrationBuilder.DropColumn(
-                name: "Id",
+                name: "id",
                 schema: "ICPC",
                 table: "StuffArchives");
 
