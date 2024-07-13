@@ -23,7 +23,6 @@
 		<InternalsVisibleTo Include="ISC.UnitTests" />
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Features\HeadOfCamps\Contests\Queries\" />
 		<Folder Include="Features\HeadOfCamps\Dashboard\" />
 		<Folder Include="Features\HeadOfCamps\Sessions\" />
 		<Folder Include="Features\HeadOfCamps\Sheets\Queries\" />

@@ -76,6 +76,11 @@ namespace ISc.Application.Features.HeadOfCamps.Contests.Commands.Update
 
             var contest = await _unitOfWork.Repository<Contest>().GetByIdAsync(command.id);
 
+            if (contest is null)
+            {
+                return await Response.FailureAsync("Contest not found.", HttpStatusCode.BadRequest);
+            }
+
             if (await _unitOfWork.Repository<Contest>().Entities
                 .AnyAsync(x => (x.Name == command.Name || x.Link == command.Link) && head.CampId == contest.CampId && contest.Id != command.id))
             {
@@ -93,7 +98,7 @@ namespace ISc.Application.Features.HeadOfCamps.Contests.Commands.Update
             await _unitOfWork.Repository<Contest>().UpdateAsync(contest);
             await _unitOfWork.SaveAsync();
 
-            return await Response.SuccessAsync(contest.Id,"Contest updated.");
+            return await Response.SuccessAsync(contest.Id, "Contest updated.");
         }
     }
 }
