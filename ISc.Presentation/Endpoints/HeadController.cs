@@ -20,6 +20,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ISc.Application.Features.HeadOfCamps.Contests.Commands.Create;
+using Microsoft.IdentityModel.Tokens;
+using ISc.Application.Features.HeadOfCamps.Contests.Commands.Update;
 
 namespace ISc.Presentation.Endpoints
 {
@@ -137,6 +139,12 @@ namespace ISc.Presentation.Endpoints
 
         [HttpPost("contest")]
         public async Task<ActionResult<int>>CreateContest(CreatecontestCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPut("contest")]
+        public async Task<ActionResult<int>>Updatecontest(UpdateContestCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
