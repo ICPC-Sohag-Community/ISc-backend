@@ -130,12 +130,6 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(command));
         }
 
-		[HttpPut("materials")]
-		public async Task<ActionResult<int>> UpdateMaterial(UpdateMateriaCommand command)
-		{
-			return Ok(await _mediator.Send(command));
-		}
-
 		[HttpDelete("sheets/{id}")]
 		public async Task<ActionResult<string>>DeleteSheet(int id)
         {

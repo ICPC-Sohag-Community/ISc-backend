@@ -11,11 +11,6 @@ namespace ISc.Application.Features.Mobile.Commands.AddAttendnce
     {
         public string TraineeId { get; set; }
         public int CampId { get; set; }
-
-        public AddTraineeToAttendenceCommand(string traineeId)
-        {
-            TraineeId = traineeId;
-        }
     }
     internal class AddTraineeToAttendenceCommandHandler : IRequestHandler<AddTraineeToAttendenceCommand, Response>
     {
@@ -62,6 +57,7 @@ namespace ISc.Application.Features.Mobile.Commands.AddAttendnce
                                 SessionId = Session.Id,
                                 TraineeId = command.TraineeId
                             });
+
             await _unitOfWork.SaveAsync();
 
             return await Response.SuccessAsync("Success");

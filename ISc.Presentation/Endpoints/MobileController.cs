@@ -30,9 +30,9 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpPost("addTraineeToAttendence")]
-        public async Task<ActionResult<string>> AddTraineeToAttendence([FromBody] string traineeId)
+        public async Task<ActionResult<string>> AddTraineeToAttendence([FromBody] AddTraineeToAttendenceCommand command)
         {
-            return Ok(await _mediator.Send(new AddTraineeToAttendenceCommand(traineeId)));
+            return Ok(await _mediator.Send(command));
         }
 
         [HttpGet("getPresentTrainees")]
