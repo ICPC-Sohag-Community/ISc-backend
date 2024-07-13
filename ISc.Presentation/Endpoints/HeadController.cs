@@ -19,6 +19,7 @@ using ISc.Application.Features.Leader.Trainees.Queries.GetAllWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ISc.Application.Features.HeadOfCamps.Materials.Commands.Update;
 
 namespace ISc.Presentation.Endpoints
 {
@@ -129,7 +130,13 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(command));
         }
 
-        [HttpDelete("sheet/{id}")]
+		[HttpPut("materials")]
+		public async Task<ActionResult<int>> UpdateMaterial(UpdateMateriaCommand command)
+		{
+			return Ok(await _mediator.Send(command));
+		}
+
+		[HttpDelete("sheet/{id}")]
         public async Task<ActionResult<string>>DeleteSheet(int id)
         {
             return Ok(await _mediator.Send(new DeleteSheetByIdCommand(id)));
