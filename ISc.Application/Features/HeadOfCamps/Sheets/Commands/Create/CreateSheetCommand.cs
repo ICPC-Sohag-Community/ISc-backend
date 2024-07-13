@@ -72,8 +72,15 @@ namespace ISc.Application.Features.HeadOfCamps.Sheets.Commands.Create
                 return await Response.FailureAsync("Unauthorized.", System.Net.HttpStatusCode.Unauthorized);
             }
 
+            if(await _unitOfWork.Repository<Sheet>().Entities
+                .AnyAsync(x => (x.Name == command.Name || x.SheetCodefroceId == command.SheetCodefroceId)&&x.CampId==head.CampId))
+            {
+                return await Response.FailureAsync("sheet already exist.");
+            }
+
             var sheet = command.Adapt<Sheet>();
             sheet.CampId = head.CampId;
+
             sheet.SheetOrder = await _unitOfWork.Repository<Sheet>().Entities.Where(x => x.CampId == head.CampId).CountAsync(cancellationToken) + 1;
 
             await _unitOfWork.Repository<Sheet>().AddAsync(sheet);

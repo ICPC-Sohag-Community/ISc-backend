@@ -41,5 +41,5 @@ jobs:
           server: site4208.siteasp.net
           username: site4208
           password: ${{ secrets.SFTP_PASSWORD }}
-          local-dir: ./Release/
+          #local-dir: ./Release/
           server-dir: /wwwroot/

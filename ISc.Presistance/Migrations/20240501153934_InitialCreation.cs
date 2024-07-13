@@ -199,7 +199,7 @@ namespace ISc.Presistance.Migrations
                         column: x => x.CampId,
                         principalSchema: "ICPC",
                         principalTable: "Camps",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -227,7 +227,7 @@ namespace ISc.Presistance.Migrations
                         column: x => x.CampId,
                         principalSchema: "ICPC",
                         principalTable: "Camps",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -260,7 +260,7 @@ namespace ISc.Presistance.Migrations
                         column: x => x.CampId,
                         principalSchema: "ICPC",
                         principalTable: "Camps",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -283,7 +283,7 @@ namespace ISc.Presistance.Migrations
                         column: x => x.RoleId,
                         principalSchema: "Account",
                         principalTable: "Roles",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -304,14 +304,14 @@ namespace ISc.Presistance.Migrations
                         column: x => x.CampId,
                         principalSchema: "ICPC",
                         principalTable: "Camps",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_HeadsOfCamps_Users_Id",
                         column: x => x.Id,
                         principalSchema: "Account",
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -335,7 +335,7 @@ namespace ISc.Presistance.Migrations
                         column: x => x.AccountId,
                         principalSchema: "Account",
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -358,7 +358,7 @@ namespace ISc.Presistance.Migrations
                         column: x => x.UserId,
                         principalSchema: "Account",
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -380,7 +380,7 @@ namespace ISc.Presistance.Migrations
                         column: x => x.UserId,
                         principalSchema: "Account",
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -400,14 +400,14 @@ namespace ISc.Presistance.Migrations
                         column: x => x.RoleId,
                         principalSchema: "Account",
                         principalTable: "Roles",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserRoles_Users_UserId",
                         column: x => x.UserId,
                         principalSchema: "Account",
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -429,7 +429,7 @@ namespace ISc.Presistance.Migrations
                         column: x => x.UserId,
                         principalSchema: "Account",
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -450,13 +450,13 @@ namespace ISc.Presistance.Migrations
                         column: x => x.SessionId,
                         principalSchema: "ICPC",
                         principalTable: "Sessions",
-                        principalColumn: "Id");
+                        principalColumn: "id");
                     table.ForeignKey(
                         name: "FK_Mentors_Users_Id",
                         column: x => x.Id,
                         principalSchema: "Account",
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -480,7 +480,7 @@ namespace ISc.Presistance.Migrations
                         column: x => x.SheetId,
                         principalSchema: "ICPC",
                         principalTable: "Sheets",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -501,14 +501,14 @@ namespace ISc.Presistance.Migrations
                         column: x => x.CampId,
                         principalSchema: "ICPC",
                         principalTable: "Camps",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MentorsOfCamps_Mentors_MentorId",
                         column: x => x.MentorId,
                         principalSchema: "ICPC",
                         principalTable: "Mentors",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -530,20 +530,20 @@ namespace ISc.Presistance.Migrations
                         column: x => x.CampId,
                         principalSchema: "ICPC",
                         principalTable: "Camps",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Trainees_Mentors_MentorId",
                         column: x => x.MentorId,
                         principalSchema: "ICPC",
                         principalTable: "Mentors",
-                        principalColumn: "Id");
+                        principalColumn: "id");
                     table.ForeignKey(
                         name: "FK_Trainees_Users_Id",
                         column: x => x.Id,
                         principalSchema: "Account",
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -567,14 +567,14 @@ namespace ISc.Presistance.Migrations
                         column: x => x.SessionId,
                         principalSchema: "ICPC",
                         principalTable: "Sessions",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SessionFeedbacks_Trainees_TraineeId",
                         column: x => x.TraineeId,
                         principalSchema: "ICPC",
                         principalTable: "Trainees",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -595,14 +595,14 @@ namespace ISc.Presistance.Migrations
                         column: x => x.SessionId,
                         principalSchema: "ICPC",
                         principalTable: "Sessions",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TraineeAttendences_Trainees_TraineeId",
                         column: x => x.TraineeId,
                         principalSchema: "ICPC",
                         principalTable: "Trainees",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -624,14 +624,14 @@ namespace ISc.Presistance.Migrations
                         column: x => x.SheetId,
                         principalSchema: "ICPC",
                         principalTable: "Sheets",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TraineesAccesses_Trainees_TraineeId",
                         column: x => x.TraineeId,
                         principalSchema: "ICPC",
                         principalTable: "Trainees",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -655,7 +655,7 @@ namespace ISc.Presistance.Migrations
                         column: x => x.TraineeId,
                         principalSchema: "ICPC",
                         principalTable: "Trainees",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

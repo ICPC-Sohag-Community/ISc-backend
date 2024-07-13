@@ -9,6 +9,7 @@ namespace ISc.Application.Features.HeadOfCamps.Sheets.Queries.GetAllWithPaginati
 {
 	public class GetAllSheetsWithPaginationQueryDto
 	{
+		public int Id { get; set; }
 		public string Name { get; set; }
 		public string SheetLink { get; set; }
 		public SheetStatus Status { get; set; }

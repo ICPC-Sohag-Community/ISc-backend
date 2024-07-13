@@ -27,14 +27,14 @@ namespace ISc.Presistance.Migrations
                         column: x => x.ContestId,
                         principalSchema: "ICPC",
                         principalTable: "Contests",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TraineesContest_Trainees_TraineeId",
                         column: x => x.TraineeId,
                         principalSchema: "ICPC",
                         principalTable: "Trainees",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

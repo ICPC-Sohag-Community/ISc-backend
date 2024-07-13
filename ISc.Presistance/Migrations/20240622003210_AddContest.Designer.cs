@@ -31,11 +31,11 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.Camp", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -59,7 +59,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<DateOnly>("startDate")
                         .HasColumnType("date");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Camps", "ICPC");
                 });
@@ -76,7 +76,7 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.CommunityStaff.HeadOfCamp", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("About")
@@ -85,7 +85,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("CampId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("CampId");
 
@@ -94,24 +94,24 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.CommunityStaff.Mentor", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("About")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Mentors", "ICPC");
                 });
 
             modelBuilder.Entity("ISc.Domain.Models.Contest", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<int>("CampId")
                         .HasColumnType("int");
@@ -143,7 +143,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("CampId");
 
@@ -152,7 +152,7 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.IdentityModels.Account", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
@@ -253,7 +253,7 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -273,11 +273,11 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.Material", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -293,7 +293,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("SheetId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("SheetId");
 
@@ -320,11 +320,11 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.NewRegisteration", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");
@@ -394,7 +394,7 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("CampId");
 
@@ -411,11 +411,11 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.Notification", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("AccountId")
                         .IsRequired()
@@ -432,7 +432,7 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("AccountId");
 
@@ -441,11 +441,11 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.Session", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<int>("CampId")
                         .HasColumnType("int");
@@ -477,7 +477,7 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("CampId");
 
@@ -513,11 +513,11 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.Sheet", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<int>("CampId")
                         .HasColumnType("int");
@@ -560,7 +560,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<byte>("Status")
                         .HasColumnType("tinyint");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("CampId");
 
@@ -645,7 +645,7 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.Trainee", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CampId")
@@ -657,7 +657,7 @@ namespace ISc.Presistance.Migrations
                     b.Property<int>("Points")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("CampId");
 
@@ -786,11 +786,11 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.TraineeTask", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -806,7 +806,7 @@ namespace ISc.Presistance.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("TraineeId");
 
@@ -815,7 +815,7 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -830,7 +830,7 @@ namespace ISc.Presistance.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
@@ -842,11 +842,11 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -858,7 +858,7 @@ namespace ISc.Presistance.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("RoleId");
 
@@ -867,11 +867,11 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -883,7 +883,7 @@ namespace ISc.Presistance.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("UserId");
 
@@ -956,7 +956,7 @@ namespace ISc.Presistance.Migrations
 
                     b.HasOne("ISc.Domain.Models.IdentityModels.Account", "Account")
                         .WithOne()
-                        .HasForeignKey("ISc.Domain.Models.CommunityStaff.HeadOfCamp", "Id")
+                        .HasForeignKey("ISc.Domain.Models.CommunityStaff.HeadOfCamp", "id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -969,7 +969,7 @@ namespace ISc.Presistance.Migrations
                 {
                     b.HasOne("ISc.Domain.Models.IdentityModels.Account", "Account")
                         .WithOne()
-                        .HasForeignKey("ISc.Domain.Models.CommunityStaff.Mentor", "Id")
+                        .HasForeignKey("ISc.Domain.Models.CommunityStaff.Mentor", "id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1090,7 +1090,7 @@ namespace ISc.Presistance.Migrations
 
                     b.HasOne("ISc.Domain.Models.IdentityModels.Account", "Account")
                         .WithOne()
-                        .HasForeignKey("ISc.Domain.Models.Trainee", "Id")
+                        .HasForeignKey("ISc.Domain.Models.Trainee", "id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

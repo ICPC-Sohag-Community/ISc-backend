@@ -10,17 +10,16 @@ namespace ISc.Infrastructure.Services.ScheduleTasks
         {
             new BackgroundJobServer();
         }
+
         public void TrackingTraineesSolving()
         {
             RecurringJob.AddOrUpdate<TrackingTraineesJob>("Update-Trainees-Progress", x => x.UpdateTraineesSolving(), "0 * * * *");
         }
-        public void TrackingContest(Sheet contest)
+
+        public void TrackingContest(Contest contest)
         {
-            if (contest.EndDate is null)
-            {
-                return;
-            }
-            var executeTime = DateTimeOffset.Parse(contest.EndDate.ToString()!).AddMinutes(30);
+
+            var executeTime = DateTimeOffset.Parse(contest.EndTime.ToString()!).AddMinutes(30);
 
             BackgroundJob.Schedule<RecordContestSolvedProblems>("Update-Trainees-Contest-Problems", x => x.Record(contest.Id), executeTime);
         }
