@@ -44,35 +44,15 @@ jobs:
       #       tree ./publish
 
 
-      
-      #- name: Count files from list
-      #   run: |
-      #     FILE_COUNT=$(cat files_list.txt | wc -l)
-      #     echo "Number of files on server: $FILE_COUNT"
 
-      - name: List files on server
-        run: |
-            echo "Listing files on server..."
-            lftp -e "set ftp:ssl-allow no; open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_SERVER }}; ls -l /path/to/deployment/directory > files_list.txt; quit"
-    
-      - name: Estimate number of files
-        run: |
-            FILE_COUNT=$(cat files_list.txt | grep -v '^d' | wc -l)
-            echo "Estimated number of files on server: $FILE_COUNT"
-    
-      - name: Cleanup
-        run: |
-            rm files_list.txt
-
-
-      # - name: Deploy to FTP
-      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      #   with:
-      #     server: site4208.siteasp.net
-      #     username: site4208
-      #     password: ${{ secrets.SFTP_PASSWORD }}
-      #     local-dir: ./publish/
-      #     server-dir: /wwwroot/
+      - name: Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+            server: site4208.siteasp.net
+            username: site4208
+            password: ${{ secrets.SFTP_PASSWORD }}
+            local-dir: ./publish/
+            server-dir: /wwwroot/
           
 
           
