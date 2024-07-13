@@ -23,6 +23,9 @@
 		<InternalsVisibleTo Include="ISC.UnitTests" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Folder Include="Features\HeadOfCamps\Contests\" />
+	  <Folder Include="Features\HeadOfCamps\Dashboard\" />
+	  <Folder Include="Features\HeadOfCamps\Sessions\" />
 	  <Folder Include="Features\Leader\Reports\Commands\" />
 	  <Folder Include="Features\Leader\Staff\Commands\" />
 	  <Folder Include="Features\Leader\Trainees\Commands\" />

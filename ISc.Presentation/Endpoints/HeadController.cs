@@ -8,6 +8,7 @@ using ISc.Application.Features.HeadOfCamps.Materials.Commands.Delete;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.UpdateMaterialOrder;
 using ISc.Application.Features.HeadOfCamps.Materials.Queries.GetAllMaterials;
 using ISc.Application.Features.HeadOfCamps.Sheets.Commands.Create;
+using ISc.Application.Features.HeadOfCamps.Sheets.Commands.Delete;
 using ISc.Application.Features.HeadOfCamps.Sheets.Commands.Update;
 using ISc.Application.Features.HeadOfCamps.Sheets.Queries.GetById;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Commands.FilterTraineeById;
@@ -117,6 +118,12 @@ namespace ISc.Presentation.Endpoints
         public async Task<ActionResult<int>>UpdateSheet(UpdateSheetCommand command)
         {
             return Ok(await _mediator.Send(command));
+        }
+
+        [HttpDelete("sheet/{id}")]
+        public async Task<ActionResult<string>>DeleteSheet(int id)
+        {
+            return Ok(await _mediator.Send(new DeleteSheetByIdCommand(id)));
         }
     }
 }
