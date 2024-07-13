@@ -45,10 +45,10 @@ jobs:
 
 
       
-      - name: Count files from list
-        run: |
-          FILE_COUNT=$(cat files_list.txt | wc -l)
-          echo "Number of files on server: $FILE_COUNT"
+      #- name: Count files from list
+      #   run: |
+      #     FILE_COUNT=$(cat files_list.txt | wc -l)
+      #     echo "Number of files on server: $FILE_COUNT"
 
       - name: List files on server
         run: |
