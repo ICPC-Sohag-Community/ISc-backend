@@ -25,7 +25,7 @@ namespace ISc.Infrastructure.Services.ScheduleTasks
 
         public async Task Record(int contestId)
         {
-            var contest = await _unitOfWork.Repository<Sheet>().GetByIdAsync(contestId);
+            var contest = await _unitOfWork.Repository<Contest>().GetByIdAsync(contestId);
 
             if (contest is null)
             {
@@ -53,17 +53,16 @@ namespace ISc.Infrastructure.Services.ScheduleTasks
             foreach (var trainee in trainees)
             {
                 var traineeStatus = status.Where(x => x.author.members.First().handle == trainee.CodeForceHandle && x.verdict == "OK")
-                    .Select(x => new TraineeAccessSheet()
+                    .Select(x => new TraineeAccessContest()
                     {
                         TraineeId = trainee.Id,
-                        SheetId = contest.Id,
-                        AccessDate = DateOnly.FromDateTime(DateTime.Now),
+                        ContestId = contest.Id,
                         Index = x.problem.index
                     }).ToList();
 
                 if (!traineeStatus.IsNullOrEmpty())
                 {
-                    await _unitOfWork.Repository<TraineeAccessSheet>().AddRangeAsync(traineeStatus);
+                    await _unitOfWork.Repository<TraineeAccessContest>().AddRangeAsync(traineeStatus);
                 }
             }
 
