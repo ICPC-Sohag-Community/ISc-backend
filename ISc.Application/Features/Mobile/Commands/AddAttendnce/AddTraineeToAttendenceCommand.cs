@@ -2,6 +2,7 @@
 using ISc.Domain.Models;
 using ISc.Shared;
 using MediatR;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Application.Features.Mobile.Commands.AddAttendnce
@@ -9,6 +10,7 @@ namespace ISc.Application.Features.Mobile.Commands.AddAttendnce
     public class AddTraineeToAttendenceCommand : IRequest<Response>
     {
         public string TraineeId { get; set; }
+        public int CampId { get; set; }
 
         public AddTraineeToAttendenceCommand(string traineeId)
         {
@@ -18,19 +20,28 @@ namespace ISc.Application.Features.Mobile.Commands.AddAttendnce
     internal class AddTraineeToAttendenceCommandHandler : IRequestHandler<AddTraineeToAttendenceCommand, Response>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IDataProtector _dataProtector;
 
-        public AddTraineeToAttendenceCommandHandler(IUnitOfWork unitOfWork)
+        public AddTraineeToAttendenceCommandHandler(IUnitOfWork unitOfWork, IDataProtectionProvider dataProvider)
         {
             _unitOfWork = unitOfWork;
+            _dataProtector = dataProvider.CreateProtector("SecureId");
         }
 
         public async Task<Response> Handle(AddTraineeToAttendenceCommand command, CancellationToken cancellationToken)
         {
+            //TODO: command.TraineeId = _dataProtector.Unprotect(command.TraineeId);
+
             var trainee = _unitOfWork.Trainees.Entities.FirstOrDefault(i => i.Id == command.TraineeId);
 
             if (trainee == null)
             {
                 return await Response.FailureAsync("Trainee not found.");
+            }
+
+            if (trainee.CampId != command.CampId)
+            {
+                return await Response.FailureAsync("No Current seession for this trainee.");
             }
 
             var Session = trainee.Camp.Sessions.FirstOrDefault(i => i.StartDate.Date >= DateTime.Now.Date);
