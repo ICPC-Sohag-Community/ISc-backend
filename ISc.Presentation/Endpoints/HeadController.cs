@@ -112,12 +112,12 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(query));
         }
 
-		[HttpGet("session/{id}")]
-		public async Task<ActionResult<GetSessionByIdQueryDto>> GetSessionById(int id)
-		{
-			return Ok(await _mediator.Send(new GetSessionByIdQuery(id)));
-		}
-		[HttpPut("materials/updateOrders")]
+        [HttpGet("session/{id}")]
+        public async Task<ActionResult<GetSessionByIdQueryDto>> GetSessionById(int id)
+        {
+            return Ok(await _mediator.Send(new GetSessionByIdQuery(id)));
+        }
+        [HttpPut("materials/updateOrders")]
         public async Task<ActionResult<int>> UpdateMaterialOrders(UpdateMaterialOrderCommand command)
         {
             return Ok(await _mediator.Send(command));

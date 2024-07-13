@@ -27,25 +27,22 @@ namespace ISc.Application.Features.HeadOfCamps.Sessions.Query.GetById
 	internal class GetSessionByIdQueryHandler: IRequestHandler<GetSessionByIdQuery, Response>
 	{
 		private readonly IUnitOfWork _unitOfWork;
-		private readonly HttpContextAccessor _contextAccessor;
+		private readonly IHttpContextAccessor _contextAccessor;
 		private readonly UserManager<Account> _userManager;
-		private readonly IMapper _mapper;
 
 		public GetSessionByIdQueryHandler(
 			UserManager<Account> userManager,
-			HttpContextAccessor contextAccessor,
-			IUnitOfWork unitOfWork,
-			IMapper mapper)
+			IHttpContextAccessor contextAccessor,
+			IUnitOfWork unitOfWork)
 		{
 			_userManager = userManager;
 			_contextAccessor = contextAccessor;
 			_unitOfWork = unitOfWork;
-			_mapper = mapper;
 		}
 
 		public async Task<Response> Handle(GetSessionByIdQuery query, CancellationToken cancellationToken)
 		{
-			var user = await _userManager.GetUserAsync(_contextAccessor.HttpContext.User!);
+			var user = await _userManager.GetUserAsync(_contextAccessor.HttpContext!.User);
 
 			if(user is null)
 			{
@@ -66,21 +63,12 @@ namespace ISc.Application.Features.HeadOfCamps.Sessions.Query.GetById
 				return await Response.FailureAsync("NotFound", System.Net.HttpStatusCode.NotFound);
 			}
 
-			if(entity.CampId!=head.CampId)
-			{
-				return await Response.FailureAsync("Unauthorized", System.Net.HttpStatusCode.Unauthorized);
-			}
+			//if(entity.CampId!=head.CampId)
+			//{
+			//	return await Response.FailureAsync("Unauthorized", System.Net.HttpStatusCode.Unauthorized);
+			//}
 
-			var session = new GetSessionByIdQueryDto()
-			{
-				Id = entity.Id,
-				Topic=entity.Topic,
-				LocationLink=entity.LocationLink,
-				LocationName=entity.LocationName,
-				InstructorName=entity.InstructorName,
-				StartDate=entity.StartDate,
-				EndDate=entity.EndDate
-			};
+			var session = entity.Adapt<GetSessionByIdQueryDto>();
 
 			return await Response.SuccessAsync(session);
 		}
