@@ -1,5 +1,6 @@
 name: Build and Deploy ISc Solution
 
+
 on:
   push:
     branches:
@@ -10,7 +11,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -25,21 +26,29 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore
-
-      - name: Build solution
+    
+      - name: Build the project
         run: dotnet build --configuration Release
 
 
-      - name: publish
-        run: dotnet publish -c Release --output ./Release
+      - name: publish my code 
+        run: dotnet publish --configuration Release --output ./publish
 
+      - name: List files before deployment
+        run: |
+          echo "Listing files in the publish directory:"
+          ls -R ./publish
 
+      - name: List files before deployment
+        run: |
+            echo "*****check the structure of the dir:*****"
+            tree ./publish
 
-      - name: Deploy to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: site4208.siteasp.net
-          username: site4208
-          password: ${{ secrets.SFTP_PASSWORD }}
-          #local-dir: ./Release/
-          server-dir: /wwwroot/
+      # - name: Deploy to FTP
+      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      #   with:
+      #     server: site4208.siteasp.net
+      #     username: site4208
+      #     password: ${{ secrets.SFTP_PASSWORD }}
+      #     local-dir: ./publish/
+      #     server-dir: /wwwroot/
