@@ -38,10 +38,32 @@ jobs:
           echo "Listing files in the publish directory:"
           ls -R ./publish
 
-      - name: List files before deployment
+      # - name: List files before deployment
+      #   run: |
+      #       echo "*****check the structure of the dir:*****"
+      #       tree ./publish
+
+
+      
+      - name: Count files from list
         run: |
-            echo "*****check the structure of the dir:*****"
-            tree ./publish
+          FILE_COUNT=$(cat files_list.txt | wc -l)
+          echo "Number of files on server: $FILE_COUNT"
+
+      - name: List files on server
+        run: |
+            echo "Listing files on server..."
+            lftp -e "set ftp:ssl-allow no; open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_SERVER }}; ls -l /path/to/deployment/directory > files_list.txt; quit"
+    
+      - name: Estimate number of files
+        run: |
+            FILE_COUNT=$(cat files_list.txt | grep -v '^d' | wc -l)
+            echo "Estimated number of files on server: $FILE_COUNT"
+    
+      - name: Cleanup
+        run: |
+            rm files_list.txt
+
 
       # - name: Deploy to FTP
       #   uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -51,3 +73,10 @@ jobs:
       #     password: ${{ secrets.SFTP_PASSWORD }}
       #     local-dir: ./publish/
       #     server-dir: /wwwroot/
+          
+
+          
+      # - name: Delete old files on Server via FTP
+      #   run: |
+      #       echo "Deleting old files on the server..."
+      #       lftp -e "cd /wwwroot; mirror --reverse --delete --verbose --exclude .gitignore --exclude .git ./publish .; quit" -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_SERVER }}
