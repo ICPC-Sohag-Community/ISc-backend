@@ -6,6 +6,7 @@ using ISc.Shared;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using System.Net;
 
 namespace ISc.Application.Features.Authentication.MobileLogin
@@ -43,7 +44,7 @@ namespace ISc.Application.Features.Authentication.MobileLogin
 
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            if (userRoles.Contains(Roles.Trainee) && userRoles.Count() == 1)
+            if ((userRoles.Contains(Roles.Trainee) && userRoles.Count() == 1)||userRoles.IsNullOrEmpty())
             {
                 return await Response.FailureAsync("Account role forbidden.", HttpStatusCode.Forbidden);
             }

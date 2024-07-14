@@ -47,14 +47,14 @@ namespace ISc.Presistance.Repos
             }
             else
             {
-                _context.TraineeAttendences.RemoveRange(_context.TraineeAttendences.Where(x => x.TraineeId == trainee.Id));
-                _context.TraineeTasks.RemoveRange(_context.TraineeTasks.Where(x => x.TraineeId == trainee.Id));
-                _context.TraineesAccesses.RemoveRange(_context.TraineesAccesses.Where(x => x.TraineeId == trainee.Id));
-                _context.SessionFeedbacks.RemoveRange(_context.SessionFeedbacks.Where(x => x.TraineeId == trainee.Id));
-
                 await _userManager.RemoveFromRoleAsync(account, Roles.Trainee);
                 _context.Remove(trainee);
             }
+
+            _context.TraineeAttendences.RemoveRange(_context.TraineeAttendences.Where(x => x.TraineeId == trainee.Id));
+            _context.TraineeTasks.RemoveRange(_context.TraineeTasks.Where(x => x.TraineeId == trainee.Id));
+            _context.TraineesAccesses.RemoveRange(_context.TraineesAccesses.Where(x => x.TraineeId == trainee.Id));
+            _context.SessionFeedbacks.RemoveRange(_context.SessionFeedbacks.Where(x => x.TraineeId == trainee.Id));
         }
         public async Task UpdateAsync(AccountModel<Trainee> entity)
         {
