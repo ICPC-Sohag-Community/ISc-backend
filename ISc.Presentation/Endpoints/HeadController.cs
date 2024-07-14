@@ -20,6 +20,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.Update;
+using ISc.Application.Features.HeadOfCamps.Sessions.Query.GetById;
 
 namespace ISc.Presentation.Endpoints
 {
@@ -106,12 +107,16 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("sheets")]
-
         public async Task<ActionResult<GetAllSheetsWithPaginationQueryDto>> GetAllSheets([FromQuery] GetAllSheetsWithPaginationQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
 
+        [HttpGet("session/{id}")]
+        public async Task<ActionResult<GetSessionByIdQueryDto>> GetSessionById(int id)
+        {
+            return Ok(await _mediator.Send(new GetSessionByIdQuery(id)));
+        }
         [HttpPut("materials/updateOrders")]
         public async Task<ActionResult<int>> UpdateMaterialOrders(UpdateMaterialOrderCommand command)
         {
