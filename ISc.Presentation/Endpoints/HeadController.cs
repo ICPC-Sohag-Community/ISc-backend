@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Mvc;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.Update;
 using ISc.Application.Features.HeadOfCamps.Sessions.Query.GetById;
 using ISc.Application.Features.HeadOfCamps.Sessions.Query.GetAllWithPagination;
+using ISc.Application.Features.HeadOfCamps.Contests.Queries.GetById;
 
 namespace ISc.Presentation.Endpoints
 {
@@ -118,6 +119,12 @@ namespace ISc.Presentation.Endpoints
         {
             return Ok(await _mediator.Send(new GetSessionByIdQuery(id)));
         }
+
+		[HttpGet("contests/{id}")]
+		public async Task<ActionResult<GetContestByIdQueryDto>> GetContestById(int id)
+		{
+			return Ok(await _mediator.Send(new GetContestByIdQuery(id)));
+		}
 
 		[HttpGet("sessios")]
 		public async Task<ActionResult<GetAllSessionsWithPaginationQueryDto>> GetAllSessions([FromQuery] GetAllSessionsWithPaginationQuery query)
