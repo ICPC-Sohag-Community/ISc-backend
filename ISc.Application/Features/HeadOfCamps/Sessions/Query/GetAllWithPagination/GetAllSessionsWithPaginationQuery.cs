@@ -15,10 +15,7 @@ using System.Threading.Tasks;
 
 namespace ISc.Application.Features.HeadOfCamps.Sessions.Query.GetAllWithPagination
 {
-	public record GetAllSessionsWithPaginationQuery:PaginatedRequest,IRequest<PaginatedRespnose<GetAllSessionsWithPaginationQueryDto>>
-	{
-
-	}
+	public record GetAllSessionsWithPaginationQuery:PaginatedRequest,IRequest<PaginatedRespnose<GetAllSessionsWithPaginationQueryDto>>;
 	internal class GetAllSessionsWithPaginationQueryHandler : IRequestHandler<GetAllSessionsWithPaginationQuery, PaginatedRespnose<GetAllSessionsWithPaginationQueryDto>>
 	{
 		private readonly IUnitOfWork _unitOfWork;
@@ -52,8 +49,8 @@ namespace ISc.Application.Features.HeadOfCamps.Sessions.Query.GetAllWithPaginati
 			}
 
 			var Sessions = _unitOfWork.Repository<Session>().Entities
-				.Where(x => x.CampId == head.CampId)
-				.OrderBy(x => x.StartDate);
+									  .Where(x => x.CampId == head.CampId)
+									  .OrderBy(x => x.StartDate);
 
 			return await Sessions.ProjectToType<GetAllSessionsWithPaginationQueryDto>()
 					.ToPaginatedListAsync(query.PageNumber, query.PageSize, cancellationToken);
