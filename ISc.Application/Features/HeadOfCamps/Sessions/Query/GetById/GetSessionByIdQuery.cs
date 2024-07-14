@@ -57,12 +57,12 @@ namespace ISc.Application.Features.HeadOfCamps.Sessions.Query.GetById
                 return await Response.FailureAsync("Session not found.", System.Net.HttpStatusCode.NotFound);
             }
 
-			//if(entity.CampId!=head.CampId)
-			//{
-			//	return await Response.FailureAsync("Unauthorized", System.Net.HttpStatusCode.Unauthorized);
-			//}
+            if (entity.CampId != head.CampId)
+            {
+                return await Response.FailureAsync("Unauthorized", System.Net.HttpStatusCode.Unauthorized);
+            }
 
-			var session = entity.Adapt<GetSessionByIdQueryDto>();
+            var session = entity.Adapt<GetSessionByIdQueryDto>();
 
             return await Response.SuccessAsync(session);
         }

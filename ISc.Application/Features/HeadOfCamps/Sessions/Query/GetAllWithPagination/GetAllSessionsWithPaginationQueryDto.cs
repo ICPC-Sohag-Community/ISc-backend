@@ -14,5 +14,6 @@ namespace ISc.Application.Features.HeadOfCamps.Sessions.Query.GetAllWithPaginati
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
 		public string LocationName { get; set; }
-	}
+        public string LocationLink { get; set; }
+    }
 }
