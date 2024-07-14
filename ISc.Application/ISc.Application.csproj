@@ -24,7 +24,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Features\HeadOfCamps\Contests\" />
-		<Folder Include="Features\HeadOfCamps\Sessions\" />
 		<Folder Include="Features\HeadOfCamps\Sheets\Queries\" />
 		<Folder Include="Features\Leader\Reports\Commands\" />
 		<Folder Include="Features\Leader\Staff\Commands\" />
