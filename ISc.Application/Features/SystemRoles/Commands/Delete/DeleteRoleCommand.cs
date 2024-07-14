@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using ISc.Application.Interfaces.Repos;
+using ISc.Domain.Models.IdentityModels;
 using ISc.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -19,11 +21,22 @@ namespace ISc.Application.Features.SystemRoles.Commands.Delete
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IValidator<DeleteRoleCommand> _validator;
+        private readonly UserManager<Account> _userManager;
+        private readonly IStuffArchiveRepo _stuffArchiveRepo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteRoleCommandHandler(RoleManager<IdentityRole> roleManager, IValidator<DeleteRoleCommand> validator)
+        public DeleteRoleCommandHandler(
+            RoleManager<IdentityRole> roleManager,
+            IValidator<DeleteRoleCommand> validator,
+            UserManager<Account> userManager,
+            IStuffArchiveRepo stuffArchiveRepo,
+            IUnitOfWork unitOfWork)
         {
             _roleManager = roleManager;
             _validator = validator;
+            _userManager = userManager;
+            _stuffArchiveRepo = stuffArchiveRepo;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Response> Handle(DeleteRoleCommand command, CancellationToken cancellationToken)
@@ -41,12 +54,23 @@ namespace ISc.Application.Features.SystemRoles.Commands.Delete
             {
                 return await Response.FailureAsync("role not found", System.Net.HttpStatusCode.NotFound);
             }
+
+            var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name!);
+
+            foreach (var user in usersInRole)
+            {
+                await _stuffArchiveRepo.AddToArchiveAsync(user, role.Name!);
+                await _userManager.DeleteAsync(user);
+            }
+
             var result = await _roleManager.DeleteAsync(role);
 
             if (!result.Succeeded)
             {
                 return await Response.ValidationFailureAsync(result.Errors.ToList(), System.Net.HttpStatusCode.InternalServerError);
             }
+
+            await _unitOfWork.SaveAsync();
 
             return await Response.SuccessAsync("Role deleted.");
         }

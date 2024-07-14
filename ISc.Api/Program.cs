@@ -30,9 +30,9 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 
+app.UseMiddleware<GlobalErrorHandler>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseMiddleware<GlobalErrorHandler>();
 app.UseRouting();
 app.UseCors(cores => cores.AllowAnyHeader().AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 app.UseAuthentication();
