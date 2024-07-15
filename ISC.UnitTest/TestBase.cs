@@ -107,7 +107,7 @@ namespace ISc.UnitTests
             return _serviceProvider.GetRequiredService<IUnitOfWork>();
         }
 
-        public async Task<Account> CreateUser()
+        public async Task<Account> CreateUserAsync()
         {
             var userManager = GetUserManager();
 
