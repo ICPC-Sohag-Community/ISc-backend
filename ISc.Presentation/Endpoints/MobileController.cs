@@ -5,12 +5,10 @@ using ISc.Application.Features.Mobile.Queries.GetPresistanceTrainees;
 using ISc.Application.Features.Mobile.Queries.GetTraineesByCampId;
 using ISc.Presentation.Middlerware;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISc.Presentation.Endpoints
 {
-    [Authorize]
     [MobileAuthorizeFilter]
     public class MobileController : ApiControllerBase
     {
