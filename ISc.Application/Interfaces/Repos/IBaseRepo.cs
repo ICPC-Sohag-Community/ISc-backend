@@ -1,4 +1,6 @@
-﻿using ISc.Domain.Models;
+﻿using ISc.Application.Dtos.CodeForce;
+using ISc.Application.Dtos.Standing;
+using ISc.Domain.Models;
 
 namespace ISc.Application.Interfaces.Repos
 {

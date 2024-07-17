@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using ISc.Application.Dtos.Standing;
 using ISc.Application.Interfaces;
 using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Models.IdentityModels;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Collections;
 
 namespace ISc.Presistance.Repos
 {
@@ -22,8 +24,8 @@ namespace ISc.Presistance.Repos
             _context = context;
             _repositories = new Hashtable();
 
-            Mentors = new MentorRepo(context, userManager, stuffRepo,mediaServices);
-            Trainees = new TraineeRepo(context, userManager, mediaServices,mapper);
+            Mentors = new MentorRepo(context, userManager, stuffRepo, mediaServices);
+            Trainees = new TraineeRepo(context, userManager, mediaServices, mapper);
             Heads = new HeadRepo(context, userManager, stuffRepo, mediaServices);
         }
 
@@ -41,6 +43,21 @@ namespace ISc.Presistance.Repos
         public async Task<int> SaveAsync()
         {
             return await _context.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<StandingDto>> GetStandingAsync(int campId)
+        {
+            return await _context.Trainees
+                        .Where(x => x.CampId == campId)
+                        .Select(x => new StandingDto()
+                        {
+                            Id = x.Id,
+                            FirstName = x.Account.FirstName,
+                            MiddleName = x.Account.MiddleName,
+                            LastName = x.Account.LastName,
+                            CodeForceHandle = x.Account.CodeForceHandle
+                        }).AsNoTracking()
+                        .ToListAsync();
         }
 
         IBaseRepo<T> IUnitOfWork.Repository<T>()

@@ -3,6 +3,7 @@ using ISc.Domain.Models;
 using ISc.Shared;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ISc.Application.Features.Mobile.Queries.GetPresistanceTrainees
 {
@@ -38,20 +39,25 @@ namespace ISc.Application.Features.Mobile.Queries.GetPresistanceTrainees
                 return await Response.FailureAsync("No current session for now.");
             }
 
-            var attendence = await _unitOfWork.Repository<TraineeAttendence>().Entities
-                            .Where(x => x.SessionId == session.Id)
-                            .Where(x =>query.keyWord != null &&
-                            ((x.Trainee.Account.FirstName + x.Trainee.Account.MiddleName + x.Trainee.Account.LastName).Trim().ToLower().StartsWith(query.keyWord.Trim().ToLower())
-                            || x.Trainee.Account.CodeForceHandle.StartsWith(query.keyWord)))
-                            .Select(x => new GetPresentTraineesQueryDto()
-                            {
-                                Id = x.TraineeId,
-                                Name = x.Trainee.Account.FirstName + ' ' + x.Trainee.Account.MiddleName + ' ' + x.Trainee.Account.LastName,
-                                CodeForceHandle = x.Trainee.Account.CodeForceHandle
-                            })
-                            .ToListAsync();
+            var entities = _unitOfWork.Repository<TraineeAttendence>().Entities
+                            .Where(x => x.SessionId == session.Id);
 
-            return await Response.SuccessAsync(attendence);
+            if (!query.keyWord.IsNullOrEmpty())
+            {
+                entities=entities.Where(x=>
+                (x.Trainee.Account.FirstName + x.Trainee.Account.MiddleName + x.Trainee.Account.LastName).Trim().ToLower().StartsWith(query.keyWord!.Trim().ToLower())
+                            || x.Trainee.Account.CodeForceHandle.StartsWith(query.keyWord));
+            }
+
+            var attendance = await entities.Select(x => new GetPresentTraineesQueryDto()
+            {
+                Id = x.TraineeId,
+                Name = x.Trainee.Account.FirstName + ' ' + x.Trainee.Account.MiddleName + ' ' + x.Trainee.Account.LastName,
+                CodeForceHandle = x.Trainee.Account.CodeForceHandle
+            })
+                           .ToListAsync(cancellationToken);
+
+            return await Response.SuccessAsync(attendance);
         }
     }
 }

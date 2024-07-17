@@ -1,4 +1,5 @@
-﻿using ISc.Application.Interfaces.Repos;
+﻿using ISc.Application.Dtos.Standing;
+using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -60,6 +61,5 @@ namespace ISc.Presistance.Repos
         {
             _context.Entry(entity).State = EntityState.Detached;
         }
-
     }
 }
