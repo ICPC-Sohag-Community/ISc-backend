@@ -9,6 +9,7 @@ namespace ISc.Application.Features.Mobile.Queries.GetPresistanceTrainees
     public record GetPresentTraineesQuery : IRequest<Response>
     {
         public int CampId { get; set; }
+        public string? keyWord { get; set; }
         public DateTime CurrentDate { get; set; }
     }
 
@@ -39,10 +40,14 @@ namespace ISc.Application.Features.Mobile.Queries.GetPresistanceTrainees
 
             var attendence = await _unitOfWork.Repository<TraineeAttendence>().Entities
                             .Where(x => x.SessionId == session.Id)
+                            .Where(x =>query.keyWord != null &&
+                            ((x.Trainee.Account.FirstName + x.Trainee.Account.MiddleName + x.Trainee.Account.LastName).Trim().ToLower().StartsWith(query.keyWord.Trim().ToLower())
+                            || x.Trainee.Account.CodeForceHandle.StartsWith(query.keyWord)))
                             .Select(x => new GetPresentTraineesQueryDto()
                             {
                                 Id = x.TraineeId,
-                                Name = x.Trainee.Account.FirstName +' '+ x.Trainee.Account.MiddleName+' ' + x.Trainee.Account.LastName
+                                Name = x.Trainee.Account.FirstName + ' ' + x.Trainee.Account.MiddleName + ' ' + x.Trainee.Account.LastName,
+                                CodeForceHandle = x.Trainee.Account.CodeForceHandle
                             })
                             .ToListAsync();
 
