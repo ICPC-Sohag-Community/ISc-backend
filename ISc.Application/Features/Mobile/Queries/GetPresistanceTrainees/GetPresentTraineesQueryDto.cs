@@ -10,5 +10,6 @@ namespace ISc.Application.Features.Mobile.Queries.GetPresistanceTrainees
     {
         public string Id  { get; set; }
         public string Name { get; set; }
+        public string CodeForceHandle { get; set; }
     }
 }
