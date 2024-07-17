@@ -44,9 +44,8 @@ namespace ISc.Application.Features.Mobile.Queries.GetPresistanceTrainees
 
             if (!query.keyWord.IsNullOrEmpty())
             {
-                entities=entities.Where(x=>
-                (x.Trainee.Account.FirstName + x.Trainee.Account.MiddleName + x.Trainee.Account.LastName).Trim().ToLower().StartsWith(query.keyWord!.Trim().ToLower())
-                            || x.Trainee.Account.CodeForceHandle.StartsWith(query.keyWord));
+                entities = entities.Where(x => (x.Trainee.Account.FirstName + x.Trainee.Account.MiddleName + x.Trainee.Account.LastName).Trim().ToLower().StartsWith(query.keyWord!.Replace(" ","").ToLower().Trim())
+                                   || x.Trainee.Account.CodeForceHandle.StartsWith(query.keyWord!));
             }
 
             var attendance = await entities.Select(x => new GetPresentTraineesQueryDto()

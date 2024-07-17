@@ -30,10 +30,10 @@ namespace ISc.Application.Features.Leader.Trainees.Queries.GetAllWithPagination
 
             if (!query.KeyWord.IsNullOrEmpty())
             {
-                entities = entities.Where(x => x.FullName.Trim().ToLower().StartsWith(query.KeyWord.Trim().ToLower())
+                entities = entities.Where(x => x.FullName.Trim().Replace(" ", "").ToLower().StartsWith(query.KeyWord.Trim().Replace(" ", "").ToLower())
                                         || x.PhoneNumber.StartsWith(query.KeyWord)
                                         || x.Email.Trim().ToLower().StartsWith(query.KeyWord.Trim().ToLower())
-                                        || x.CodeforceHandle.Trim().ToLower().StartsWith(query.KeyWord.Trim().ToLower()));
+                                        || x.CodeforceHandle.ToLower().StartsWith(query.KeyWord.ToLower()));
             }
 
             return await entities.ToPaginatedListAsync(query.PageNumber, query.PageSize, cancellationToken);

@@ -28,8 +28,8 @@ namespace ISc.Application.Features.Leader.Archives.Queries.GetAllTraineesArchive
 
             if (!query.KeyWord.IsNullOrEmpty())
             {
-                archives = archives.Where(x => (x.FirstName + x.MiddleName + x.LastName).Trim().ToLower().StartsWith(query.KeyWord.Trim().ToLower())
-                                               || x.CampName.ToLower().Trim().StartsWith(query.KeyWord.ToLower().Trim())
+                archives = archives.Where(x => (x.FirstName + x.MiddleName + x.LastName).Trim().ToLower().Replace(" ", "").StartsWith(query.KeyWord.Trim().Replace(" ", "").ToLower())
+                                               || x.CampName.ToLower().Trim().Replace(" ","").StartsWith(query.KeyWord.ToLower().Replace(" ", "").Trim())
                                                || x.CodeForceHandle.StartsWith(query.KeyWord));
                 if (query.SortBy is not null)
                 {

@@ -36,7 +36,7 @@ namespace ISc.Application.Features.CampsModels.Queries.GetAll
             }
 
             var modles = await entities.Entities
-                             .Where(x => x.Name.ToLower().Trim().StartsWith(query.KeyWord.Trim().ToLower()))
+                             .Where(x => x.Name.ToLower().Trim().Replace(" ", "").StartsWith(query.KeyWord.Trim().Replace(" ", "").ToLower()))
                              .ToListAsync(cancellationToken);
 
             return await Response.SuccessAsync(modles!);

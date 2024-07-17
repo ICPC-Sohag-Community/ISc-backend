@@ -1,4 +1,5 @@
-﻿using ISc.Domain.Interface;
+﻿using ISc.Application.Dtos.Standing;
+using ISc.Domain.Interface;
 
 namespace ISc.Application.Interfaces.Repos
 {
@@ -8,6 +9,7 @@ namespace ISc.Application.Interfaces.Repos
         ITraineeRepo Trainees { get; }
         IHeadRepo Heads { get; }
         Task<int> SaveAsync();
+        Task<ICollection<StandingDto>> GetStandingAsync(int campId);
         IBaseRepo<T> Repository<T>() where T : class, ISoftEntity;
     }
 }

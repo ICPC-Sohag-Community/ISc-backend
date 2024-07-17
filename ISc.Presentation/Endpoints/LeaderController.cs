@@ -23,6 +23,7 @@ using ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilter;
 using ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter;
 using ISc.Application.Features.Leader.Staff.Queries.GetAllWithPagination;
 using ISc.Application.Features.Leader.Staff.Queries.GetById;
+using ISc.Application.Features.Leader.Standing.Queries.GetStandingByCampId;
 using ISc.Application.Features.Leader.Trainees.Queries.GetAllWithPagination;
 using ISc.Application.Features.Leader.Trainees.Queries.GetById;
 using ISc.Domain.Comman.Constant;
@@ -202,10 +203,16 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(query));
         }
 
-        [HttpGet("StaffWithPagination")]
+        [HttpGet("staffWithPagination")]
         public async Task<ActionResult<PaginatedRespnose<GetAllStaffWithPaginationQueryDto>>> GetAllStaff([FromQuery] GetAllStaffWithPaginationQuery query)
         {
             return Ok(await _mediator.Send(query));
+        }
+
+        [HttpGet("standing")]
+        public async Task<ActionResult<GetStandingByCampIdQueryDto>>GetStanding(int campId)
+        {
+            return Ok(await _mediator.Send(new GetStandingByCampIdQuery(campId)));
         }
     }
 }

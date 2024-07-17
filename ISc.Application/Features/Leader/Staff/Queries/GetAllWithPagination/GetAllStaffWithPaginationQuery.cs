@@ -41,9 +41,9 @@ namespace ISc.Application.Features.Leader.Staff.Queries.GetAllWithPagination
 
             if (!query.KeyWord.IsNullOrEmpty())
             {
-                staff = staff.Where(x => (x.FirstName + x.MiddleName + x.LastName).Trim().ToLower().StartsWith(query.KeyWord!.Trim().ToLower()))
-                           .Where(x => x.Email!.ToLower().StartsWith(query.KeyWord!.ToLower()))
-                           .Where(x => x.CodeForceHandle.ToLower().StartsWith(query.KeyWord!.ToLower()))
+                staff = staff.Where(x => (x.FirstName + x.MiddleName + x.LastName).Trim().Replace(" ", "").ToLower().StartsWith(query.KeyWord!.Trim().Replace(" ", "").ToLower())
+                           || x.Email!.ToLower().StartsWith(query.KeyWord!.ToLower())
+                           || x.CodeForceHandle.ToLower().StartsWith(query.KeyWord!.ToLower()))
                            .ToList();
             }
 
