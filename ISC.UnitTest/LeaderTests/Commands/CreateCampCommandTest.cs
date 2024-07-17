@@ -1,5 +1,4 @@
-﻿using Bogus;
-using FluentAssertions;
+﻿using FluentAssertions;
 using ISc.Application.Features.Leader.Camps.Commands.Create;
 using ISc.Domain.Comman.Constant;
 using ISc.Domain.Comman.Dtos;
@@ -7,10 +6,9 @@ using ISc.Domain.Comman.Enums;
 using ISc.Domain.Models;
 using ISc.Domain.Models.CommunityStaff;
 using ISc.Domain.Models.IdentityModels;
-using ISc.UnitTests.FakesOjbects;
 using Microsoft.EntityFrameworkCore;
 
-namespace ISc.UnitTests.HeadTest.Commands
+namespace ISc.UnitTests.LeaderTests.Commands
 {
     public class CreateCampCommandTest : TestBase
     {
@@ -95,7 +93,7 @@ namespace ISc.UnitTests.HeadTest.Commands
             result.IsSuccess.Should().BeTrue();
 
             var assignedtrainee = await unitOfWork.Repository<MentorsOfCamp>().Entities
-                .SingleOrDefaultAsync(x=>x.CampId==(int)result.Data!&&x.MentorId==mentor.Id);
+                .SingleOrDefaultAsync(x => x.CampId == (int)result.Data! && x.MentorId == mentor.Id);
 
             assignedtrainee.Should().NotBeNull();
         }

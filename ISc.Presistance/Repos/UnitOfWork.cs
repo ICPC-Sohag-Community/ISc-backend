@@ -2,6 +2,7 @@
 using ISc.Application.Interfaces;
 using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Models.IdentityModels;
+using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 
 namespace ISc.Presistance.Repos
@@ -15,13 +16,14 @@ namespace ISc.Presistance.Repos
             ICPCDbContext context,
             UserManager<Account> userManager,
             IStuffArchiveRepo stuffRepo,
-            IMediaServices mediaServices)
+            IMediaServices mediaServices,
+            IMapper mapper)
         {
             _context = context;
             _repositories = new Hashtable();
 
             Mentors = new MentorRepo(context, userManager, stuffRepo,mediaServices);
-            Trainees = new TraineeRepo(context, userManager, mediaServices);
+            Trainees = new TraineeRepo(context, userManager, mediaServices,mapper);
             Heads = new HeadRepo(context, userManager, stuffRepo, mediaServices);
         }
 

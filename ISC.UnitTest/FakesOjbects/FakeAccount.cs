@@ -5,9 +5,9 @@ using System.Runtime.Serialization;
 
 namespace ISc.UnitTests.FakesOjbects
 {
-    internal class AccountFack : Faker<Account>
+    internal class FakeAccount : Faker<Account>
     {
-        public AccountFack()
+        public FakeAccount()
         {
             // Rule for FirstName
             RuleFor(a => a.FirstName, f => f.Name.FirstName());

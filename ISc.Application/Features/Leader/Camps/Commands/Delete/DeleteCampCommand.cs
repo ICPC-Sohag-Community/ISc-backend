@@ -7,6 +7,7 @@ using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Models;
 using ISc.Shared;
 using MediatR;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ISc.Application.Features.Leader.Camps.Commands.Delete
 {
@@ -38,12 +39,15 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Delete
                 return await Response.FailureAsync("Camp not found.");
             }
 
-            var trainees = camp.Trainees.ToList();
+            var trainees = camp.Trainees?.ToList();
             var isCompleted = DateOnly.FromDateTime(DateTime.Now) >= camp.EndDate;
 
-            foreach(var trainee in trainees)
+            if (!trainees.IsNullOrEmpty())
             {
-                await _unitOfWork.Trainees.DeleteAsync(trainee.Account, trainee, isCompleted);
+                foreach (var trainee in trainees)
+                {
+                    await _unitOfWork.Trainees.DeleteAsync(trainee.Account, trainee, isCompleted);
+                }
             }
 
             _unitOfWork.Repository<Camp>().Delete(camp);
