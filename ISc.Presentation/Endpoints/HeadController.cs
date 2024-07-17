@@ -21,13 +21,14 @@ using ISc.Application.Features.HeadOfCamps.Standing.Queries.GetStanding;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Commands.FilterTraineeById;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetOtherTrainees;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetToFilter;
+using ISc.Domain.Comman.Constant;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISc.Presentation.Endpoints
 {
-    [Authorize]
+    [Authorize(Roles =Roles.Head_Of_Camp)]
     public class HeadController : ApiControllerBase
     {
         private readonly IMediator _mediator;
