@@ -3,27 +3,27 @@ using ISc.Application.Features.HeadOfCamps.Assigning.Commands.UnAssignTrainees;
 using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetMentorAssign;
 using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetTraineeAssignWithPagination;
 using ISc.Application.Features.HeadOfCamps.Attendance.Queries.GetAllAttendance;
+using ISc.Application.Features.HeadOfCamps.Contests.Queries.GetById;
 using ISc.Application.Features.HeadOfCamps.Dashboard.Queries.GetDashbaord;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.Create;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.Delete;
 using ISc.Application.Features.HeadOfCamps.Materials.Commands.UpdateMaterialOrder;
 using ISc.Application.Features.HeadOfCamps.Materials.Queries.GetAllMaterials;
+using ISc.Application.Features.HeadOfCamps.Sessions.Commands.Create;
+using ISc.Application.Features.HeadOfCamps.Sessions.Query.GetAllWithPagination;
+using ISc.Application.Features.HeadOfCamps.Sessions.Query.GetById;
 using ISc.Application.Features.HeadOfCamps.Sheets.Commands.Create;
 using ISc.Application.Features.HeadOfCamps.Sheets.Commands.Delete;
 using ISc.Application.Features.HeadOfCamps.Sheets.Commands.Update;
 using ISc.Application.Features.HeadOfCamps.Sheets.Queries.GetAllWithPagination;
 using ISc.Application.Features.HeadOfCamps.Sheets.Queries.GetById;
+using ISc.Application.Features.HeadOfCamps.Standing.Queries.GetStanding;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Commands.FilterTraineeById;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetOtherTrainees;
 using ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetToFilter;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ISc.Application.Features.HeadOfCamps.Materials.Commands.Update;
-using ISc.Application.Features.HeadOfCamps.Sessions.Query.GetById;
-using ISc.Application.Features.HeadOfCamps.Sessions.Query.GetAllWithPagination;
-using ISc.Application.Features.HeadOfCamps.Contests.Queries.GetById;
-using ISc.Application.Features.HeadOfCamps.Sessions.Commands.Create;
 
 namespace ISc.Presentation.Endpoints
 {
@@ -121,24 +121,24 @@ namespace ISc.Presentation.Endpoints
         {
             return Ok(await _mediator.Send(new GetSessionByIdQuery(id)));
         }
-		[HttpPost("sessions")]
-		public async Task<ActionResult<int>> CreateSession(CreateSessionCommand command)
-		{
-			return Ok(await _mediator.Send(command));
-		}
-		[HttpGet("contests/{id}")]
-		public async Task<ActionResult<GetContestByIdQueryDto>> GetContestById(int id)
-		{
-			return Ok(await _mediator.Send(new GetContestByIdQuery(id)));
-		}
+        [HttpPost("sessions")]
+        public async Task<ActionResult<int>> CreateSession(CreateSessionCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+        [HttpGet("contests/{id}")]
+        public async Task<ActionResult<GetContestByIdQueryDto>> GetContestById(int id)
+        {
+            return Ok(await _mediator.Send(new GetContestByIdQuery(id)));
+        }
 
-		[HttpGet("sessios")]
-		public async Task<ActionResult<GetAllSessionsWithPaginationQueryDto>> GetAllSessions([FromQuery] GetAllSessionsWithPaginationQuery query)
-		{
-			return Ok(await _mediator.Send(query));
-		}
+        [HttpGet("sessios")]
+        public async Task<ActionResult<GetAllSessionsWithPaginationQueryDto>> GetAllSessions([FromQuery] GetAllSessionsWithPaginationQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
 
-		[HttpPut("materials/updateOrders")]
+        [HttpPut("materials/updateOrders")]
         public async Task<ActionResult<int>> UpdateMaterialOrders(UpdateMaterialOrderCommand command)
         {
             return Ok(await _mediator.Send(command));
@@ -156,8 +156,8 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(command));
         }
 
-		[HttpDelete("sheets/{id}")]
-		public async Task<ActionResult<string>>DeleteSheet(int id)
+        [HttpDelete("sheets/{id}")]
+        public async Task<ActionResult<string>> DeleteSheet(int id)
         {
             return Ok(await _mediator.Send(new DeleteSheetByIdCommand(id)));
         }
@@ -166,6 +166,12 @@ namespace ISc.Presentation.Endpoints
         public async Task<ActionResult<GetHeadDashboardQueryDto>> GetDashboard()
         {
             return Ok(await _mediator.Send(new GetHeadDashboardQuery()));
+        }
+
+        [HttpGet("standing")]
+        public async Task<ActionResult<List<GetStandingQueryDto>>> GetStanding()
+        {
+            return Ok(await _mediator.Send(new GetStandingQuery()));
         }
     }
 }

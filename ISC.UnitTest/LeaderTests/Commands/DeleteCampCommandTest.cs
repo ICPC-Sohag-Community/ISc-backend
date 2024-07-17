@@ -2,6 +2,7 @@
 using ISc.Application.Features.Leader.Camps.Commands.Delete;
 using ISc.Domain.Models;
 using ISc.Domain.Models.CommunityStaff;
+using ISc.Presistance.Repos;
 using ISc.UnitTests.FakesOjbects;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -78,6 +79,7 @@ namespace ISc.UnitTests.LeaderTests.Commands
             var campMentor = await unitOfWork.Repository<MentorsOfCamp>().Entities.SingleOrDefaultAsync(x => x.MentorId == mentor.Id);
             var campHead = await unitOfWork.Heads.Entities.SingleOrDefaultAsync(x => x.CampId == camp.Id);
             var campTrainee = await unitOfWork.Trainees.Entities.SingleOrDefaultAsync(x => x.CampId == camp.Id);
+            var traineeArchive = await unitOfWork.Repository<TraineeArchive>().GetAllAsync();
 
             //Assert
             result.IsSuccess.Should().BeTrue();
@@ -85,6 +87,19 @@ namespace ISc.UnitTests.LeaderTests.Commands
             campMentor.Should().BeNull();
             campHead.Should().BeNull();
             campTrainee.Should().BeNull();
+            traineeArchive.Count().Should().Be(1);
+        }
+
+        [Fact]
+        public async Task Handler_WheDeleteCampWithIdNotExist_ReturnIsSuccessFalse()
+        {
+            var unitOfWork = GetUnitOfWork();
+
+            var handler = new DeleteCampCommandHandler(unitOfWork);
+
+            var result = await handler.Handle(new DeleteCampCommand(1), default);
+
+            result.IsSuccess.Should().BeFalse();
         }
     }
 }
