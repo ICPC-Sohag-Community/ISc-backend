@@ -23,6 +23,7 @@ using ISc.Application.Features.HeadOfCamps.Materials.Commands.Update;
 using ISc.Application.Features.HeadOfCamps.Sessions.Query.GetById;
 using ISc.Application.Features.HeadOfCamps.Sessions.Query.GetAllWithPagination;
 using ISc.Application.Features.HeadOfCamps.Contests.Queries.GetById;
+using ISc.Application.Features.HeadOfCamps.Sessions.Commands.Create;
 
 namespace ISc.Presentation.Endpoints
 {
@@ -90,6 +91,7 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(new GetOtherTraineesQuery(traineesIds)));
         }
 
+
         [HttpPost("materials")]
         public async Task<ActionResult<int>> CreateMaterial(CreateMaterialCommand command)
         {
@@ -119,7 +121,11 @@ namespace ISc.Presentation.Endpoints
         {
             return Ok(await _mediator.Send(new GetSessionByIdQuery(id)));
         }
-
+		[HttpPost("sessions")]
+		public async Task<ActionResult<int>> CreateSession(CreateSessionCommand command)
+		{
+			return Ok(await _mediator.Send(command));
+		}
 		[HttpGet("contests/{id}")]
 		public async Task<ActionResult<GetContestByIdQueryDto>> GetContestById(int id)
 		{
