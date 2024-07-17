@@ -15,7 +15,7 @@ namespace ISc.Application.Comman.Mapping
         public void Register(TypeAdapterConfig config)
         {
             config.NewConfig<Account, TraineeArchive>()
-                .Ignore(dest => dest.Id);
+                .Ignore(x=>x.Id);
         }
     }
 }

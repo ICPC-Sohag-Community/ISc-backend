@@ -6,6 +6,7 @@ using ISc.Domain.Models.IdentityModels;
 using ISc.Infrastructure.Services.Media;
 using ISc.Presistance;
 using ISc.Presistance.Repos;
+using ISc.UnitTests.FakesOjbects;
 using Mapster;
 using MapsterMapper;
 using MediatR;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
+using System.Reflection;
 
 namespace ISc.UnitTests
 {
@@ -73,19 +75,18 @@ namespace ISc.UnitTests
                 builder.AddDebug();
             });
 
+            var config = TypeAdapterConfig.GlobalSettings;
+            config.Scan(Assembly.GetAssembly(new Application.Comman.Mapping.MentorMapping().GetType())!);
+            services.AddSingleton(config);
+
+            services.AddScoped<IMapper, ServiceMapper>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IStuffArchiveRepo, StuffArhciveRepo>();
-            services.AddTransient<IMapper>(provider =>
-            {
-                var config = new TypeAdapterConfig();
-                return new Mapper(config);
-            });
             services.AddTransient<IMediaServices, MediaServices>();
             services.AddSingleton(mockWebHostEnvironment.Object);
             services.AddSingleton(mockConfiguration.Object);
             services.AddSingleton(mockMediator.Object);
         }
-
 
         public UserManager<Account> GetUserManager()
         {
@@ -111,22 +112,7 @@ namespace ISc.UnitTests
         {
             var userManager = GetUserManager();
 
-            var user = new Account()
-            {
-                FirstName = "ahmed",
-                MiddleName = "ahmed",
-                LastName = "ahmed",
-                NationalId = "11111111111111",
-                BirthDate = DateOnly.MaxValue,
-                CodeForceHandle = "ABC",
-                College = College.Science,
-                Email = "test@gmail.com",
-                CreationDate = DateTime.Now,
-                Gender = Gender.Male,
-                Grade = 4,
-                PhoneNumber = "0112434444",
-                UserName = "TestUser"
-            };
+            var user = new FakeAccount().Generate();
 
             await userManager.CreateAsync(user);
 

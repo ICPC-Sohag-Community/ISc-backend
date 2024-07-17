@@ -6,6 +6,7 @@ using ISc.Domain.Comman.Dtos;
 using ISc.Domain.Models;
 using ISc.Domain.Models.IdentityModels;
 using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,16 +17,18 @@ namespace ISc.Presistance.Repos
         private readonly ICPCDbContext _context;
         private readonly UserManager<Account> _userManager;
         private readonly IMediaServices _mediaServices;
-
+        private readonly IMapper _mapper;
 
         public TraineeRepo(
             ICPCDbContext context,
             UserManager<Account> userManager,
-            IMediaServices mediaServices)
+            IMediaServices mediaServices,
+            IMapper mapper)
         {
             _context = context;
             _userManager = userManager;
             _mediaServices = mediaServices;
+            _mapper = mapper;
         }
         public IQueryable<Trainee> Entities => _context.Trainees;
 
@@ -91,7 +94,8 @@ namespace ISc.Presistance.Repos
            
             if (archive is null)
             {
-                archive = account.Adapt<TraineeArchive>();
+                archive = account.Adapt<TraineeArchive>(_mapper.Config);
+                
                 FillArchive(isComplete, campName, archive);
 
                 await _context.TraineesArchives.AddAsync(archive);
