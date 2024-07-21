@@ -6,7 +6,7 @@ using ISc.Domain.Models.IdentityModels;
 using ISc.Infrastructure.Services.Media;
 using ISc.Presistance;
 using ISc.Presistance.Repos;
-using ISc.UnitTests.FakesOjbects;
+using ISc.UnitTests.FakesObjects;
 using Mapster;
 using MapsterMapper;
 using MediatR;

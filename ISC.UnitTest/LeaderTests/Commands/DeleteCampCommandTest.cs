@@ -3,7 +3,7 @@ using ISc.Application.Features.Leader.Camps.Commands.Delete;
 using ISc.Domain.Models;
 using ISc.Domain.Models.CommunityStaff;
 using ISc.Presistance.Repos;
-using ISc.UnitTests.FakesOjbects;
+using ISc.UnitTests.FakesObjects;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

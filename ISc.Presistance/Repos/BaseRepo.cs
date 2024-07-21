@@ -1,8 +1,5 @@
-﻿using ISc.Application.Dtos.Standing;
-using ISc.Application.Interfaces.Repos;
-using ISc.Domain.Models;
+﻿using ISc.Application.Interfaces.Repos;
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ISc.Presistance.Repos
 {

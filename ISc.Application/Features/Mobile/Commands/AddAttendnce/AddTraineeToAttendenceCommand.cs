@@ -1,4 +1,5 @@
-﻿using ISc.Application.Interfaces.Repos;
+﻿using ISc.Application.Interfaces;
+using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Models;
 using ISc.Shared;
 using MediatR;
@@ -15,12 +16,17 @@ namespace ISc.Application.Features.Mobile.Commands.AddAttendnce
     internal class AddTraineeToAttendenceCommandHandler : IRequestHandler<AddTraineeToAttendenceCommand, Response>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMediaServices _mediaServices;
         private readonly IDataProtector _dataProtector;
 
-        public AddTraineeToAttendenceCommandHandler(IUnitOfWork unitOfWork, IDataProtectionProvider dataProvider)
+        public AddTraineeToAttendenceCommandHandler(
+            IUnitOfWork unitOfWork,
+            IDataProtectionProvider dataProvider,
+            IMediaServices mediaServices)
         {
             _unitOfWork = unitOfWork;
             _dataProtector = dataProvider.CreateProtector("SecureId");
+            _mediaServices = mediaServices;
         }
 
         public async Task<Response> Handle(AddTraineeToAttendenceCommand command, CancellationToken cancellationToken)
@@ -36,17 +42,17 @@ namespace ISc.Application.Features.Mobile.Commands.AddAttendnce
 
             if (trainee.CampId != command.CampId)
             {
-                return await Response.FailureAsync("No Current seession for this trainee.");
+                return await Response.FailureAsync("No current seession for this trainee.");
             }
 
-            var Session = trainee.Camp.Sessions.FirstOrDefault(i => i.StartDate.Date >= DateTime.Now.Date);
+            var Session = trainee.Camp.Sessions.FirstOrDefault(i => i.StartDate.Date == DateTime.Now.Date);
 
             if (Session == null)
             {
                 return await Response.FailureAsync("There is no session for now.");
             }
 
-            if(await _unitOfWork.Repository<TraineeAttendence>().Entities.AnyAsync(x=>x.TraineeId == command.TraineeId && x.SessionId == Session.Id))
+            if (await _unitOfWork.Repository<TraineeAttendence>().Entities.AnyAsync(x => x.TraineeId == command.TraineeId && x.SessionId == Session.Id))
             {
                 return await Response.FailureAsync("Trainee already attend.");
             }
@@ -60,7 +66,13 @@ namespace ISc.Application.Features.Mobile.Commands.AddAttendnce
 
             await _unitOfWork.SaveAsync();
 
-            return await Response.SuccessAsync("Success");
+            var traineeAccount = trainee.Account;
+
+            return await Response.SuccessAsync(new AddTraineeToAttendenceCommandDto()
+            {
+                ImageUrl = _mediaServices.GetUrl(traineeAccount.PhotoUrl)!,
+                Name = traineeAccount.FirstName + ' ' + traineeAccount.MiddleName + ' ' + traineeAccount.LastName
+            }, "Success");
         }
     }
 }

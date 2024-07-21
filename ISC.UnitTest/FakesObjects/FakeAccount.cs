@@ -3,7 +3,7 @@ using ISc.Domain.Comman.Enums;
 using ISc.Domain.Models.IdentityModels;
 using System.Runtime.Serialization;
 
-namespace ISc.UnitTests.FakesOjbects
+namespace ISc.UnitTests.FakesObjects
 {
     internal class FakeAccount : Faker<Account>
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ISc.UnitTests.FakesOjbects
+namespace ISc.UnitTests.FakesObjects
 {
     internal class FakeCamp:Faker<Camp>
     {
