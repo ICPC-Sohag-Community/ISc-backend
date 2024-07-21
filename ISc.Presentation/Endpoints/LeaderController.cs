@@ -156,7 +156,7 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("traineesArchiveWithPagination")]
-        public async Task<ActionResult<GetAllTraineesArchiveWithPaginationQueryDto>> GetTraineesArchive([FromQuery]GetAllTraineesArchiveWithPaginationQuery query)
+        public async Task<ActionResult<GetAllTraineesArchiveWithPaginationQueryDto>> GetTraineesArchive([FromQuery] GetAllTraineesArchiveWithPaginationQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
@@ -210,7 +210,7 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("standing")]
-        public async Task<ActionResult<GetStandingByCampIdQueryDto>>GetStanding(int campId)
+        public async Task<ActionResult<GetStandingByCampIdQueryDto>> GetStanding(int campId)
         {
             return Ok(await _mediator.Send(new GetStandingByCampIdQuery(campId)));
         }

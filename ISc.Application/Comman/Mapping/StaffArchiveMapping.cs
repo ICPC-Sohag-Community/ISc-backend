@@ -15,7 +15,8 @@ namespace ISc.Application.Comman.Mapping
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<Account,StaffArchive>();
+            config.NewConfig<Account, StaffArchive>()
+                .Ignore(dest => dest.Id);
             config.NewConfig<StaffArchive, GetAllStaffsArchiveWithPaginationQueryDto>();
         }
     }

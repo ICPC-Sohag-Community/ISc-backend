@@ -25,7 +25,10 @@ namespace ISc.Presistance.Repos
 
             if (entity is null)
             {
-                await _context.AddAsync(member.Adapt<StaffArchive>());
+                entity = member.Adapt<StaffArchive>();
+                entity.Role = role;
+                await _context.AddAsync(entity);
+
             }
             else
             {

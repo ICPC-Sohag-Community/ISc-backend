@@ -2,6 +2,7 @@
 using ISc.Domain.Models;
 using ISc.Shared;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISc.Application.Features.Leader.Camps.Commands.Empty
 {
@@ -43,16 +44,21 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Empty
                 await _unitOfWork.Trainees.DeleteAsync(trainee.Account, trainee, isCompleted);
             }
 
-            foreach (var mentor in mentors)
-            {
-                var entity = mentor.Mentor;
-                await _unitOfWork.Mentors.Delete(entity.Account, entity, camp.Id);
-            }
+            //foreach (var mentor in mentors)
+            //{
+            //    var entity = mentor.Mentor;
+            //    await _unitOfWork.Mentors.Delete(entity.Account, entity, camp.Id);
+            //}
+            var subscribes = await _unitOfWork.Repository<MentorsOfCamp>().Entities
+                              .Where(x => x.CampId == camp.Id)
+                              .ToListAsync(cancellationToken);
 
-            foreach (var head in heads)
-            {
-                await _unitOfWork.Heads.Delete(head.Account, head);
-            }
+            _unitOfWork.Repository<MentorsOfCamp>().DeleteRange(subscribes);
+
+            //foreach (var head in heads)
+            //{
+            //    await _unitOfWork.Heads.Delete(head.Account, head);
+            //}
 
             camp.OpenForRegister = false;
 

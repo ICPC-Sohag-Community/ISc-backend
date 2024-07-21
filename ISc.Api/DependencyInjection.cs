@@ -59,6 +59,8 @@ namespace ISc.Api
                 };
             });
 
+            services.AddHttpContextAccessor();
+
             services.Configure<IdentityOptions>(options =>
             {
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);

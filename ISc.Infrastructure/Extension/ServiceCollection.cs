@@ -13,6 +13,7 @@ using Hangfire;
 using ISc.Infrastructure.Services.Time;
 using System.ComponentModel.Design;
 using ISc.Infrastructure.Services.Helper;
+using Microsoft.AspNetCore.Http;
 
 namespace ISc.Infrastructure.Extension
 {
@@ -68,8 +69,7 @@ namespace ISc.Infrastructure.Extension
                     .AddTransient<IApiRequestsServices, ApiReqeustService>()
                     .AddTransient<IJobServices, JobService>()
                     .AddTransient<ITimeServices, TimeService>()
-                    .AddTransient<IHelperService,HelperService>();
-
+                    .AddTransient<IHelperService, HelperService>();
             return services;
         }
 

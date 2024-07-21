@@ -1,7 +1,7 @@
 ﻿using ISc.Application.Features.HeadOfCamps.Assigning.Commands.AssignTrainees;
 using ISc.Application.Features.HeadOfCamps.Assigning.Commands.UnAssignTrainees;
 using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetMentorAssign;
-using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetTraineeAssignWithPagination;
+using ISc.Application.Features.HeadOfCamps.Assigning.Queries.GetTraineeAssign;
 using ISc.Application.Features.HeadOfCamps.Attendance.Queries.GetAllAttendance;
 using ISc.Application.Features.HeadOfCamps.Contests.Queries.GetById;
 using ISc.Application.Features.HeadOfCamps.Dashboard.Queries.GetDashbaord;
@@ -51,7 +51,7 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("assign/trainees")]
-        public async Task<ActionResult<List<GetTraineeAssignWithPaginationQueryDto>>> GetUnAssignedTrainees([FromQuery] GetTraineeAssignWithPaginationQuery query)
+        public async Task<ActionResult<List<GetTraineeAssignQueryDto>>> GetUnAssignedTrainees([FromQuery] GetTraineeAssignQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
