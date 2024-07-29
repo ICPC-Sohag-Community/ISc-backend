@@ -107,10 +107,8 @@ namespace ISc.Application.Features.Leader.Camps.Commands.Update
                 else
                 {
                     var newHead = new HeadOfCamp() { Id = headId, CampId = command.id };
-                    await _unitOfWork.Heads.AddAsync(new() { Member = newHead });
-
                     var user = await _userManager.FindByIdAsync(newHead.Id);
-                    await _userManager.AddToRoleAsync(user!, Roles.Head_Of_Camp);
+                    await _unitOfWork.Heads.AddAsync(new() { Account = user, Member = newHead });
                 }
             }
 

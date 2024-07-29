@@ -8,5 +8,6 @@ namespace ISc.Domain.Models.CommunityStaff
         public string? About { get; set; }
         public virtual ICollection<Trainee> Trainees { get; set; }
         public virtual ICollection<MentorsOfCamp> Camps { get; set; }
+        public virtual ICollection<Practice> Practices { get; set; }
     }
 }

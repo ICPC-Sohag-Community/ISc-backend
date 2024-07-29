@@ -4,6 +4,7 @@ using ISc.Presistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISc.Presistance.Migrations
 {
     [DbContext(typeof(ICPCDbContext))]
-    partial class ICPCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240728091959_MentorPractice")]
+    partial class MentorPractice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -451,9 +454,6 @@ namespace ISc.Presistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CampId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
@@ -475,8 +475,6 @@ namespace ISc.Presistance.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CampId");
 
                     b.HasIndex("MentorId");
 
@@ -1125,19 +1123,11 @@ namespace ISc.Presistance.Migrations
 
             modelBuilder.Entity("ISc.Domain.Models.Practice", b =>
                 {
-                    b.HasOne("ISc.Domain.Models.Camp", "Camp")
-                        .WithMany()
-                        .HasForeignKey("CampId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ISc.Domain.Models.CommunityStaff.Mentor", "Mentor")
                         .WithMany("Practices")
                         .HasForeignKey("MentorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Camp");
 
                     b.Navigation("Mentor");
                 });

@@ -33,7 +33,7 @@ namespace ISc.Application.Features.Leader.Standing.Queries.GetStandingByCampId
         {
             var entities = await _unitOfWork.GetStandingAsync(query.CampId);
 
-            var standing = entities.Adapt<List<GetStandingByCampIdQueryDto>>();
+            var standing = entities.Adapt<GetStandingByCampIdQueryDto>();
 
             return await Response.SuccessAsync(standing);
         }

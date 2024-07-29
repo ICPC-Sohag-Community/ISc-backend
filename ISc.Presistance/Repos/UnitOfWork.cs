@@ -1,6 +1,7 @@
 ﻿using ISc.Application.Dtos.Standing;
 using ISc.Application.Interfaces;
 using ISc.Application.Interfaces.Repos;
+using ISc.Domain.Comman.Enums;
 using ISc.Domain.Models.IdentityModels;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
@@ -45,19 +46,32 @@ namespace ISc.Presistance.Repos
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<ICollection<StandingDto>> GetStandingAsync(int campId)
+        public async Task<StandingDto> GetStandingAsync(int campId)
         {
-            return await _context.Trainees
+            var achivers = await _context.Trainees
                         .Where(x => x.CampId == campId)
-                        .Select(x => new StandingDto()
+                        .Select(x => new AchiverDto()
                         {
                             Id = x.Id,
                             FirstName = x.Account.FirstName,
                             MiddleName = x.Account.MiddleName,
                             LastName = x.Account.LastName,
-                            CodeForceHandle = x.Account.CodeForceHandle
+                            CodeForceHandle = x.Account.CodeForceHandle,
+                            MentorName = x.Mentor.Account.FirstName + ' ' + x.Mentor.Account.MiddleName,
+                            Points = x.Points,
+                            SolvedProblems =x.Sheets.Count()
                         }).AsNoTracking()
                         .ToListAsync();
+
+            var totalProblems = await _context.Sheets
+                .Where(x => x.Status == SheetStatus.Completed || x.Status == SheetStatus.InProgress)
+                .SumAsync(x => x.ProblemCount);
+
+            return new StandingDto()
+            {
+                Achivers = achivers,
+                TotalProblems = totalProblems
+            };
         }
 
         IBaseRepo<T> IUnitOfWork.Repository<T>()

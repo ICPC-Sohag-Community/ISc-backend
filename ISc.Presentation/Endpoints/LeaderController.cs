@@ -1,4 +1,5 @@
-﻿using ISc.Application.Features.Leader.Accounts.Commands.Create;
+﻿using ISc.Application.Features.Camps.Queries.GetCampsOpenRegister;
+using ISc.Application.Features.Leader.Accounts.Commands.Create;
 using ISc.Application.Features.Leader.Archives.Commands.DeleteTraineeById;
 using ISc.Application.Features.Leader.Archives.Queries.GetAllStaffsArchiveWithPagination;
 using ISc.Application.Features.Leader.Archives.Queries.GetAllTraineesArchiveWithPagination;
@@ -213,6 +214,12 @@ namespace ISc.Presentation.Endpoints
         public async Task<ActionResult<GetStandingByCampIdQueryDto>> GetStanding(int campId)
         {
             return Ok(await _mediator.Send(new GetStandingByCampIdQuery(campId)));
+        }
+
+        [HttpGet("openCampsRegister")]
+        public async Task<ActionResult<GetCampsOpenRegisterQueryDto>> GetOpenCampsRegisteration()
+        {
+            return Ok(await _mediator.Send(new GetCampsOpenRegisterQuery()));
         }
     }
 }

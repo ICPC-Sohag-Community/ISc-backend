@@ -77,7 +77,7 @@ namespace ISc.Application.Features.HeadOfCamps.WeeklyFilter.Queries.GetToFilter
                                     .ToListAsync(cancellationToken);
 
             var toFilter = new List<GetToFilterQueryDto>();
-            var minimumAttendance = attendances.Select(x => x.SessionId).Distinct().Count() - 3;
+            var minimumAttendance = attendances.Select(x => x.SessionId).Distinct().Count() - 2;
 
             foreach (var trainee in trainees)
             {

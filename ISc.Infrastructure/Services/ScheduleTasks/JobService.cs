@@ -19,7 +19,7 @@ namespace ISc.Infrastructure.Services.ScheduleTasks
         public void TrackingContest(Contest contest)
         {
 
-            var executeTime = DateTimeOffset.Parse(contest.EndTime.ToString()!).AddMinutes(30);
+            var executeTime = DateTimeOffset.Parse(contest.EndTime.ToString()!).AddMinutes(10);
 
             BackgroundJob.Schedule<RecordContestSolvedProblems>("Update-Trainees-Contest-Problems", x => x.Record(contest.Id), executeTime);
         }

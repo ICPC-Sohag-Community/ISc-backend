@@ -38,7 +38,7 @@ namespace ISc.Application.Features.HeadOfCamps.Standing.Queries.GetStanding
 
             var entities = await _unitOfWork.GetStandingAsync(head.CampId);
 
-            var standing = entities.Adapt<List<GetStandingQueryDto>>();
+            var standing = entities.Adapt<GetStandingQueryDto>();
 
             return await Response.SuccessAsync(standing);
         }
