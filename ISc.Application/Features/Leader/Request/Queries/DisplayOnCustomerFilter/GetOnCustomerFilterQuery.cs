@@ -1,4 +1,5 @@
 ﻿using ISc.Application.Dtos.CodeForce;
+using ISc.Application.Features.Leader.Request.Queries.DisplayAll;
 using ISc.Application.Interfaces;
 using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Enums;
@@ -16,6 +17,7 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilte
         public int CampId { get; set; }
         public List<FilterationModel> Filters { get; set; }
         public List<int> RegisterationIds { get; set; }
+        public GetOnCustomerFilterQueryDtoColumn? SortBy { get; set; }
     }
     public record FilterationModel
     {
@@ -49,9 +51,30 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilte
                 return await Response.FailureAsync("Request not found.", System.Net.HttpStatusCode.NotFound);
             }
 
-            var trainees = await _unitOfWork.Repository<NewRegisteration>().Entities
-                          .Where(x => query.RegisterationIds.Contains(x.Id))
-                          .ToListAsync();
+            var entities = _unitOfWork.Repository<NewRegisteration>().Entities
+                          .Where(x => query.RegisterationIds.Contains(x.Id));
+
+            if (query.SortBy is not null)
+            {
+                if (query.SortBy == GetOnCustomerFilterQueryDtoColumn.Gender)
+                {
+                    entities = entities.OrderBy(x => x.Gender);
+                }
+                else if (query.SortBy == GetOnCustomerFilterQueryDtoColumn.Year)
+                {
+                    entities = entities.OrderBy(x => x.Grade);
+                }
+                else if (query.SortBy == GetOnCustomerFilterQueryDtoColumn.College)
+                {
+                    entities = entities.OrderBy(x => x.College);
+                }
+                else if (query.SortBy == GetOnCustomerFilterQueryDtoColumn.HasLaptop)
+                {
+                    entities = entities.OrderByDescending(x => x.HasLaptop);
+                }
+            }
+
+            var trainees = await entities.ToListAsync();
 
             var sheetsInfo = await GetCodeForceSheetsInfo(query.Filters);
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ISc.Application.Features.Leader.Camps.Queries.GetCampEditById;
-using ISc.Application.Interfaces.Repos;
+﻿using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Models;
 using ISc.Shared;
 using Mapster;
@@ -17,6 +11,7 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayAll
     public record GetAllRegisterationQuery : IRequest<Response>
     {
         public int CampId { get; set; }
+        public GetAllRegisterationQueryDtoColumn? SortBy { get; set; }
 
         public GetAllRegisterationQuery(int campId)
         {
@@ -39,12 +34,33 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayAll
 
         public async Task<Response> Handle(GetAllRegisterationQuery query, CancellationToken cancellationToken)
         {
-            var entities = await _unitOfWork.Repository<NewRegisteration>().Entities
-                        .Where(x => x.CampId == query.CampId)
-                        .ProjectToType<GetAllRegisterationQueryDto>(_mapper.Config)
-                        .ToListAsync(cancellationToken);
+            var entities = _unitOfWork.Repository<NewRegisteration>().Entities
+                        .Where(x => x.CampId == query.CampId);
 
-            return await Response.SuccessAsync(entities);
+            if (query.SortBy is not null)
+            {
+                if (query.SortBy == GetAllRegisterationQueryDtoColumn.Gender)
+                {
+                    entities=entities.OrderBy(x=>x.Gender);
+                }
+                else if (query.SortBy == GetAllRegisterationQueryDtoColumn.Year)
+                {
+                    entities=entities.OrderBy(x=>x.Grade);
+                }
+                else if (query.SortBy == GetAllRegisterationQueryDtoColumn.College)
+                {
+                    entities = entities.OrderBy(x => x.College);
+                }
+                else if (query.SortBy == GetAllRegisterationQueryDtoColumn.HasLaptop)
+                {
+                    entities = entities.OrderByDescending(x => x.HasLaptop);
+                }
+            }
+
+            var requests = await entities.ProjectToType<GetAllRegisterationQueryDto>(_mapper.Config)
+                                        .ToListAsync(cancellationToken);
+
+            return await Response.SuccessAsync(requests);
         }
     }
 }

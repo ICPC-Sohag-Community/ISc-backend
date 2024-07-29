@@ -20,4 +20,12 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayAll
         public bool HasLaptop { get; set; }
         public string CodeForceHandle { get; set; }
     }
+
+    public enum GetAllRegisterationQueryDtoColumn
+    {
+        College,
+        Year,
+        Gender,
+        HasLaptop
+    }
 }

@@ -27,4 +27,12 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter
         public string? Comment { get; set; }
         public bool HasLaptop { get; set; }
     }
+    
+    public enum GetRegisterationOnSystemFilterQueryDtoColumn
+    {
+        College,
+        Year,
+        Gender,
+        HasLaptop
+    }
 }

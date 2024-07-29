@@ -12,6 +12,7 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter
     {
         public int CampId { get; set; }
         public List<int> RegisterationId { get; set; }
+        public GetRegisterationOnSystemFilterQueryDtoColumn? SortBy { get; set; }
     }
 
     internal class DisplayOnSystemFilterQueryHandler : IRequestHandler<GetRegisterationOnSystemFilterQuery, Response>
@@ -40,15 +41,35 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter
                                 .Where(x => x.CampName.Trim().ToLower() == camp.Name.Trim().ToLower())
                                 .ToListAsync(cancellationToken);
 
-            var campRequests = await _unitOfWork.Repository<NewRegisteration>().Entities
-                            .Where(x=>query.RegisterationId.Contains(x.Id))
+            var entities = _unitOfWork.Repository<NewRegisteration>().Entities
+                            .Where(x => query.RegisterationId.Contains(x.Id))
                             .Where(x => x.CampId == query.CampId)
                             .Where(x => !archive.Any(r => (r.FirstName + r.MiddleName + r.LastName).Trim().ToLower() == (x.FirstName + x.MiddleName + x.LastName).Trim().ToLower()))
                             .Where(x => !archive.Any(r => r.NationalId == x.NationalId))
                             .Where(x => !archive.Any(r => r.CodeForceHandle == x.CodeForceHandle))
                             .Where(x => !archive.Any(r => r.PhoneNumber == x.PhoneNumber))
-                            .Where(x => !archive.Any(r => r.Email == x.Email))
-                            .ProjectToType<GetRegisterationOnSystemFilterQueryDto>(_mapper.Config)
+                            .Where(x => !archive.Any(r => r.Email == x.Email));
+
+            if (query.SortBy is not null)
+            {
+                if (query.SortBy == GetRegisterationOnSystemFilterQueryDtoColumn.Gender)
+                {
+                    entities = entities.OrderBy(x => x.Gender);
+                }
+                else if (query.SortBy == GetRegisterationOnSystemFilterQueryDtoColumn.Year)
+                {
+                    entities = entities.OrderBy(x => x.Grade);
+                }
+                else if (query.SortBy == GetRegisterationOnSystemFilterQueryDtoColumn.College)
+                {
+                    entities = entities.OrderBy(x => x.College);
+                }
+                else if (query.SortBy == GetRegisterationOnSystemFilterQueryDtoColumn.HasLaptop)
+                {
+                    entities = entities.OrderByDescending(x => x.HasLaptop);
+                }
+            }
+            var campRequests = await entities.ProjectToType<GetRegisterationOnSystemFilterQueryDto>(_mapper.Config)
                             .ToListAsync(cancellationToken);
 
             return await Response.SuccessAsync(campRequests);

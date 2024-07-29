@@ -27,4 +27,12 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilte
         public string? Comment { get; set; }
         public bool HasLaptop { get; set; }
     }
+
+    public enum GetOnCustomerFilterQueryDtoColumn
+    {
+        College,
+        Year,
+        Gender,
+        HasLaptop
+    }
 }

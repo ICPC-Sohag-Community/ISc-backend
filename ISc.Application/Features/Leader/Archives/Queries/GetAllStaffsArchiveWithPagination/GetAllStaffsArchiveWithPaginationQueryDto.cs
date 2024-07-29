@@ -21,7 +21,7 @@ namespace ISc.Application.Features.Leader.Archives.Queries.GetAllStaffsArchiveWi
 			public string College { get; set; }
 		}
 
-		public enum Filters
+		public enum GetAllTraineesArchiveWithPaginationQueryDtoColumn
 		{
 			College,
 			Gender,
