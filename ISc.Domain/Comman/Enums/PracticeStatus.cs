@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ISc.Domain.Comman.Enums
 {
-    public enum PracticeState:byte
+    public enum PracticeStatus:byte
     {
         ToDo,
         Done

@@ -19,9 +19,6 @@ namespace ISc.Presistance.EntitiesConfigurations
                 .HasPrincipalKey<Account>(x => x.Id)
                 .HasForeignKey<Trainee>(x => x.Id);
 
-            builder.HasMany(x => x.Tasks)
-                .WithOne()
-                .HasForeignKey(x => x.TraineeId);
 
             builder.HasOne(x => x.Mentor)
                 .WithMany(x => x.Trainees)

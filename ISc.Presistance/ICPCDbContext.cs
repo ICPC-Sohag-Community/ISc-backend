@@ -3,17 +3,22 @@ using ISc.Domain.Models;
 using ISc.Domain.Models.CommunityStaff;
 using ISc.Domain.Models.IdentityModels;
 using ISc.Presistance.EntitiesConfigurations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ISc.Presistance
 {
     public class ICPCDbContext : IdentityDbContext<Account>
     {
-        public ICPCDbContext(DbContextOptions options) : base(options)
+        private readonly IHttpContextAccessor _contextAccessor;
+        public ICPCDbContext(
+            DbContextOptions options,
+            IHttpContextAccessor contextAccessor) : base(options)
         {
-
+            _contextAccessor = contextAccessor;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,6 +44,9 @@ namespace ISc.Presistance
         }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            var claim = _contextAccessor.HttpContext is null || _contextAccessor.HttpContext.User is null ?
+                null : _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
             foreach (var entity in ChangeTracker
                 .Entries()
                 .Where(x => x.Entity is IAuditable && x.State == EntityState.Added)
@@ -46,6 +54,18 @@ namespace ISc.Presistance
                 .Cast<IAuditable>())
             {
                 entity.CreationDate = DateTime.Now;
+            }
+
+            if(claim is not null)
+            {
+                foreach (var entity in ChangeTracker
+                .Entries()
+                .Where(x => x.Entity is Auditable && x.State == EntityState.Added)
+                .Select(x => x.Entity)
+                .Cast<Auditable>())
+                {
+                    entity.CreatedBy = claim.Value;
+                }
             }
 
             return base.SaveChangesAsync(cancellationToken);

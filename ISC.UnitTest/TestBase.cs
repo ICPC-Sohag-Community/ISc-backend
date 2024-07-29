@@ -11,6 +11,7 @@ using Mapster;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -62,12 +63,15 @@ namespace ISc.UnitTests
             services.AddIdentity<Account, IdentityRole>()
                .AddEntityFrameworkStores<ICPCDbContext>()
                .AddDefaultTokenProviders();
+            var context = new Mock<IHttpContextAccessor>();
+
+            context.SetupGet(x => x.HttpContext)
+                .Returns(new DefaultHttpContext());
 
             services.AddSingleton(provider =>
             {
-                return new ICPCDbContext(_dbContextOptions);
+                return new ICPCDbContext(_dbContextOptions, context.Object);
             });
-
 
             services.AddLogging(builder =>
             {

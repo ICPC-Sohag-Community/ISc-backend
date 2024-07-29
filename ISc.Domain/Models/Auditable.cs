@@ -10,5 +10,6 @@ namespace ISc.Domain.Models
     public class Auditable:IAuditable
     {
         public DateTime CreationDate { get; set; }
+        public string? CreatedBy { get; set ; }
     }
 }

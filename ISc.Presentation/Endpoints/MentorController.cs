@@ -1,4 +1,5 @@
-﻿using ISc.Application.Features.Mentors.Attendance.Queries.GetAttendance;
+﻿using ISc.Application.Dtos.Standing;
+using ISc.Application.Features.Mentors.Attendance.Queries.GetAttendance;
 using ISc.Application.Features.Mentors.Contests.Queries.GetTraineesContests;
 using ISc.Application.Features.Mentors.Sheets.Queries.TraineesSheetsQuery;
 using ISc.Application.Features.Mentors.Standing.Queries.GetStanding;
@@ -34,28 +35,29 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpGet("attendances")]
-        public async Task<ActionResult<GetAttendanceQueryDto>>GetAttendance(int campId)
+        public async Task<ActionResult<GetAttendanceQueryDto>> GetAttendance(int campId)
         {
             return Ok(await _mediator.Send(new GetAttendanceQuery(campId)));
         }
 
-        [HttpGet("standing/campId")]
-        public async Task<ActionResult<GetStandingQueryDto>> GetStanding(int campId)
-        {
-            return Ok(await _mediator.Send(new GetStandingQuery(campId)));
-        }
-
-        [HttpGet("sheetsTracking/campId")]
-        public async Task<ActionResult<GetTraineesSheetsQueryDto>> GetTraineesSheetsTracking(int campId)
+        [HttpGet("sheetsTracking/{campId}")]
+        public async Task<ActionResult<string>> GetTraineesSheetsTracking(int campId)
         {
             return Ok(await _mediator.Send(new GetTraineesSheetsQuery(campId)));
         }
 
-        [HttpGet("contestsTracking/campId")]
-        public async Task<ActionResult<GetTraineesContestsQueryDto>>GetTraineesContestsTracking(int campId)
+        [HttpGet("standing/{campId}")]
+        public async Task<ActionResult<StandingDto>> GetStanding(int campId)
+        {
+            return Ok(await _mediator.Send(new GetStandingQuery(campId)));
+        }
+
+        [HttpGet("contestsTracking/{campId}")]
+        public async Task<ActionResult<GetTraineesContestsQueryDto>> GetTraineesContestsTracking(int campId)
         {
             return Ok(await _mediator.Send(new GetTraineesContestsQuery(campId)));
         }
+
     }
 }
 
