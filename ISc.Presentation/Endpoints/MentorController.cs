@@ -66,13 +66,13 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(new GetTraineesContestsQuery(campId)));
         }
 
-        [HttpGet("tasks/{campId}")]
+        [HttpGet("tasksOnStatus/{campId}")]
         public async Task<ActionResult<GetTasksByStatusQueryDto>> GetTasks(int campId)
         {
             return Ok(await _mediator.Send(new GetTasksByStatusQuery(campId)));
         }
 
-        [HttpPost("tasksOnStatus")]
+        [HttpPost("tasks")]
         public async Task<ActionResult<string>> CreateTask(CreateTaskCommand command)
         {
             return Ok(await _mediator.Send(command));
