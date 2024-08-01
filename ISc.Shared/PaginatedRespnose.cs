@@ -1,6 +1,6 @@
-﻿using System.Net;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using ISc.Shared.Extensions;
+using System.Net;
 
 namespace ISc.Shared
 {
@@ -12,7 +12,7 @@ namespace ISc.Shared
         }
         public PaginatedRespnose()
         {
-            
+
         }
         public PaginatedRespnose(bool succeeded, List<T> data = default,
                                string message = null,
@@ -41,6 +41,16 @@ namespace ISc.Shared
         public static PaginatedRespnose<T> Create(List<T> data, int count, int pageNumber, int pageSize)
         {
             return new PaginatedRespnose<T>(true, data, null, null, count, HttpStatusCode.OK, pageNumber, pageSize);
+        }
+
+        public static async Task<PaginatedRespnose<T>> FailureAsync(string message, HttpStatusCode statusCode)
+        {
+            return new PaginatedRespnose<T>()
+            {
+                Message = message,
+                StatusCode = statusCode,
+                IsSuccess = false
+            };
         }
     }
 }

@@ -48,13 +48,13 @@ namespace ISc.Application.Features.Mentors.Sheets.Queries.TraineesSheetsQuery
 
             var sheets = await _unitOfWork.Repository<Sheet>().Entities
                         .Where(x => x.CampId == query.CampId && (x.Status == SheetStatus.Completed || x.Status == SheetStatus.InProgress))
-                        .ProjectToType<SheetDto>()
+                        .ProjectToType<GetSheetDto>()
                         .ToListAsync();
 
             var trainees = await _unitOfWork.Trainees.Entities
                           .Where(x => x.MentorId == mentor.Id && x.CampId == query.CampId)
                           .Select(x => x.Account)
-                          .ProjectToType<TraineeDto>()
+                          .ProjectToType<GetTraineeDto>()
                           .ToListAsync();
 
             var tracking = _unitOfWork.Repository<TraineeAccessSheet>().Entities

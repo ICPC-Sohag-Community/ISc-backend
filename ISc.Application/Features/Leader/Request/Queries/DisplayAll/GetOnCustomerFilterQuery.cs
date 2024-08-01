@@ -1,5 +1,4 @@
 ﻿using ISc.Application.Dtos.CodeForce;
-using ISc.Application.Features.Leader.Request.Queries.DisplayAll;
 using ISc.Application.Interfaces;
 using ISc.Application.Interfaces.Repos;
 using ISc.Domain.Comman.Enums;
@@ -10,14 +9,12 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilter
+namespace ISc.Application.Features.Leader.Request.Queries.DisplayAll
 {
-    public record GetOnCustomerFilterQuery : IRequest<Response>
+    public record GetOnCustomerFilterQuery : IRequest<List<GetAllRegisterationQueryDto>>
     {
-        public int CampId { get; set; }
         public List<FilterationModel> Filters { get; set; }
-        public List<int> RegisterationIds { get; set; }
-        public GetOnCustomerFilterQueryDtoColumn? SortBy { get; set; }
+        public IQueryable<NewRegisteration> Registeration { get; set; }
     }
     public record FilterationModel
     {
@@ -26,7 +23,7 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilte
         public Community Community { get; set; }
     }
 
-    internal class DisplayOnCustomerFilterQueryHandler : IRequestHandler<GetOnCustomerFilterQuery, Response>
+    internal class DisplayOnCustomerFilterQueryHandler : IRequestHandler<GetOnCustomerFilterQuery, List<GetAllRegisterationQueryDto>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -42,39 +39,10 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilte
             _onlineJudgeServices = onlineJudgeServices;
         }
 
-        public async Task<Response> Handle(GetOnCustomerFilterQuery query, CancellationToken cancellationToken)
+        public async Task<List<GetAllRegisterationQueryDto>> Handle(GetOnCustomerFilterQuery query, CancellationToken cancellationToken)
         {
-            var camp = await _unitOfWork.Repository<Camp>().GetByIdAsync(query.CampId);
 
-            if (camp == null)
-            {
-                return await Response.FailureAsync("Request not found.", System.Net.HttpStatusCode.NotFound);
-            }
-
-            var entities = _unitOfWork.Repository<NewRegisteration>().Entities
-                          .Where(x => query.RegisterationIds.Contains(x.Id));
-
-            if (query.SortBy is not null)
-            {
-                if (query.SortBy == GetOnCustomerFilterQueryDtoColumn.Gender)
-                {
-                    entities = entities.OrderBy(x => x.Gender);
-                }
-                else if (query.SortBy == GetOnCustomerFilterQueryDtoColumn.Year)
-                {
-                    entities = entities.OrderBy(x => x.Grade);
-                }
-                else if (query.SortBy == GetOnCustomerFilterQueryDtoColumn.College)
-                {
-                    entities = entities.OrderBy(x => x.College);
-                }
-                else if (query.SortBy == GetOnCustomerFilterQueryDtoColumn.HasLaptop)
-                {
-                    entities = entities.OrderByDescending(x => x.HasLaptop);
-                }
-            }
-
-            var trainees = await entities.ToListAsync();
+            var trainees = await query.Registeration.ToListAsync();
 
             var sheetsInfo = await GetCodeForceSheetsInfo(query.Filters);
 
@@ -97,9 +65,9 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilte
                 }
             }
 
-            var FilterResult = acceptableRequests.Adapt<List<GetOnCustomerFilterQueryDto>>(_mapper.Config);
+            var FilterResult = acceptableRequests.Adapt<List<GetAllRegisterationQueryDto>>(_mapper.Config);
 
-            return await Response.SuccessAsync(FilterResult);
+            return FilterResult;
         }
 
         private async Task<List<SheetInfoDto>> GetCodeForceSheetsInfo(List<FilterationModel> filteration)
@@ -133,7 +101,7 @@ namespace ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilte
         {
             var acceptedProblems = submissions.Where(x => x.verdict == "OK").DistinctBy(x => x.problem.index).Count();
 
-            return Math.Ceiling((acceptedProblems * 100.0) / sheetProblemCount) > passingPrecent;
+            return Math.Ceiling(acceptedProblems * 100.0 / sheetProblemCount) > passingPrecent;
         }
         public record SheetInfoDto
         {

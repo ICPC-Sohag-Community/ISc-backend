@@ -1,8 +1,9 @@
 ﻿using ISc.Domain.Comman.Enums;
+using ISc.Domain.Interface;
 
 namespace ISc.Domain.Models
 {
-    public class TraineeTask : BaseEntity
+    public class TraineeTask : BaseEntity,ISoftEntity
     {
         public string Task { get; set; }
         public DateTime DeadLine { get; set; }

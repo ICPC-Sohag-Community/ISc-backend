@@ -20,8 +20,6 @@ using ISc.Application.Features.Leader.Reports.Queries.CampReoprts;
 using ISc.Application.Features.Leader.Request.Commands.DeleteRequestsByIds;
 using ISc.Application.Features.Leader.Request.Commands.SubmitRequests;
 using ISc.Application.Features.Leader.Request.Queries.DisplayAll;
-using ISc.Application.Features.Leader.Request.Queries.DisplayOnCustomerFilter;
-using ISc.Application.Features.Leader.Request.Queries.DisplayOnSystemFilter;
 using ISc.Application.Features.Leader.Staff.Queries.GetAllWithPagination;
 using ISc.Application.Features.Leader.Staff.Queries.GetById;
 using ISc.Application.Features.Leader.Standing.Queries.GetStandingByCampId;
@@ -132,23 +130,23 @@ namespace ISc.Presentation.Endpoints
             return Ok(await _mediator.Send(query));
         }
 
-        [HttpGet("traineesRegisterations/{campId}")]
-        public async Task<ActionResult<GetAllRegisterationQueryDto>> GetAllTraineesRegisterRequests(int campId)
-        {
-            return Ok(await _mediator.Send(new GetAllRegisterationQuery(campId)));
-        }
-
-        [HttpGet("traineesRegisterationSystemFilter")]
-        public async Task<ActionResult<GetRegisterationOnSystemFilterQueryDto>> GetTraineeRegistersSystemFilter([FromQuery] GetRegisterationOnSystemFilterQuery query)
+        [HttpGet("traineesRegisterations")]
+        public async Task<ActionResult<GetAllRegisterationQueryDto>> GetAllTraineesRegisterRequests(GetAllRegisterationQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
 
-        [HttpGet("traineesRegisterationCustomFilter")]
-        public async Task<ActionResult<GetOnCustomerFilterQueryDto>> GetTraineeRequestsCustomFilter([FromQuery] GetOnCustomerFilterQuery query)
-        {
-            return Ok(await _mediator.Send(query));
-        }
+        //[HttpGet("traineesRegisterationSystemFilter")]
+        //public async Task<ActionResult<GetRegisterationOnSystemFilterQueryDto>> GetTraineeRegistersSystemFilter([FromQuery] GetRegisterationOnSystemFilterQuery query)
+        //{
+        //    return Ok(await _mediator.Send(query));
+        //}
+
+        //[HttpGet("traineesRegisterationCustomFilter")]
+        //public async Task<ActionResult<GetOnCustomerFilterQueryDto>> GetTraineeRequestsCustomFilter([FromQuery] GetOnCustomerFilterQuery query)
+        //{
+        //    return Ok(await _mediator.Send(query));
+        //}
 
         [HttpGet("traineeArchive/{id}")]
         public async Task<ActionResult<GetTraineeArchiveByIdQueryDto>> GetTraineeArchiveById(int id)
