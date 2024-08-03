@@ -41,14 +41,16 @@ jobs:
       - name: Remove existing ISc.Api.dll from server
         run: |
           echo "Deleting ISc.Api.dll from server..."
-          ftp -inv ${{ secrets.SFTP_HOST }} <<EOF
-          user ${{ secrets.SFTP_USERNAME }} ${{ secrets.SFTP_PASSWORD }}
-          cd /wwwroot/
-          delete ISc.Api.dll
-          bye
-          EOF
-        env:
-          SFTP_HOST: site4208.siteasp.net
+          $username = "${{ secrets.SFTP_USERNAME }}"
+          $password = "${{ secrets.SFTP_PASSWORD }}"
+          $ftpServer = "site4208.siteasp.net"
+          $fileToDelete = "/wwwroot/ISc.Api.dll"
+          $ftpWebRequest = [System.Net.FtpWebRequest]::Create("ftp://$ftpServer$fileToDelete")
+          $ftpWebRequest.Method = [System.Net.WebRequestMethods+Ftp]::DeleteFile
+          $ftpWebRequest.Credentials = New-Object System.Net.NetworkCredential($username, $password)
+          $ftpWebResponse = $ftpWebRequest.GetResponse()
+          $ftpWebResponse.Close()
+        shell: pwsh
 
 
 
