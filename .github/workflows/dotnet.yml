@@ -38,32 +38,6 @@ jobs:
           echo "Listing files in the publish directory:"
           ls -R ./publish
 
-      - name: Remove existing ISc.Api.dll from server
-        run: |
-          echo "Deleting ISc.Api.dll from server..."
-          $username = "${{ secrets.SFTP_USERNAME }}"
-          $password = "${{ secrets.SFTP_PASSWORD }}"
-          $ftpServer = "site4208.siteasp.net"
-          $fileToDelete = "/wwwroot/ISc.Api.dll"
-      
-          try {
-            $ftpWebRequest = [System.Net.FtpWebRequest]::Create("ftp://$ftpServer$fileToDelete")
-            $ftpWebRequest.Method = [System.Net.WebRequestMethods+Ftp]::DeleteFile
-            $ftpWebRequest.Credentials = New-Object System.Net.NetworkCredential($username, $password)
-            $ftpWebRequest.UsePassive = $true
-            $ftpWebRequest.UseBinary = $true
-            $ftpWebRequest.KeepAlive = $false
-      
-            $ftpWebResponse = $ftpWebRequest.GetResponse()
-            echo "File deleted successfully."
-            $ftpWebResponse.Close()
-          } catch {
-            echo "Error: $($_.Exception.Message)"
-          }
-        shell: pwsh
-
-
-
 
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -77,7 +51,7 @@ jobs:
           
 
           
-      # - name: Delete old files on Server via FTP
-      #   run: |
-      #       echo "Deleting old files on the server..."
-      #       lftp -e "cd /wwwroot; mirror --reverse --delete --verbose --exclude .gitignore --exclude .git ./publish .; quit" -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_SERVER }}
+    #  - name: Delete old files on Server via FTP
+    #   run: |
+    #      echo "Deleting old files on the server..."
+    #     lftp -e "cd /wwwroot; mirror --reverse --delete --verbose --exclude .gitignore --exclude .git ./publish .; quit" -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_SERVER }}
