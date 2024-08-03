@@ -38,11 +38,15 @@ jobs:
           echo "Listing files in the publish directory:"
           ls -R ./publish
 
-      # - name: List files before deployment
-      #   run: |
-      #       echo "*****check the structure of the dir:*****"
-      #       tree ./publish
-
+      - name: Remove existing ISc.Api.dll from server
+        run: |
+          echo "Deleting ISc.Api.dll from server..."
+          ftp -inv ${{ secrets.SFTP_SERVER}} <<EOF
+          user ${{ secrets.SFTP_USERNAME }} ${{ secrets.SFTP_PASSWORD }}
+          cd /wwwroot/
+          delete ISc.Api.dll
+          bye
+          EOF
 
 
       - name: Deploy to FTP
