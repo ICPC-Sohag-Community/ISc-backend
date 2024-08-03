@@ -19,15 +19,18 @@ namespace ISc.Application.Features.Authentication.Login
         private readonly UserManager<Account> _userManager;
         private readonly SignInManager<Account> _signInManager;
         private readonly IAuthServices _authServices;
+        private readonly IMediaServices _mediaServices;
 
         public LoginQueryHandler(
             UserManager<Account> userManager,
             IAuthServices authServices,
-            SignInManager<Account> signInManager)
+            SignInManager<Account> signInManager,
+            IMediaServices mediaServices)
         {
             _userManager = userManager;
             _authServices = authServices;
             _signInManager = signInManager;
+            _mediaServices = mediaServices;
         }
 
         public async Task<Response> Handle(LoginQuery query, CancellationToken cancellationToken)
@@ -56,6 +59,8 @@ namespace ISc.Application.Features.Authentication.Login
             var roles = await _userManager.GetRolesAsync(user);
 
             var response = user.Adapt<LoginQueryResponse>();
+
+            response.PhotoUrl = _mediaServices.GetUrl(response.PhotoUrl);
 
             response.Token = _authServices.GenerateToken(user, roles, query.RememberMe);
             response.Roles = roles;

@@ -160,6 +160,7 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             if (command.ProfileImage != null)
             {
                 account.PhotoUrl = await _mediaServices.SaveAsync(command.ProfileImage);
+                await _userManager.UpdateAsync(account);
             }
         }
     }

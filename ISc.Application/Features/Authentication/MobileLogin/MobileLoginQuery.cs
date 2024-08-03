@@ -22,15 +22,17 @@ namespace ISc.Application.Features.Authentication.MobileLogin
         private readonly UserManager<Account> _userManager;
         private readonly SignInManager<Account> _signInManager;
         private readonly IAuthServices _authServices;
-
+        private readonly IMediaServices _mediaServices;
         public MobileLoginQueryHandler(
             UserManager<Account> userManager,
             SignInManager<Account> signInManager,
-            IAuthServices authServices)
+            IAuthServices authServices,
+            IMediaServices mediaServices)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _authServices = authServices;
+            _mediaServices = mediaServices;
         }
 
         public async Task<Response> Handle(MobileLoginQuery query, CancellationToken cancellationToken)
@@ -67,6 +69,7 @@ namespace ISc.Application.Features.Authentication.MobileLogin
 
             var response = user.Adapt<MobileLoginQueryDto>();
 
+            response.PhotoUrl = _mediaServices.GetUrl(response.PhotoUrl);
             response.Token = _authServices.GenerateToken(user, roles, false);
             response.Roles = roles;
 
