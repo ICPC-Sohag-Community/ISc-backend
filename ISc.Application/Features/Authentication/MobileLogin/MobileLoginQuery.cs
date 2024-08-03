@@ -39,7 +39,7 @@ namespace ISc.Application.Features.Authentication.MobileLogin
 
             if (user is null)
             {
-                return await Response.FailureAsync("UserName or password is wrong");
+                return await Response.FailureAsync("User name or password is wrong");
             }
 
             var userRoles = await _userManager.GetRolesAsync(user);

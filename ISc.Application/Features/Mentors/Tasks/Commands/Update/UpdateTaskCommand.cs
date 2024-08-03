@@ -20,9 +20,10 @@ namespace ISc.Application.Features.Mentors.Tasks.Commands.Update
     public record UpdateTaskCommand:IRequest<Response>
     {
         public int TaskId { get; set; }
-        public string Task { get; set; }
+        public string Title { get; set; }
         public DateTime DeadLine { get; set; }
         public string TraineeId { get; set; }
+        public List<string> TaskMissions { get; set; }
     }
 
     internal class UpdateTaskCommandHandler : IRequestHandler<UpdateTaskCommand, Response>
@@ -72,6 +73,14 @@ namespace ISc.Application.Features.Mentors.Tasks.Commands.Update
             }
 
             _mapper.Map(command, task);
+
+
+            _unitOfWork.Repository<TaskMission>().DeleteRange(task.Missions);
+            await _unitOfWork.Repository<TaskMission>().AddRangeAsync(command.TaskMissions.Select(x => new TaskMission()
+            {
+                Task = x,
+                TraineeTaskId = command.TaskId,
+            }).ToList());
 
             await _unitOfWork.Repository<TraineeTask>().UpdateAsync(task);
             await _unitOfWork.SaveAsync();

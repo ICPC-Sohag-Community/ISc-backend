@@ -94,6 +94,7 @@ namespace ISc.Presistance
         public virtual DbSet<TraineeAccessContest>TraineesContest { get; set; }
         public virtual DbSet<TraineeTask> TraineeTasks { get; set; }
         public virtual DbSet<CampModel> CampModels { get; set; }
+        public virtual DbSet<TaskMission> TaskMissions { get; set; }
         #endregion
     }
 }

@@ -9,23 +9,18 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ISc.Application.Features.Mentors.Tasks.Commands.Create
 {
-    public record CreateTaskCommand:IRequest<Response>
+    public record CreateTaskCommand : IRequest<Response>
     {
-        public string Task { get; set; }
+        public string Title { get; set; }
         public DateTime DeadLine { get; set; }
         public string? TraineeId { get; set; }
         public int CampId { get; set; }
+        public List<string> TaskMissions { get; set; }
     }
-
     internal class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Response>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -47,7 +42,7 @@ namespace ISc.Application.Features.Mentors.Tasks.Commands.Create
 
         public async Task<Response> Handle(CreateTaskCommand command, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(command);
+            var validationResult = await _validator.ValidateAsync(command, cancellationToken);
 
             if (!validationResult.IsValid)
             {
@@ -56,22 +51,27 @@ namespace ISc.Application.Features.Mentors.Tasks.Commands.Create
 
             var user = await _userManager.GetUserAsync(_contextAccessor.HttpContext!.User);
 
-            if (user != null)
+            if (user == null)
             {
                 return await Response.FailureAsync("Unauthroized.", HttpStatusCode.Unauthorized);
             }
 
             var task = command.Adapt<TraineeTask>();
             task.Status = TasksStatus.ToDo;
+            task.Missions = command.TaskMissions.Select(x => new TaskMission()
+            {
+                Task = x,
+                TraineeTaskId = task.Id
+            }).ToList();
 
-            if(command.TraineeId is null)
+            if (command.TraineeId is null)
             {
                 var traineesIds = await _unitOfWork.Trainees.Entities
                             .Where(x => x.CampId == command.CampId && x.MentorId == user!.Id)
-                            .Select(x=>x.Id)
+                            .Select(x => x.Id)
                             .ToListAsync();
 
-                foreach(var traineeId in traineesIds)
+                foreach (var traineeId in traineesIds)
                 {
                     var traineeTask = task;
                     traineeTask!.TraineeId = traineeId;

@@ -12,8 +12,9 @@ namespace ISc.Application.Features.Mentors.Tasks.Commands.Update
         public UpdateTaskCommandValidator()
         {
             RuleFor(x=>x.DeadLine).NotEmpty().Must(x=>x>DateTime.Now);
-            RuleFor(x => x.Task).NotEmpty();
+            RuleFor(x => x.Title).NotEmpty();
             RuleFor(x=>x.TraineeId).NotEmpty();
+            RuleFor(x => x.TaskMissions).NotEmpty().Must(x => x.Count > 0);
         }
     }
 }

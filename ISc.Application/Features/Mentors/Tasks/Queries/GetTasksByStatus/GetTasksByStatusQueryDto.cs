@@ -19,8 +19,15 @@ namespace ISc.Application.Features.Mentors.Tasks.Queries.GetTasksByStatus
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string? PhotoUrl { get; set; }
-        public string Task { get; set; }
+        public string Title { get; set; }
         public DateTime DeadLine { get; set; }
+        public List<TaskMissionDto> Missions {get;set; }
+    }
+
+    public class TaskMissionDto
+    {
+        public int Id { get; set; }
+        public string Task { get; set; }
     }
 
 }

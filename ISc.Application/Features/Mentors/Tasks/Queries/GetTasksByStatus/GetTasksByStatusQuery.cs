@@ -2,6 +2,7 @@
 using ISc.Domain.Models;
 using ISc.Domain.Models.IdentityModels;
 using ISc.Shared;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -64,7 +65,8 @@ namespace ISc.Application.Features.Mentors.Tasks.Queries.GetTasksByStatus
                         MiddleName = x.Trainee.Account.MiddleName,
                         LastName = x.Trainee.Account.LastName,
                         PhotoUrl = x.Trainee.Account.PhotoUrl,
-                        Task = x.Task
+                        Title = x.Title,
+                        Missions = x.Missions.ToList().Adapt<List<TaskMissionDto>>()
                     }).ToList()
                 });
             }
