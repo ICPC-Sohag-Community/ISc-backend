@@ -33,14 +33,14 @@ namespace ISc.UnitTests.LeaderTests.Queries.GetAllCampsWithPagination
 
             // Act
             var result = await handler.Handle(query, CancellationToken.None);
+            var data = result.Data as List<GetAllCampsWithPaginationQueryDto>;
 
             // Assert
             result.Should().NotBeNull();
             result.Data.Should().NotBeNull();
 
-            var data = result.Data as List<GetAllCampsWithPaginationQueryDto>;
             data.Should().NotBeNull();
-            data.First().Name.Should().Be(fakeCamps.First().Name);
+            data!.First().Name.Should().Be(fakeCamps.First().Name);
         }
     }
 }
