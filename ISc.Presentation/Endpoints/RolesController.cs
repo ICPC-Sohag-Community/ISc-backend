@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ISc.Presentation.Endpoints
 {
-    [Authorize(Roles =Roles.Leader)]
+    [Authorize(Roles = Roles.Leader)]
     public class RolesController : ApiControllerBase
     {
         private readonly IMediator _mediator;
@@ -40,21 +40,21 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpPost("assignToRole")]
-        public async Task<ActionResult<string>> AssignToRole([FromBody]AssignToRoleCommand command)
+        public async Task<ActionResult<string>> AssignToRole([FromBody] AssignToRoleCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
-		[HttpDelete("unAssignToRole")]
-		public async Task<ActionResult<string>> UnAssignToRole([FromBody] UnAssignRoleCommand command)
-		{
-			return Ok(await _mediator.Send(command));
-		}
+        [HttpDelete("unAssignToRole")]
+        public async Task<ActionResult<string>> UnAssignToRole([FromBody] UnAssignRoleCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
 
         [HttpGet("roles")]
         public async Task<ActionResult<List<GetSystemRolesQueryDto>>> GetAllRoles()
         {
             return Ok(await _mediator.Send(new GetSystemRolesQuery()));
         }
-	}
+    }
 }

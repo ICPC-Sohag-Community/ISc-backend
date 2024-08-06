@@ -1,13 +1,14 @@
 ﻿using ISc.Application.Features.CampsModels.Commands.Create;
 using ISc.Application.Features.CampsModels.Commands.Delete;
 using ISc.Application.Features.CampsModels.Queries.GetAll;
+using ISc.Domain.Comman.Constant;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISc.Presentation.Endpoints
 {
-    [Authorize]
+    [Authorize(Roles =Roles.Leader)]
     public class CampModelController : ApiControllerBase
     {
         private readonly IMediator _mediator;

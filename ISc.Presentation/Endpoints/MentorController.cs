@@ -13,13 +13,14 @@ using ISc.Application.Features.Mentors.Tasks.Commands.Update;
 using ISc.Application.Features.Mentors.Tasks.Queries.GetTasksByStatus;
 using ISc.Application.Features.Mentors.TraineesInfo.Queries.GetTraineeInDetail;
 using ISc.Application.Features.Mentors.TraineesInfo.Queries.GetTraineesInfo;
+using ISc.Domain.Comman.Constant;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISc.Presentation.Endpoints
 {
-    [Authorize]
+    [Authorize(Roles = Roles.Mentor)]
     public class MentorController : ApiControllerBase
     {
         private readonly IMediator _mediator;
