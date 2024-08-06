@@ -16,7 +16,6 @@ using ISc.Application.Features.Mentors.TraineesInfo.Queries.GetTraineesInfo;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 
 namespace ISc.Presentation.Endpoints
 {
@@ -85,7 +84,7 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpPut("tasks")]
-        public async Task<ActionResult<int>>UpdateTask(UpdateTaskCommand command)
+        public async Task<ActionResult<int>> UpdateTask(UpdateTaskCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
@@ -103,13 +102,13 @@ namespace ISc.Presentation.Endpoints
         }
 
         [HttpDelete("practices")]
-        public async Task<ActionResult<string>>DeletePractice(DeletePracticeCommand command)
+        public async Task<ActionResult<string>> DeletePractice(DeletePracticeCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
         [HttpPut("practices")]
-        public async Task<ActionResult<int>>UpdatePractice(UpdatePracticeCommand command)
+        public async Task<ActionResult<int>> UpdatePractice(UpdatePracticeCommand command)
         {
             return Ok(await _mediator.Send(command));
         }

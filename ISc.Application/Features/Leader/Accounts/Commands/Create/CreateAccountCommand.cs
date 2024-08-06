@@ -146,10 +146,6 @@ namespace ISc.Application.Features.Leader.Accounts.Commands.Create
             else
             {
                 var result = await _userManager.CreateAsync(account, password);
-
-                if (!result.Succeeded) {
-                    Console.WriteLine(result.Errors.First().ToString);
-                }
                 await _userManager.AddToRoleAsync(account, command.Role);
             }
 
