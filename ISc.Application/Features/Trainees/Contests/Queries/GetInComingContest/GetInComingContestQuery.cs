@@ -50,20 +50,22 @@ namespace ISc.Application.Features.Trainees.Contests.Queries.GetInComingContest
                         .OrderBy(x => x.StartTime)
                         .FirstOrDefaultAsync(cancellationToken);
 
+            if(entity is null)
+            {
+                return await Response.FailureAsync("No contest for now.");
+            }
+
             var contest = entity.Adapt<GetInComingContestQueryDto>();
 
-            if (entity is not null)
+            contest.IsRunning = DateTime.UtcNow >= entity.StartTime;
+            var remainTime = contest.IsRunning ? entity.EndTime - entity.StartTime : entity.StartTime - DateTime.UtcNow;
+            contest.RemainTime = new()
             {
-                contest.IsRunning = DateTime.UtcNow >= entity.StartTime;
-                var remainTime = contest.IsRunning ? entity.EndTime - entity.StartTime : entity.StartTime - DateTime.UtcNow;
-                contest.RemainTime = new()
-                {
-                    Days = remainTime.Days,
-                    Hours = remainTime.Hours,
-                    Minutes = remainTime.Minutes,
-                    Seconds = remainTime.Seconds
-                };
-            }
+                Days = remainTime.Days,
+                Hours = remainTime.Hours,
+                Minutes = remainTime.Minutes,
+                Seconds = remainTime.Seconds
+            };
 
             return await Response.SuccessAsync(contest);
         }
