@@ -46,7 +46,6 @@
   <ItemGroup>
     <Folder Include="AuthenticationTests\Commands\" />
     <Folder Include="AuthenticationTests\Queries\" />
-    <Folder Include="LeaderTests\Queries\" />
     <Folder Include="HeadTests\Commands\" />
     <Folder Include="HeadTests\Queries\" />
     <Folder Include="MentorTests\Commands\" />
