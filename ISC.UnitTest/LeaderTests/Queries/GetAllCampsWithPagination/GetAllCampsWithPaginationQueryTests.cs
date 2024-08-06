@@ -19,7 +19,6 @@ namespace ISc.UnitTests.LeaderTests.Queries.GetAllCampsWithPagination
             // Arrange
             var unitOfWork = GetUnitOfWork();
             var fakeCamp = new FakeCamp();
-
             var fakeCamps = fakeCamp.Generate(10);
             await unitOfWork.Repository<Camp>().AddRangeAsync(fakeCamps);
             await unitOfWork.SaveAsync(); 
@@ -41,6 +40,29 @@ namespace ISc.UnitTests.LeaderTests.Queries.GetAllCampsWithPagination
             var data = result.Data as List<GetAllCampsWithPaginationQueryDto>;
             data.Should().NotBeNull();
             data.First().Name.Should().Be(fakeCamps.First().Name);
+        }
+        [Fact]
+        public async Task Handle_WhenNoCampsExist_ReturnEmptyPaginatedResponse()
+        {
+            // Arrange
+            var unitOfWork = GetUnitOfWork();
+            var query = new GetAllCampsWithPaginationQuery
+            {
+                PageNumber = 1,
+                PageSize = 15
+            };
+
+            var handler = new GetAllCampsWithPaginationQueryHandler(unitOfWork);
+
+            // Act
+            var result = await handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Data.Should().NotBeNull();
+
+            var data = result.Data as List<GetAllCampsWithPaginationQueryDto>;
+            data.Should().BeEmpty();
         }
     }
 }
