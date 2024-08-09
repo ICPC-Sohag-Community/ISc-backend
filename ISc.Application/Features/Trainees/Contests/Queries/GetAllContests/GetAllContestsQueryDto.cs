@@ -11,8 +11,9 @@ namespace ISc.Application.Features.Trainees.Contests.Queries.GetAllContests
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Link { get; set; }
+        public string? Link { get; set; }
         public DateTime Date { get; set; }
         public bool IsComming { get; set; }
+        public bool IsNext { get; set; }
     }
 }

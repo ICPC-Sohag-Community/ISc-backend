@@ -7,16 +7,11 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ISc.Application.Features.Trainees.Contests.Queries.GetAllContests
 {
-    public record GetAllContestsQuery:IRequest<Response>;
+    public record GetAllContestsQuery : IRequest<Response>;
 
     internal class GetAllContestsQueryHandler : IRequestHandler<GetAllContestsQuery, Response>
     {
@@ -53,10 +48,21 @@ namespace ISc.Application.Features.Trainees.Contests.Queries.GetAllContests
 
             var entites = await _unitOfWork.Repository<Contest>().Entities
                         .Where(x => x.CampId == trainee.CampId)
-                        .OrderBy(x=>x.StartTime)
+                        .OrderBy(x => x.StartTime)
                         .ToListAsync(cancellationToken);
 
+            var nextSession = entites.Where(x => x.EndTime <= DateTime.UtcNow)
+                                     .OrderBy(x => x.StartTime)
+                                     .FirstOrDefault();
+
             var contests = entites.Adapt<List<GetAllContestsQueryDto>>();
+
+            if (nextSession is not null)
+            {
+                var contest = contests.Single(x => x.Id == nextSession.Id);
+                contest.Link = nextSession.Link;
+                contest.IsComming = true;
+            }
 
             return await Response.SuccessAsync(contests);
         }

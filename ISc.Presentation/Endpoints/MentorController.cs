@@ -1,5 +1,6 @@
 ﻿using ISc.Application.Dtos.Standing;
 using ISc.Application.Features.Mentors.Attendance.Queries.GetAttendance;
+using ISc.Application.Features.Mentors.Camps.Queries.GetCamps;
 using ISc.Application.Features.Mentors.Contests.Queries.GetTraineesContests;
 using ISc.Application.Features.Mentors.Practices.Commands.Create;
 using ISc.Application.Features.Mentors.Practices.Commands.Delete;
@@ -28,6 +29,12 @@ namespace ISc.Presentation.Endpoints
         public MentorController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet("camps")]
+        public async Task<ActionResult<GetMentorCampsQueryDto>> GetCamps()
+        {
+            return Ok(await _mediator.Send(new GetMentorCampsQuery()));
         }
 
         [HttpGet("trainees")]

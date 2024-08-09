@@ -12,7 +12,8 @@ namespace ISc.Application.Comman.Mapping
                 .Map(dest => dest.Date, src => src.StartTime >= DateTime.Now ? src.StartTime : src.EndTime);
 
             config.NewConfig<Contest, GetAllContestsQueryDto>()
-                .Map(dest => dest.IsComming, src => src.StartTime >= DateTime.Now);
+                .Map(dest => dest.IsComming, src => src.StartTime >= DateTime.Now)
+                .Map(dest => dest.Link, src => src.StartTime > DateTime.UtcNow ? null : src.Link);
         }
     }
 }
